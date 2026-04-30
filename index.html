@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>歲歲 33 擂台宴 - 賽事官網</title>
+    <title>歲歲 33 擂台宴 - 官方網站</title>
     <style>
         :root {
             --fire-gold: #ffaa00;
-            --deep-red: #3a0000;
             --accent-gold: #ffd700;
-            --glass-bg: rgba(10, 5, 5, 0.88);
+            --glass-bg: rgba(12, 6, 6, 0.94);
             --nurse-green: #a0ffd0;
             --win-color: #2ecc71;
             --lose-color: #e74c3c;
@@ -21,96 +20,104 @@
             background-color: #000; color: #fff; overflow-x: hidden;
         }
 
-        /* 🚀 背景圖修復：確保與你 GitHub 上的檔名 IMG_2574.png 完全一致 */
+        /* 🚀 背景圖修復：移除 ./ 符號，直接引用檔名 */
         .bg-fixed {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.8)), 
-                        url('./IMG_2574.png') no-repeat center center;
-            background-size: cover; z-index: -2;
+            background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.85)), 
+                              url('https://sndxy.github.io/ss33-event/IMG_2574.png'); /* 確保檔名大小寫正確 */
+            background-size: cover; background-position: center; z-index: -2;
+            background-attachment: fixed;
         }
 
-        .main-ui { display: flex; flex-direction: column; align-items: center; padding: 40px 20px; }
+        .main-ui { display: flex; flex-direction: column; align-items: center; padding: 50px 20px; }
 
         .main-title {
-            font-size: clamp(2rem, 7vw, 3.8rem); font-weight: 900;
-            background: linear-gradient(to bottom, #fff, var(--fire-gold), #ff4500);
+            font-size: clamp(2.5rem, 8vw, 4.2rem); font-weight: 900;
+            background: linear-gradient(to bottom, #fff 20%, var(--fire-gold) 60%, #ff4500 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.8));
-            margin-bottom: 15px; letter-spacing: 10px; text-align: center;
+            filter: drop-shadow(0 0 20px rgba(255, 69, 0, 0.9));
+            margin-bottom: 10px; letter-spacing: 12px; text-align: center;
         }
 
-        /* ⏳ 倒數計時回歸 */
-        .countdown-box {
-            background: rgba(255, 170, 0, 0.1); padding: 10px 30px; border-radius: 50px;
-            border: 1px solid var(--fire-gold); margin-bottom: 30px; backdrop-filter: blur(5px);
+        /* ⏳ 豪華美化版倒數計時 */
+        .countdown-container {
+            margin-bottom: 40px; text-align: center;
+            background: rgba(0, 0, 0, 0.6); padding: 20px 40px; border-radius: 60px;
+            border: 2px solid var(--fire-gold); backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(255, 170, 0, 0.3), inset 0 0 15px rgba(255, 170, 0, 0.2);
         }
-        #timer { font-size: 1.8rem; color: var(--accent-gold); font-family: monospace; font-weight: bold; text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+        .countdown-label { color: #ccc; font-size: 0.9rem; letter-spacing: 5px; margin-bottom: 10px; display: block; }
+        #timer { 
+            font-size: 2.5rem; color: var(--accent-gold); font-family: 'Courier New', Courier, monospace; 
+            font-weight: 900; text-shadow: 0 0 15px rgba(255, 215, 0, 0.7); 
+        }
 
         .panel {
-            background: var(--glass-bg); border-radius: 40px; border: 1.5px solid rgba(255, 170, 0, 0.3);
-            width: 100%; max-width: 850px; margin-bottom: 25px; padding: 30px;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.7); backdrop-filter: blur(15px);
+            background: var(--glass-bg); border-radius: 40px; border: 1px solid rgba(255, 170, 0, 0.3);
+            width: 100%; max-width: 900px; margin-bottom: 30px; padding: 35px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8); backdrop-filter: blur(20px);
         }
 
-        /* 職業池 */
-        .pool-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 15px; text-align: center; }
+        /* 職業池與奶池動畫 (保持穩定) */
+        .pool-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(85px, 1fr)); gap: 15px; text-align: center; }
         .class-icon {
             width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--fire-gold); margin: 0 auto 8px;
-            background-size: 75%; background-repeat: no-repeat; background-position: center; background-color: rgba(0,0,0,0.5);
-            box-shadow: 0 0 10px rgba(255, 170, 0, 0.3);
+            background-size: 75%; background-repeat: no-repeat; background-position: center;
         }
-
-        /* 奶池滾動 */
-        .slot-machine { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 15px; }
+        .slot-machine { display: flex; justify-content: center; align-items: center; gap: 20px; }
         .slot-box { width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--fire-gold); overflow: hidden; position: relative; background: #000; }
         .slot-track { display: flex; flex-direction: column; position: absolute; top: 0; animation: scroll-v 8s linear infinite; }
-        .slot-item { width: 55px; height: 55px; background-size: 75%; background-repeat: no-repeat; background-position: center; flex-shrink: 0; }
         @keyframes scroll-v { 0% { transform: translateY(0); } 100% { transform: translateY(-385px); } }
 
-        /* 按鈕區回歸 */
-        .btn-group { display: flex; gap: 20px; margin-top: 20px; }
-        .btn { padding: 15px 40px; border-radius: 50px; font-weight: bold; font-size: 1.1rem; border: none; cursor: pointer; transition: 0.3s; }
-        .btn-rules { background: #333; color: #fff; border: 1px solid #555; }
-        .btn-join { background: linear-gradient(45deg, #b22222, #ff4500); color: #fff; box-shadow: 0 5px 20px rgba(178,34,34,0.4); }
-        .btn:hover { transform: translateY(-3px); filter: brightness(1.2); }
+        /* 按鈕美化 */
+        .btn-group { display: flex; gap: 25px; margin-top: 20px; }
+        .btn { 
+            padding: 20px 50px; border-radius: 100px; font-weight: bold; font-size: 1.2rem; 
+            border: none; cursor: pointer; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        }
+        .btn-rules { background: rgba(51, 51, 51, 0.8); color: #fff; border: 1px solid #777; }
+        .btn-join { 
+            background: linear-gradient(45deg, #8b0000, #ff4500); color: #fff; 
+            box-shadow: 0 10px 25px rgba(255,69,0,0.4); 
+        }
+        .btn:hover { transform: scale(1.08) translateY(-5px); filter: brightness(1.2); }
 
-        /* 彈窗 */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); overflow-y: auto; }
+        /* 彈窗系統 */
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); backdrop-filter: blur(15px); overflow-y: auto; }
         .modal-content {
-            background: #150505; margin: 3vh auto; padding: 40px; border: 1.5px solid var(--fire-gold);
-            width: 90%; max-width: 750px; border-radius: 40px; position: relative; box-shadow: 0 0 100px rgba(255,69,0,0.2);
+            background: #110505; margin: 2vh auto; padding: 45px; border: 2px solid var(--fire-gold);
+            width: 90%; max-width: 800px; border-radius: 50px; position: relative;
         }
 
-        .rule-card { background: rgba(255,255,255,0.03); border-radius: 20px; padding: 25px; margin-bottom: 20px; border-left: 5px solid var(--fire-gold); }
-        .example-box { background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; font-size: 0.95rem; color: #ccc; margin: 15px 0; border: 1px dashed #444; }
+        .section-box { background: rgba(255,255,255,0.04); border-radius: 25px; padding: 30px; margin-bottom: 30px; border-left: 6px solid var(--fire-gold); }
 
-        /* 🏆 決賽圈動畫：清晰邏輯版 */
-        .bracket-container {
+        /* 預賽燈號動畫回歸 */
+        .light { width: 18px; height: 18px; border-radius: 50%; display: inline-block; margin: 0 5px; vertical-align: middle; }
+        .light-win { background: var(--win-color); box-shadow: 0 0 15px var(--win-color); animation: flash 1s infinite; }
+        .light-lose { background: var(--lose-color); box-shadow: 0 0 15px var(--lose-color); animation: flash 1.5s infinite; }
+        @keyframes flash { 0%, 100% { opacity: 0.4; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.1); } }
+
+        /* 🏆 決賽對陣圖 - 邏輯清晰版 */
+        .bracket-viz {
             display: flex; justify-content: space-between; align-items: center;
-            height: 250px; margin-top: 40px; position: relative;
+            height: 280px; margin: 40px 0; position: relative; border: 1px solid rgba(255,255,255,0.1); padding: 20px; border-radius: 20px;
         }
-        .match-column { display: flex; flex-direction: column; gap: 80px; z-index: 2; }
-        .team-tag {
-            width: 100px; padding: 10px; background: #222; border: 1px solid #444; 
-            text-align: center; position: relative; font-size: 0.9rem;
-        }
-        .team-tag.winner { border-color: var(--fire-gold); color: var(--accent-gold); box-shadow: 0 0 10px rgba(255,170,0,0.3); }
+        .team-slot { width: 110px; padding: 12px; background: #222; border: 1.5px solid #444; text-align: center; border-radius: 10px; font-weight: bold; }
+        .team-win { border-color: var(--fire-gold); color: var(--accent-gold); box-shadow: 0 0 15px rgba(255,170,0,0.2); }
         
-        /* 晉級線條 */
-        .line-svg { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; z-index: 1; }
-        .path-gold { fill: none; stroke: var(--fire-gold); stroke-width: 2; stroke-dasharray: 1000; stroke-dashoffset: 1000; animation: drawPath 4s infinite; }
-        @keyframes drawPath { 
-            0% { stroke-dashoffset: 1000; opacity: 0; }
-            50% { stroke-dashoffset: 0; opacity: 1; }
-            100% { stroke-dashoffset: 0; opacity: 0; }
+        .winner-line { 
+            position: absolute; height: 3px; background: var(--fire-gold); box-shadow: 0 0 10px var(--fire-gold); 
+            z-index: 1; animation: grow 3s infinite;
         }
 
-        .final-center {
-            text-align: center; width: 160px; padding: 20px; background: rgba(255, 170, 0, 0.1);
-            border: 2px solid var(--fire-gold); border-radius: 15px; position: relative;
+        .final-orb {
+            width: 150px; height: 100px; border: 3px solid var(--fire-gold); border-radius: 20px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: radial-gradient(circle, rgba(255,170,0,0.2) 0%, transparent 70%);
+            z-index: 2;
         }
 
-        .status-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+        @keyframes grow { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
     </style>
 </head>
 <body>
@@ -120,137 +127,134 @@
 <div class="main-ui">
     <h1 class="main-title">歲歲 33 擂台宴</h1>
 
-    <div class="countdown-box">
-        <div id="timer">計算中...</div>
+    <div class="countdown-container">
+        <span class="countdown-label">DISTANCE TO BATTLE</span>
+        <div id="timer">00天 00:00:00</div>
     </div>
 
     <div class="panel">
-        <h3 style="text-align: center; color: var(--fire-gold); margin-top: 0;">⚔️ 暴力輸出池 (DPS)</h3>
+        <h3 style="text-align: center; color: var(--fire-gold); margin-top: 0; letter-spacing: 5px;">⚔️ 暴力輸出池 (DPS)</h3>
         <div class="pool-grid">
-            <div><div class="class-icon" style="background-image: url('./assets/4.png');"></div>碎夢</div>
-            <div><div class="class-icon" style="background-image: url('./assets/8.png');"></div>玄機</div>
-            <div><div class="class-icon" style="background-image: url('./assets/5.png');"></div>神相</div>
-            <div><div class="class-icon" style="background-image: url('./assets/2.png');"></div>九靈</div>
-            <div><div class="class-icon" style="background-image: url('./assets/3.png');"></div>鐵衣</div>
-            <div><div class="class-icon" style="background-image: url('./assets/6.png');"></div>血河</div>
-            <div><div class="class-icon" style="background-image: url('./assets/7.png');"></div>龍吟</div>
-            <div><div class="class-icon" style="background-image: url('./assets/1.png');"></div>天問</div>
+            <div><div class="class-icon" style="background-image: url('assets/4.png');"></div>碎夢</div>
+            <div><div class="class-icon" style="background-image: url('assets/8.png');"></div>玄機</div>
+            <div><div class="class-icon" style="background-image: url('assets/5.png');"></div>神相</div>
+            <div><div class="class-icon" style="background-image: url('assets/2.png');"></div>九靈</div>
+            <div><div class="class-icon" style="background-image: url('assets/3.png');"></div>鐵衣</div>
+            <div><div class="class-icon" style="background-image: url('assets/6.png');"></div>血河</div>
+            <div><div class="class-icon" style="background-image: url('assets/7.png');"></div>龍吟</div>
+            <div><div class="class-icon" style="background-image: url('assets/1.png');"></div>天問</div>
         </div>
     </div>
 
     <div class="panel" style="border-color: var(--nurse-green);">
-        <h3 style="text-align: center; color: var(--nurse-green); margin-top: 0;">🌿 核心奶媽池 (1奶 + 2隨機輸出)</h3>
+        <h3 style="text-align: center; color: var(--nurse-green); margin-top: 0; letter-spacing: 5px;">🌿 核心奶媽池</h3>
         <div class="slot-machine">
             <div style="text-align:center;">
-                <div class="class-icon" style="border-color: var(--nurse-green); background-image: url('./assets/1.png');"></div>
+                <div class="class-icon" style="border-color: var(--nurse-green); background-image: url('assets/1.png');"></div>
                 <small>素問(素心)</small>
             </div>
-            <div style="font-size: 2rem; color: var(--fire-gold); margin: 0 10px;">+</div>
+            <div style="font-size: 2.5rem; color: var(--fire-gold); margin: 0 15px;">+</div>
             <div class="slot-box"><div class="slot-track">
-                <div class="slot-item" style="background-image: url('./assets/2.png');"></div>
-                <div class="slot-item" style="background-image: url('./assets/3.png');"></div>
-                <div class="slot-item" style="background-image: url('./assets/4.png');"></div>
-                <div class="slot-item" style="background-image: url('./assets/5.png');"></div>
-                <div class="slot-item" style="background-image: url('./assets/6.png');"></div>
-                <div class="slot-item" style="background-image: url('./assets/7.png');"></div>
-                <div class="slot-item" style="background-image: url('./assets/8.png');"></div>
-                <div class="slot-item" style="background-image: url('./assets/2.png');"></div>
+                <div style="height:55px; background: url('assets/2.png') no-repeat center; background-size:75%;"></div>
+                <div style="height:55px; background: url('assets/3.png') no-repeat center; background-size:75%;"></div>
+                <div style="height:55px; background: url('assets/4.png') no-repeat center; background-size:75%;"></div>
+                <div style="height:55px; background: url('assets/5.png') no-repeat center; background-size:75%;"></div>
+                <div style="height:55px; background: url('assets/6.png') no-repeat center; background-size:75%;"></div>
+                <div style="height:55px; background: url('assets/7.png') no-repeat center; background-size:75%;"></div>
+                <div style="height:55px; background: url('assets/8.png') no-repeat center; background-size:75%;"></div>
+                <div style="height:55px; background: url('assets/2.png') no-repeat center; background-size:75%;"></div>
             </div></div>
-            <div class="slot-box"><div class="slot-track" style="animation-delay: -3s;">
-                <div class="slot-item" style="background-image: url('./assets/8.png');"></div>
-                <div class="slot-item" style="background-image: url('./assets/7.png');"></div>
-                <div class="slot-item" style="background-image: url('./assets/6.png');"></div>
-                <div class="slot-item" style="background-image: url('./assets/5.png');"></div>
-                <div class="slot-item" style="background-image: url('./assets/4.png');"></div>
-                <div class="slot-item" style="background-image: url('./assets/3.png');"></div>
-                <div class="slot-item" style="background-image: url('./assets/2.png');"></div>
-                <div class="slot-item" style="background-image: url('./assets/8.png');"></div>
+            <div class="slot-box"><div class="slot-track" style="animation-delay: -4s;">
+                <div style="height:55px; background: url('assets/8.png') no-repeat center; background-size:75%;"></div>
+                <div style="height:55px; background: url('assets/7.png') no-repeat center; background-size:75%;"></div>
+                <div style="height:55px; background: url('assets/6.png') no-repeat center; background-size:75%;"></div>
+                <div style="height:55px; background: url('assets/5.png') no-repeat center; background-size:75%;"></div>
+                <div style="height:55px; background: url('assets/4.png') no-repeat center; background-size:75%;"></div>
+                <div style="height:55px; background: url('assets/3.png') no-repeat center; background-size:75%;"></div>
+                <div style="height:55px; background: url('assets/2.png') no-repeat center; background-size:75%;"></div>
+                <div style="height:55px; background: url('assets/8.png') no-repeat center; background-size:75%;"></div>
             </div></div>
         </div>
     </div>
 
     <div class="btn-group">
-        <button class="btn btn-rules" onclick="openModal('rulesModal')">賽制流程詳解</button>
-        <button class="btn btn-join" onclick="openModal('joinModal')">立即報名參加</button>
+        <button class="btn btn-rules" onclick="openModal('rulesModal')">賽制動畫說明</button>
+        <button class="btn btn-join" onclick="openModal('joinModal')">立即前往報名</button>
     </div>
 </div>
 
 <div id="rulesModal" class="modal">
     <div class="modal-content">
-        <span style="position:absolute; top:20px; right:30px; cursor:pointer; font-size:2.5rem;" onclick="closeModal('rulesModal')">&times;</span>
-        <h2 style="color: var(--fire-gold); text-align: center;">🏆 2026 擂台賽流程全解析</h2>
+        <span style="position:absolute; top:20px; right:40px; cursor:pointer; font-size:3rem;" onclick="closeModal('rulesModal')">&times;</span>
+        <h2 style="color: var(--fire-gold); text-align: center; font-size: 2rem;">🏆 擂台賽全流程詳解</h2>
 
-        <div class="rule-card">
-            <h3>⚔️ 階段一：預賽 (雙敗淘汰制)</h3>
-            <p>每支隊伍有兩次「續命」機會。贏兩場即晉級決賽圈；輸兩場則淘汰。</p>
-            <div class="example-box">
-                <span class="status-dot" style="background: var(--win-color);"></span> <b>兩勝：</b> 直接晉級決賽圈<br>
-                <span class="status-dot" style="background: var(--lose-color);"></span> <b>兩敗：</b> 領取參與獎後淘汰
+        <div class="section-box">
+            <h3 style="margin-top:0; color: var(--accent-gold);">⚔️ 預賽：雙敗淘汰制 (初試鋒芒)</h3>
+            <p>每支隊伍在預賽中擁有兩次失敗額度。你的目標是獲得兩場勝利。</p>
+            <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px; border: 1px dashed #555;">
+                <b style="color: #fff;">💡 動態示範：</b><br><br>
+                1. 隊伍 A：<span class="light light-win"></span> ➔ <span class="light light-win"></span> <b>【晉級決賽】</b><br>
+                2. 隊伍 B：<span class="light light-win"></span> ➔ <span class="light light-lose"></span> ➔ <span class="light light-win"></span> <b>【晉級決賽】</b><br>
+                3. 隊伍 C：<span class="light light-lose"></span> ➔ <span class="light light-lose"></span> <b>【領獎淘汰】</b>
             </div>
+            <p style="font-size: 0.9rem; color: #aaa; margin-top: 15px;">* 只要累積兩次敗北，該隊伍即結束本次賽程。</p>
         </div>
 
-        <div class="rule-card">
-            <h3>🔥 階段二：決賽圈 (對陣 BO3 挑戰賽)</h3>
-            <p>晉級的 4 支隊伍重新抽籤，進行一對一淘汰賽。贏家晉級，輸家立刻淘汰。</p>
+        <div class="section-box">
+            <h3 style="margin-top:0; color: var(--accent-gold);">🔥 決賽：對陣 BO3 淘汰賽 (巔峰對決)</h3>
+            <p>進入決賽的 4 支精英隊伍將重新抽籤，進行三戰兩勝淘汰制。</p>
             
-            <div class="bracket-container">
-                <div class="match-column">
-                    <div class="team-tag winner">隊伍 A (勝)</div>
-                    <div class="team-tag">隊伍 B (敗)</div>
+            <div class="bracket-viz">
+                <div style="display:flex; flex-direction:column; gap:90px;">
+                    <div class="team-slot team-win">隊伍 A (勝)</div>
+                    <div class="team-slot">隊伍 B (敗)</div>
                 </div>
 
-                <svg class="line-svg" viewBox="0 0 600 250">
-                    <path class="path-gold" d="M 100 65 L 200 65 L 220 125" />
-                    <path class="path-gold" d="M 500 185 L 400 185 L 380 125" />
-                </svg>
+                <div class="winner-line" style="width: 100px; left: 130px; top: 75px; transform: rotate(15deg);"></div>
+                <div class="winner-line" style="width: 100px; right: 130px; bottom: 75px; transform: rotate(15deg);"></div>
 
-                <div class="final-center">
-                    <b style="color: var(--accent-gold);">🏆 總冠軍賽</b><br>
-                    <small>BO3 最終決戰</small>
+                <div class="final-orb">
+                    <strong style="font-size: 1.4rem; color: var(--fire-gold);">總決賽</strong>
+                    <span style="font-size: 0.8rem; color: #ccc;">BO3 爭奪冠亞</span>
                 </div>
 
-                <div class="match-column">
-                    <div class="team-tag">隊伍 C (敗)</div>
-                    <div class="team-tag winner">隊伍 D (勝)</div>
+                <div style="display:flex; flex-direction:column; gap:90px;">
+                    <div class="team-slot">隊伍 C (敗)</div>
+                    <div class="team-slot team-win">隊伍 D (勝)</div>
                 </div>
             </div>
 
-            <div class="example-box">
-                <b>💡 流程範例：</b><br>
-                1. 抽籤：A打B、C打D。<br>
-                2. A 與 D 贏得 BO3 ➔ B 與 C 被淘汰。<br>
-                3. 最後由 A 與 D 進行終極 BO3 爭奪冠軍。
+            <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px; border: 1px dashed #555;">
+                <b>🚀 決賽範例：</b><br>
+                第一輪：A打B、C打D。A與D在 BO3 中勝出。<br>
+                第二輪：由 A 與 D 進行最終決戰，贏家即為本屆冠軍！
             </div>
         </div>
 
-        <button class="btn btn-join" style="width:100%;" onclick="closeModal('rulesModal')">我已了解賽制</button>
+        <button class="btn btn-join" style="width:100%;" onclick="closeModal('rulesModal')">我已充分了解賽制</button>
     </div>
 </div>
 
 <div id="joinModal" class="modal">
     <div class="modal-content" style="text-align: center;">
-        <span style="position:absolute; top:20px; right:30px; cursor:pointer; font-size:2.5rem;" onclick="closeModal('joinModal')">&times;</span>
-        <h2 style="color: #ff4500;">📢 報名方式提示</h2>
-        <p style="font-size: 1.2rem; margin: 30px 0; line-height: 1.8;">
-            請前往 <b style="color: var(--fire-gold);">歲歲 Discord</b><br>
-            尋找 「<span style="color: var(--fire-gold);">活動報名處</span>」 頻道<br>
-            依照置頂公告的格式完成登記！
+        <span style="position:absolute; top:20px; right:40px; cursor:pointer; font-size:3rem;" onclick="closeModal('joinModal')">&times;</span>
+        <h2 style="color: #ff4500; font-size: 2rem;">📢 報名須知</h2>
+        <p style="font-size: 1.3rem; margin: 40px 0; line-height: 2;">
+            請移步至 <b style="color: var(--fire-gold);">歲歲 Discord 伺服器</b><br>
+            尋找 <span style="color: var(--fire-gold);">「活動報名處」</span> 頻道<br>
+            依照置頂格式留言即可！
         </p>
-        <button class="btn btn-join" onclick="closeModal('joinModal')">了解，前往 DC 報名</button>
+        <button class="btn btn-join" onclick="closeModal('joinModal')">立刻前往報名</button>
     </div>
 </div>
 
 <script>
-    // ⏳ 倒數計時邏輯
     function updateCountdown() {
         const target = new Date("May 16, 2026 21:30:00").getTime();
         const now = new Date().getTime();
         const diff = target - now;
-        if(diff < 0) { document.getElementById("timer").innerHTML = "賽事已熱血開打！"; return; }
-        const d = Math.floor(diff/86400000);
-        const h = Math.floor((diff%86400000)/3600000);
-        const m = Math.floor((diff%3600000)/60000);
-        const s = Math.floor((diff%60000)/1000);
+        if(diff < 0) { document.getElementById("timer").innerHTML = "BATTLE BEGUN!"; return; }
+        const d = Math.floor(diff/86400000), h = Math.floor((diff%86400000)/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
         document.getElementById("timer").innerHTML = `${d}天 ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
     }
     setInterval(updateCountdown, 1000); updateCountdown();
