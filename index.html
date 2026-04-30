@@ -20,11 +20,11 @@
             background-color: #000; color: #fff; overflow-x: hidden;
         }
 
-        /* 🚀 背景圖 */
+        /* 🚀 背景圖 - 加上了強制重新整理標記 (?v=1) */
         .bg-gif {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), 
-                              url('https://sndxy.github.io/ss33-event/bg.gif'); 
+                              url('https://sndxy.github.io/ss33-event/bg.gif?v=1'); 
             background-size: cover; background-position: center; z-index: -2;
         }
 
@@ -42,6 +42,18 @@
             margin-bottom: 25px; letter-spacing: 10px; text-align: center;
         }
 
+        /* 🚀 倒數計時器樣式 */
+        .countdown-container {
+            margin-bottom: 30px; text-align: center;
+            background: rgba(0, 0, 0, 0.8); padding: 15px 35px;
+            border-radius: 30px; border: 2px solid var(--border-glow);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(255, 170, 0, 0.3);
+        }
+        .countdown-label { font-size: 1rem; color: #ccc; margin-bottom: 10px; letter-spacing: 2px; font-weight: bold;}
+        #timer { font-size: 2rem; font-weight: bold; color: var(--fire-gold); text-shadow: 0 0 10px var(--fire-gold); font-family: monospace; }
+        .timer-unit { font-size: 0.9rem; color: #fff; margin: 0 5px; font-family: "Microsoft JhengHei"; }
+
         .panel {
             background: var(--glass-bg); backdrop-filter: blur(25px);
             border-radius: 65px; border: 2px solid var(--border-glow);
@@ -50,7 +62,7 @@
             box-shadow: 0 15px 40px rgba(0,0,0,0.8);
         }
 
-        /* 🚀 職業圖標 (保持 55px 縮小感) */
+        /* 🚀 職業圖標 */
         .pool-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
             gap: 15px; margin-top: 25px; text-align: center;
@@ -63,7 +75,7 @@
             box-shadow: 0 0 12px var(--border-glow); background-color: rgba(0,0,0,0.3);
         }
 
-        /* 🚀 奶池隨機滾動動畫 */
+        /* 🚀 奶池動態滾動 */
         .random-slot {
             width: 55px; height: 55px; border-radius: 50%;
             border: 2px solid var(--fire-gold); overflow: hidden;
@@ -73,10 +85,7 @@
             display: flex; flex-direction: column;
             animation: slotScroll 4s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
         }
-        .slot-img {
-            width: 55px; height: 55px; background-size: 80%;
-            background-repeat: no-repeat; background-position: center; flex-shrink: 0;
-        }
+        .slot-img { width: 55px; height: 55px; background-size: 80%; background-repeat: no-repeat; background-position: center; flex-shrink: 0; }
         @keyframes slotScroll {
             0%, 10% { transform: translateY(0); }
             15%, 25% { transform: translateY(-55px); }
@@ -94,19 +103,18 @@
             box-shadow: 0 8px 25px rgba(255, 69, 0, 0.5);
         }
 
-        /* 彈窗 */
+        /* 🚀 彈窗系統 */
         .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.96); backdrop-filter: blur(15px); }
         .modal-content {
             background: var(--glass-bg);
             background-image: linear-gradient(rgba(10,5,5,0.88), rgba(10,5,5,0.98)), 
-                              url('https://sndxy.github.io/ss33-event/IMG_2574.png'); 
+                              url('https://sndxy.github.io/ss33-event/IMG_2574.png?v=1'); 
             background-size: cover; background-position: center;
             margin: 5vh auto; padding: 40px; border: 2px solid var(--fire-gold);
             width: 85%; max-width: 750px; border-radius: 50px; max-height: 85vh; overflow-y: auto; position: relative;
         }
-        .close { position: absolute; right: 30px; top: 20px; font-size: 2.5rem; cursor: pointer; color: var(--fire-gold); }
+        .close { position: absolute; right: 30px; top: 20px; font-size: 2.5rem; cursor: pointer; color: var(--fire-gold); z-index: 101; }
 
-        /* 動畫區塊 */
         .anim-box { background: rgba(255,255,255,0.05); padding: 25px; border-radius: 30px; margin: 20px 0; border: 1px solid rgba(255,170,0,0.2); }
     </style>
 </head>
@@ -116,6 +124,11 @@
 
 <div class="main-ui">
     <h1 class="main-title">歲歲 33 擂台宴</h1>
+
+    <div class="countdown-container">
+        <div class="countdown-label" id="countdown-title">正在加載賽程...</div>
+        <div id="timer">00<span class="timer-unit">天</span>00<span class="timer-unit">時</span>00<span class="timer-unit">分</span>00<span class="timer-unit">秒</span></div>
+    </div>
 
     <div class="panel">
         <h2 style="color: var(--fire-gold); margin:0; text-align: center;">⚔️ 暴力輸出池 (5/17 21:30)</h2>
@@ -147,27 +160,23 @@
                         <div class="slot-img" style="background-image: url('https://sndxy.github.io/ss33-event/assets/8.png');"></div>
                         <div class="slot-img" style="background-image: url('https://sndxy.github.io/ss33-event/assets/5.png');"></div>
                         <div class="slot-img" style="background-image: url('https://sndxy.github.io/ss33-event/assets/2.png');"></div>
-                        <div class="slot-img" style="background-image: url('https://sndxy.github.io/ss33-event/assets/6.png');"></div>
-                        <div class="slot-img" style="background-image: url('https://sndxy.github.io/ss33-event/assets/7.png');"></div>
                         <div class="slot-img" style="background-image: url('https://sndxy.github.io/ss33-event/assets/4.png');"></div>
                     </div>
                 </div>
-                <small>隨機輸出</small>
+                <small>隨機</small>
             </div>
 
             <div style="text-align:center;">
                 <div class="random-slot">
                     <div class="slot-track" style="animation-delay: -2s;">
                         <div class="slot-img" style="background-image: url('https://sndxy.github.io/ss33-event/assets/2.png');"></div>
-                        <div class="slot-img" style="background-image: url('https://sndxy.github.io/ss33-event/assets/5.png');"></div>
-                        <div class="slot-img" style="background-image: url('https://sndxy.github.io/ss33-event/assets/8.png');"></div>
                         <div class="slot-img" style="background-image: url('https://sndxy.github.io/ss33-event/assets/7.png');"></div>
                         <div class="slot-img" style="background-image: url('https://sndxy.github.io/ss33-event/assets/6.png');"></div>
                         <div class="slot-img" style="background-image: url('https://sndxy.github.io/ss33-event/assets/3.png');"></div>
                         <div class="slot-img" style="background-image: url('https://sndxy.github.io/ss33-event/assets/2.png');"></div>
                     </div>
                 </div>
-                <small>隨機輸出</small>
+                <small>隨機</small>
             </div>
         </div>
     </div>
@@ -182,29 +191,53 @@
 <div id="ruleModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
-        <h2 style="color: var(--fire-gold); text-align: center; border-bottom: 2px solid var(--fire-gold); padding-bottom: 10px;">🏆 2026 擂台賽最新規程</h2>
-        
-        <h3>1. 預賽階段：雙敗淘汰</h3>
-        <p>所有隊伍進行對決。兩勝隊伍晉級決賽圈，累積兩敗則遺憾淘汰。</p>
-
-        <h3>2. 決賽準備：積分重置與抽籤</h3>
-        <p>進入決賽圈後，<b>預賽積分將全部重置</b>。我們會進行<b>現場抽籤</b>，來隨機分配決賽的第一輪對手，確保公平性。</p>
-
-        <h3>3. 決賽階段：階梯式擂台戰</h3>
-        <p>抽籤分配完成後，採用階梯式向上打上去的機制。每一層挑戰成功後，方可挑戰更高層的隊伍。</p>
+        <h2 style="color: var(--fire-gold); text-align: center;">🏆 2026 擂台賽規程</h2>
+        <h3>1. 預賽：雙敗淘汰</h3>
+        <p>兩勝晉級決賽圈，累積兩敗則淘汰。</p>
+        <h3>2. 決賽準備</h3>
+        <p>進入決賽圈後，<b>預賽積分重置</b>，進行<b>現場抽籤</b>分配對手。</p>
+        <h3>3. 決賽階段：階梯式挑戰</h3>
         <div class="anim-box" style="text-align:center;">
-             <div style="color:var(--fire-gold); font-weight:bold; margin-bottom:10px;">階梯流程範例</div>
              <div style="border:1px solid #fff; padding:5px; margin:2px; border-radius:5px;">🏆 最終擂台主</div>
              <div style="border:1px solid var(--fire-gold); padding:5px; margin:2px; border-radius:5px; width:80%; margin: 2px auto;">↑ 第三挑戰位</div>
              <div style="border:1px solid var(--fire-gold); padding:5px; margin:2px; border-radius:5px; width:60%; margin: 2px auto;">↑ 第二挑戰位</div>
-             <div style="border:1px solid var(--fire-gold); padding:5px; margin:2px; border-radius:5px; width:40%; margin: 2px auto;">↑ 第一挑戰位</div>
         </div>
-
-        <button class="rule-btn" style="width:100%;" onclick="closeModal()">我已了解規則</button>
+        <button class="rule-btn" style="width:100%; margin-top:10px;" onclick="closeModal()">了解</button>
     </div>
 </div>
 
 <script>
+    // 🚀 倒數計時邏輯 (修正 JS 錯誤防止阻塞)
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const events = [
+            { name: "5/16 奶池賽倒數", time: new Date("May 16, 2026 21:30:00").getTime() },
+            { name: "5/17 DPS池賽倒數", time: new Date("May 17, 2026 21:30:00").getTime() }
+        ];
+
+        let target = events.find(e => now < e.time);
+        const timerDisplay = document.getElementById("timer");
+        const titleDisplay = document.getElementById("countdown-title");
+
+        if (!target) {
+            titleDisplay.innerHTML = "賽事火熱進行中";
+            timerDisplay.innerHTML = "Good Luck!";
+            return;
+        }
+
+        titleDisplay.innerHTML = target.name;
+        const dist = target.time - now;
+        const d = Math.floor(dist / (1000 * 60 * 60 * 24));
+        const h = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((dist % (1000 * 60)) / 1000);
+
+        timerDisplay.innerHTML = `${d.toString().padStart(2, '0')}<span class="timer-unit">天</span>${h.toString().padStart(2, '0')}<span class="timer-unit">時</span>${m.toString().padStart(2, '0')}<span class="timer-unit">分</span>${s.toString().padStart(2, '0')}<span class="timer-unit">秒</span>`;
+    }
+    
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
     function openModal() { document.getElementById("ruleModal").style.display = "block"; }
     function closeModal() { document.getElementById("ruleModal").style.display = "none"; }
     window.onclick = function(e) { if (e.target == document.getElementById("ruleModal")) closeModal(); }
