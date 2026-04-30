@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>歲歲 33 擂台宴 - 官方賽事網頁</title>
+    <title>歲歲 33 擂台宴</title>
     <style>
         :root {
             --fire-gold: #ffaa00;
-            --deep-red: #3a0000;
             --accent-gold: #ffd700;
-            --glass-bg: rgba(20, 5, 5, 0.96);
+            --glass-bg: rgba(10, 5, 5, 0.85);
             --nurse-green: #a0ffd0;
             --win-color: #2ecc71;
             --lose-color: #e74c3c;
@@ -18,226 +17,171 @@
         body, html {
             margin: 0; padding: 0; min-height: 100%;
             font-family: "Microsoft JhengHei", sans-serif;
+            background-color: #000;
             color: #fff; overflow-x: hidden;
         }
 
-        /* 🚀 關鍵更新：應用新的戰鬥墨風背景圖 */
-        .bg-gif {
+        /* 🚀 背景圖修正：直接引用你 GitHub 根目錄的圖片 */
+        .bg-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            /*👇 使用生成的絕對路徑圖片 👇*/
-            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), 
-                              url('https://api.fastgen.xyz/v1/projects/59d43d1a-4740-422f-9be2-441f71a067f9/cdn/image_0.png'); 
-            background-size: cover;
-            background-position: center;
-            z-index: -2;
-            filter: brightness(0.8);
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)), 
+                        url('./IMG_2574.png'); /* 指向你 GitHub 上的檔案 */
+            background-size: cover; background-position: center; z-index: -2;
         }
 
         .main-ui { display: flex; flex-direction: column; align-items: center; padding: 40px 20px; }
 
         .main-title {
-            font-size: clamp(2.2rem, 7vw, 3.8rem); font-weight: 900;
-            background: linear-gradient(to bottom, #fff, var(--fire-gold), #ff4500);
+            font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 900;
+            background: linear-gradient(to bottom, #fff, var(--fire-gold));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.8));
-            margin-bottom: 25px; letter-spacing: 10px; text-align: center;
+            text-shadow: 0 0 20px rgba(255, 170, 0, 0.5);
+            margin-bottom: 30px; letter-spacing: 8px; text-align: center;
         }
-
-        /* 倒數計時 */
-        .countdown-container {
-            background: rgba(0, 0, 0, 0.6); padding: 15px 35px; border-radius: 40px;
-            border: 2px solid var(--fire-gold); backdrop-filter: blur(10px); margin-bottom: 30px;
-            box-shadow: 0 0 20px rgba(255, 170, 0, 0.2);
-        }
-        #timer { font-size: 2rem; color: var(--accent-gold); font-family: monospace; font-weight: bold; }
 
         .panel {
-            background: var(--glass-bg); border-radius: 50px; border: 1.5px solid rgba(255, 170, 0, 0.3);
-            width: 100%; max-width: 850px; margin-bottom: 25px; padding: 30px;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.7);
+            background: var(--glass-bg); border-radius: 30px; border: 1px solid rgba(255, 170, 0, 0.3);
+            width: 100%; max-width: 800px; margin-bottom: 25px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        /* 職業圖標 */
-        .pool-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 15px; text-align: center; }
+        /* 職業圖標區域 */
+        .pool-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); gap: 10px; text-align: center; }
         .class-icon {
-            width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--fire-gold); margin: 0 auto 8px;
-            background-size: 75%; background-repeat: no-repeat; background-position: center; background-color: rgba(0,0,0,0.5);
+            width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--fire-gold); margin: 0 auto 5px;
+            background-size: contain; background-repeat: no-repeat; background-position: center;
         }
 
-        /* 奶池無限滾動 (不間斷版) */
-        .slot-machine { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 15px; }
-        .slot-box { width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--fire-gold); overflow: hidden; position: relative; background: #000; }
-        .slot-track { display: flex; flex-direction: column; position: absolute; top: 0; animation: scroll-inf 8s linear infinite; }
-        .slot-item { width: 55px; height: 55px; background-size: 75%; background-repeat: no-repeat; background-position: center; flex-shrink: 0; }
-        @keyframes scroll-inf { 0% { transform: translateY(0); } 100% { transform: translateY(-385px); } }
+        /* 奶池無限滾動區 */
+        .slot-machine { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 20px; }
+        .slot-box { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--fire-gold); overflow: hidden; position: relative; background: #111; }
+        .slot-track { display: flex; flex-direction: column; position: absolute; top: 0; animation: scroll-v 6s linear infinite; }
+        .slot-item { width: 60px; height: 60px; background-size: 70%; background-repeat: no-repeat; background-position: center; flex-shrink: 0; }
+        @keyframes scroll-v { 0% { transform: translateY(0); } 100% { transform: translateY(-420px); } }
 
-        /* 按鈕區 */
-        .btn-group { display: flex; gap: 20px; margin-top: 20px; }
-        .btn { padding: 15px 40px; border-radius: 50px; font-weight: bold; font-size: 1.1rem; border: none; cursor: pointer; transition: 0.3s; }
-        .btn-rules { background: #333; color: #fff; }
-        .btn-join { background: linear-gradient(45deg, #b22222, #ff4500); color: #fff; }
-
-        /* 彈窗系統 */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); backdrop-filter: blur(12px); overflow-y: auto; }
-        .modal-content {
-            background: #1a0505; margin: 3vh auto; padding: 40px; border: 2px solid var(--fire-gold);
-            width: 90%; max-width: 650px; border-radius: 40px; position: relative;
+        /* 按鈕 */
+        .btn-join { 
+            padding: 15px 50px; border-radius: 50px; background: linear-gradient(45deg, #ff4500, #ffaa00);
+            color: #fff; font-weight: bold; border: none; cursor: pointer; font-size: 1.1rem; box-shadow: 0 5px 15px rgba(255,69,0,0.4);
         }
 
-        .rule-section { background: rgba(255,255,255,0.05); border-radius: 20px; padding: 20px; margin-bottom: 20px; border-left: 5px solid var(--fire-gold); }
-        .example-box { background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; font-size: 0.9rem; color: #ccc; margin: 10px 0; border: 1px solid #444; }
+        /* 彈窗規則區 */
+        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); overflow-y: auto; }
+        .modal-content { background: #150505; margin: 5% auto; padding: 30px; border: 1px solid var(--fire-gold); width: 85%; max-width: 600px; border-radius: 20px; }
 
-        /* 對陣分支動畫 */
-        .bracket-container {
-            display: flex; justify-content: space-between; align-items: center;
-            height: 150px; position: relative; margin: 20px 0;
+        /* 🏆 新版決賽對陣圖動畫 */
+        .bracket { display: flex; justify-content: space-around; align-items: center; margin: 30px 0; position: relative; }
+        .match-pair { display: flex; flex-direction: column; gap: 40px; }
+        .team-box { width: 80px; padding: 8px; border: 1px solid #555; background: #222; font-size: 0.8rem; text-align: center; }
+        .final-match { border: 2px solid var(--fire-gold); background: rgba(255,170,0,0.1); width: 100px; padding: 15px; text-align: center; }
+        .connector { height: 2px; background: #555; flex-grow: 1; position: relative; }
+        .glow-line { 
+            position: absolute; height: 2px; background: var(--fire-gold); width: 0; left: 0;
+            animation: grow-line 4s infinite; box-shadow: 0 0 10px var(--fire-gold);
         }
-        .team-node {
-            width: 60px; height: 30px; border: 1px solid var(--fire-gold);
-            display: flex; align-items: center; justify-content: center; font-size: 0.8rem; background: rgba(0,0,0,0.5);
-        }
-        .bracket-line { position: absolute; background: #fff; height: 2px; }
-        .winner-dot {
-            width: 15px; height: 15px; background: var(--win-color); border-radius: 50%;
-            position: absolute; animation: moveBracket 4s infinite ease-in-out;
-        }
-        @keyframes moveBracket {
-            0% { left: 10%; top: 20%; opacity: 1; }
-            40% { left: 45%; top: 50%; }
-            60% { left: 45%; top: 50%; }
-            100% { left: 85%; top: 50%; opacity: 0; }
-        }
+        @keyframes grow-line { 0% { width: 0; } 50% { width: 100%; } 100% { width: 100%; opacity: 0; } }
+
+        /* 預賽燈號 */
+        .status-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+        .dot-win { background: var(--win-color); box-shadow: 0 0 8px var(--win-color); animation: blink 1.5s infinite; }
+        .dot-lose { background: var(--lose-color); box-shadow: 0 0 8px var(--lose-color); animation: blink 1.5s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
     </style>
 </head>
 <body>
 
-<div class="bg-gif"></div>
+<div class="bg-container"></div>
 
 <div class="main-ui">
     <h1 class="main-title">歲歲 33 擂台宴</h1>
 
-    <div class="countdown-container">
-        <div id="timer">正在加載...</div>
-    </div>
-
     <div class="panel">
-        <h3 style="text-align: center; color: var(--fire-gold); margin:0 0 20px 0;">⚔️ 暴力輸出池 (DPS)</h3>
+        <h3 style="color: var(--fire-gold); text-align: center; margin-top: 0;">⚔️ 暴力輸出池</h3>
         <div class="pool-grid">
-            <div><div class="class-icon" style="background-image: url('https://sndxy.github.io/ss33-event/assets/4.png');"></div>碎夢</div>
-            <div><div class="class-icon" style="background-image: url('https://sndxy.github.io/ss33-event/assets/8.png');"></div>玄機</div>
-            <div><div class="class-icon" style="background-image: url('https://sndxy.github.io/ss33-event/assets/5.png');"></div>神相</div>
-            <div><div class="class-icon" style="background-image: url('https://sndxy.github.io/ss33-event/assets/2.png');"></div>九靈</div>
-            <div><div class="class-icon" style="background-image: url('https://sndxy.github.io/ss33-event/assets/3.png');"></div>鐵衣</div>
-            <div><div class="class-icon" style="background-image: url('https://sndxy.github.io/ss33-event/assets/6.png');"></div>血河</small></div>
-            <div><div class="class-icon" style="background-image: url('https://sndxy.github.io/ss33-event/assets/7.png');"></div>龍吟</div>
-            <div><div class="class-icon" style="background-image: url('https://sndxy.github.io/ss33-event/assets/1.png');"></div>天問</div>
+            <div><div class="class-icon" style="background-image: url('./assets/4.png');"></div>碎夢</div>
+            <div><div class="class-icon" style="background-image: url('./assets/8.png');"></div>玄機</div>
+            <div><div class="class-icon" style="background-image: url('./assets/5.png');"></div>神相</div>
+            <div><div class="class-icon" style="background-image: url('./assets/2.png');"></div>九靈</div>
+            <div><div class="class-icon" style="background-image: url('./assets/3.png');"></div>鐵衣</div>
+            <div><div class="class-icon" style="background-image: url('./assets/6.png');"></div>血河</div>
+            <div><div class="class-icon" style="background-image: url('./assets/7.png');"></div>龍吟</div>
+            <div><div class="class-icon" style="background-image: url('./assets/1.png');"></div>天問</div>
         </div>
     </div>
 
     <div class="panel" style="border-color: var(--nurse-green);">
-        <h3 style="text-align: center; color: var(--nurse-green); margin:0 0 20px 0;">🌿 核心奶媽池 (1奶+2隨機輸出)</h3>
+        <h3 style="color: var(--nurse-green); text-align: center; margin-top: 0;">🌿 核心奶媽池</h3>
         <div class="slot-machine">
-            <div style="text-align:center;">
-                <div class="class-icon" style="border-color: var(--nurse-green); background-image: url('https://sndxy.github.io/ss33-event/assets/1.png');"></div>
-                <small>素問</small>
+            <div style="text-align: center;">
+                <div class="class-icon" style="background-image: url('./assets/1.png'); border-color: var(--nurse-green);"></div>
+                <small>素問(素心)</small>
             </div>
             <div style="font-size: 1.5rem; color: var(--fire-gold);">+</div>
             <div class="slot-box"><div class="slot-track">
-                <div class="slot-item" style="background-image: url('https://sndxy.github.io/ss33-event/assets/2.png');"></div>
-                <div class="slot-item" style="background-image: url('https://sndxy.github.io/ss33-event/assets/3.png');"></div>
-                <div class="slot-item" style="background-image: url('https://sndxy.github.io/ss33-event/assets/4.png');"></div>
-                <div class="slot-item" style="background-image: url('https://sndxy.github.io/ss33-event/assets/5.png');"></div>
-                <div class="slot-item" style="background-image: url('https://sndxy.github.io/ss33-event/assets/6.png');"></div>
-                <div class="slot-item" style="background-image: url('https://sndxy.github.io/ss33-event/assets/7.png');"></div>
-                <div class="slot-item" style="background-image: url('https://sndxy.github.io/ss33-event/assets/8.png');"></div>
-                <div class="slot-item" style="background-image: url('https://sndxy.github.io/ss33-event/assets/2.png');"></div>
+                <div class="slot-item" style="background-image: url('./assets/2.png');"></div>
+                <div class="slot-item" style="background-image: url('./assets/3.png');"></div>
+                <div class="slot-item" style="background-image: url('./assets/4.png');"></div>
+                <div class="slot-item" style="background-image: url('./assets/5.png');"></div>
+                <div class="slot-item" style="background-image: url('./assets/6.png');"></div>
+                <div class="slot-item" style="background-image: url('./assets/7.png');"></div>
+                <div class="slot-item" style="background-image: url('./assets/8.png');"></div>
+                <div class="slot-item" style="background-image: url('./assets/2.png');"></div>
             </div></div>
             <div class="slot-box"><div class="slot-track" style="animation-delay: -3s;">
-                <div class="slot-item" style="background-image: url('https://sndxy.github.io/ss33-event/assets/8.png');"></div>
-                <div class="slot-item" style="background-image: url('https://sndxy.github.io/ss33-event/assets/7.png');"></div>
-                <div class="slot-item" style="background-image: url('https://sndxy.github.io/ss33-event/assets/6.png');"></div>
-                <div class="slot-item" style="background-image: url('https://sndxy.github.io/ss33-event/assets/5.png');"></div>
-                <div class="slot-item" style="background-image: url('https://sndxy.github.io/ss33-event/assets/4.png');"></div>
-                <div class="slot-item" style="background-image: url('https://sndxy.github.io/ss33-event/assets/3.png');"></div>
-                <div class="slot-item" style="background-image: url('https://sndxy.github.io/ss33-event/assets/2.png');"></div>
-                <div class="slot-item" style="background-image: url('https://sndxy.github.io/ss33-event/assets/8.png');"></div>
+                <div class="slot-item" style="background-image: url('./assets/8.png');"></div>
+                <div class="slot-item" style="background-image: url('./assets/7.png');"></div>
+                <div class="slot-item" style="background-image: url('./assets/6.png');"></div>
+                <div class="slot-item" style="background-image: url('./assets/5.png');"></div>
+                <div class="slot-item" style="background-image: url('./assets/4.png');"></div>
+                <div class="slot-item" style="background-image: url('./assets/3.png');"></div>
+                <div class="slot-item" style="background-image: url('./assets/2.png');"></div>
+                <div class="slot-item" style="background-image: url('./assets/8.png');"></div>
             </div></div>
         </div>
     </div>
 
-    <div class="btn-group">
-        <button class="btn btn-rules" onclick="openModal('rulesModal')">賽制流程詳解</button>
-        <button class="btn btn-join" onclick="openModal('joinModal')">立即參加報名</button>
-    </div>
+    <button class="btn-join" onclick="openModal()">查看詳細賽制說明</button>
 </div>
 
 <div id="rulesModal" class="modal">
     <div class="modal-content">
-        <span style="position:absolute; top:20px; right:30px; cursor:pointer; font-size:2rem;" onclick="closeModal('rulesModal')">&times;</span>
-        <h2 style="color: var(--fire-gold); text-align: center;">🏆 2026 擂台賽詳細規程</h2>
-
-        <div class="rule-section">
-            <h3>⚔️ 預賽：雙敗淘汰制</h3>
-            <p>所有隊伍進行初步對戰。<b>獲得兩場勝場</b>即晉級決賽圈；<b>累積兩場敗場</b>則遺憾淘汰。</p>
+        <h2 style="color: var(--fire-gold); text-align: center;">🏆 賽事流程說明</h2>
+        
+        <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+            <h4 style="margin-top: 0;">1. 預賽：雙敗淘汰制</h4>
+            <p style="font-size: 0.9rem; color: #ccc;">兩勝晉級決賽圈，兩敗則遺憾淘汰。</p>
+            <div><span class="status-dot dot-win"></span> 勝勝 ➔ 晉級</div>
+            <div><span class="status-dot dot-lose"></span> 敗敗 ➔ 淘汰</div>
         </div>
 
-        <div class="rule-section">
-            <h3>🔥 決賽：對陣 BO3 淘汰賽</h3>
-            <p>進入決賽圈後，<b>預賽積分重置</b>，進行<b>抽籤分組</b>進行一對一 BO3 挑戰。</p>
-            <div class="example-box">
-                <b>💡 流程範例 (假設 4 隊晉級)：</b><br>
-                1. 抽籤結果：A隊對決B隊，C隊對決D隊。<br>
-                2. 進行 BO3：A隊獲勝、D隊獲勝 → B與C隊直接淘汰。<br>
-                3. 冠亞決賽：A隊與D隊進行最終 BO3 爭奪總冠軍。
-            </div>
+        <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px;">
+            <h4 style="margin-top: 0;">2. 決賽圈：BO3 對陣賽</h4>
+            <p style="font-size: 0.9rem; color: #ccc;">抽籤對決，勝者晉級冠亞軍賽。</p>
             
-            <div class="bracket-container">
-                <div style="display:flex; flex-direction:column; gap:60px;">
-                    <div class="team-node">隊伍 A</div>
-                    <div class="team-node">隊伍 B</div>
+            <div class="bracket">
+                <div class="match-pair">
+                    <div class="team-box">隊伍 A</div>
+                    <div class="team-box">隊伍 B</div>
                 </div>
-                <div class="bracket-line" style="width:100px; left:60px; top:35px; height:80px; border:1px solid #fff; border-left:none;"></div>
-                <div class="winner-dot"></div>
-                <div style="margin-left: 80px;"><div class="team-node" style="border-color:#fff; width:80px;">總冠軍賽</div></div>
-                <div style="display:flex; flex-direction:column; gap:60px;">
-                    <div class="team-node">隊伍 C</div>
-                    <div class="team-node">隊伍 D</div>
+                <div class="connector"><div class="glow-line"></div></div>
+                <div class="final-match">
+                    <small style="color: var(--fire-gold);">總決賽</small><br>
+                    <strong>BO3 爭霸</strong>
                 </div>
-                <div class="bracket-line" style="width:100px; right:60px; top:35px; height:80px; border:1px solid #fff; border-right:none;"></div>
+                <div class="connector"><div class="glow-line" style="animation-delay: 2s;"></div></div>
+                <div class="match-pair">
+                    <div class="team-box">隊伍 C</div>
+                    <div class="team-box">隊伍 D</div>
+                </div>
             </div>
         </div>
 
-        <button class="btn btn-join" style="width:100%;" onclick="closeModal('rulesModal')">我已了解賽制</button>
-    </div>
-</div>
-
-<div id="joinModal" class="modal">
-    <div class="modal-content" style="text-align: center;">
-        <span style="position:absolute; top:20px; right:30px; cursor:pointer; font-size:2rem;" onclick="closeModal('joinModal')">&times;</span>
-        <h2 style="color: #ff4500;">📢 報名方式提示</h2>
-        <p style="font-size: 1.2rem; margin: 30px 0;">
-            本屆賽事採取 <b>歲歲 Discord</b> 登記制<br><br>
-            請前往 Discord 頻道：<br>
-            <span style="color: var(--fire-gold); font-weight: bold;">【活動報名處】</span><br>
-            依照置頂公告格式完成登記。
-        </p>
-        <button class="btn btn-join" onclick="closeModal('joinModal')">前往 DC 報名</button>
+        <button class="btn-join" style="width: 100%; margin-top: 20px;" onclick="closeModal()">關閉說明</button>
     </div>
 </div>
 
 <script>
-    function updateCountdown() {
-        const target = new Date("May 16, 2026 21:30:00").getTime();
-        const now = new Date().getTime();
-        const diff = target - now;
-        if(diff < 0) { document.getElementById("timer").innerHTML = "賽事已熱血開打！"; return; }
-        const d = Math.floor(diff/86400000), h = Math.floor((diff%86400000)/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
-        document.getElementById("timer").innerHTML = `${d}天 ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-    }
-    setInterval(updateCountdown, 1000); updateCountdown();
-
-    function openModal(id) { document.getElementById(id).style.display = "block"; document.body.style.overflow = "hidden"; }
-    function closeModal(id) { document.getElementById(id).style.display = "none"; document.body.style.overflow = "auto"; }
+    function openModal() { document.getElementById('rulesModal').style.display = 'block'; }
+    function closeModal() { document.getElementById('rulesModal').style.display = 'none'; }
 </script>
 
 </body>
