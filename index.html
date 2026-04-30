@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>歲歲 33 擂台宴 - 賽事官網</title>
+    <style>
+        :root {
+            --fire-gold: #ffaa00;
+            --blood-red: #8b0000;
+            --glass-bg: rgba(15, 5, 5, 0.92);
+            --border-glow: rgba(255, 170, 0, 0.5);
+            --nurse-green: #a0ffd0;
+            --win-green: #2ecc71;
+            --lose-red: #e74c3c;
+        }
+
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            font-family: "Microsoft JhengHei", sans-serif;
+            background-color: #050000; color: #fff; overflow-x: hidden;
+        }
+
+        /* 模擬 GIF 的動態背景 */
+        .bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)),
+                        url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=2000');
+            background-size: cover; background-position: center; z-index: -1;
+            filter: saturate(1.5) brightness(0.3);
+        }
+
+        .fire-flicker {
+            position: fixed; top:0; left:0; width:100%; height:100%;
+            box-shadow: inset 0 0 120px rgba(139,0,0,0.6);
+            pointer-events: none; animation: flicker-anim 2s infinite alternate;
+        }
+        @keyframes flicker-anim { 0% { opacity: 0.3; } 100% { opacity: 0.7; } }
+
+        .main-ui {
+            display: flex; flex-direction: column; align-items: center;
+            padding: 60px 20px; min-height: 100vh;
+        }
+
+        .main-title {
+            font-size: clamp(2.2rem, 7vw, 4rem);
+            font-weight: 900;
+            background: linear-gradient(to bottom, #fff, var(--fire-gold), #ff4500);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 20px rgba(255, 69, 0, 0.8));
+            margin: 0; letter-spacing: 12px;
+            text-align: center;
+        }
+
+        /* 圓潤面板樣式 */
+        .panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(35px);
+            border-radius: 45px; 
+            border: 1px solid var(--border-glow);
+            width: 100%; max-width: 900px;
+            margin-bottom: 30px; padding: 35px;
+            box-shadow: 0 20px 60px rgba(0,0,0,1);
+            transition: 0.3s ease;
+        }
+        .panel:hover { transform: translateY(-5px); border-color: var(--fire-gold); }
+
+        /* 職業圖標網格 */
+        .pool-grid {
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
+            gap: 20px; margin-top: 20px; text-align: center;
+        }
+
+        .class-card {
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        .class-icon {
+            width: 70px; height: 70px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--fire-gold);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; font-weight: bold; color: var(--fire-gold);
+            box-shadow: 0 0 15px var(--border-glow);
+            margin-bottom: 8px;
+            position: relative; overflow: hidden;
+        }
+
+        .class-icon::after {
+            content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg); animation: shine 3s infinite;
+        }
+        @keyframes shine { 0% { left: -150%; } 100% { left: 150%; } }
+
+        .nurse-icon { border-color: var(--nurse-green); color: var(--nurse-green); box-shadow: 0 0 15px var(--nurse-green); }
+
+        /* 動態說明區域 */
+        .rule-btn {
+            background: linear-gradient(45deg, #8b0000, #ff4500);
+            color: white; padding: 15px 50px; border-radius: 50px;
+            border: none; font-size: 1.2rem; font-weight: bold;
+            cursor: pointer; box-shadow: 0 5px 20px rgba(255,69,0,0.4);
+            transition: 0.3s; margin-top: 10px;
+        }
+        .rule-btn:hover { transform: scale(1.05); box-shadow: 0 5px 30px rgba(255,69,0,0.7); }
+
+        /* 彈窗 */
+        .modal {
+            display: none; position: fixed; z-index: 100;
+            left: 0; top: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.96); backdrop-filter: blur(20px);
+        }
+        .modal-content {
+            background: var(--glass-bg); margin: 3vh auto; padding: 40px;
+            border: 1px solid var(--fire-gold); width: 85%; max-width: 800px;
+            border-radius: 50px; max-height: 90vh; overflow-y: auto; position: relative;
+        }
+        .close { position: absolute; right: 35px; top: 25px; font-size: 2.5rem; cursor: pointer; color: var(--fire-gold); }
+
+        /* 階梯動畫 */
+        .ladder-anim {
+            position: relative; width: 100%; max-width: 400px; margin: 40px auto; padding-left: 60px;
+        }
+        .step {
+            height: 50px; margin: 12px 0; border: 1px solid var(--fire-gold);
+            border-radius: 15px; display: flex; align-items: center; justify-content: center;
+            background: rgba(255,170,0,0.1); font-weight: bold;
+        }
+        .challenger {
+            position: absolute; left: 0; width: 45px; height: 45px;
+            background: var(--fire-gold); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; color: #000;
+            font-weight: 900; animation: climb-ladder 6s infinite ease-in-out;
+            box-shadow: 0 0 20px var(--fire-gold);
+        }
+        @keyframes climb-ladder {
+            0% { bottom: 0; opacity: 1; }
+            25% { bottom: 65px; }
+            50% { bottom: 130px; }
+            75% { bottom: 195px; }
+            90% { bottom: 195px; opacity: 1; }
+            100% { bottom: 195px; opacity: 0; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="fire-flicker"></div>
+
+<div class="main-ui">
+    <div style="text-align:center; margin-bottom: 50px;">
+        <h1 class="main-title">歲歲 33 擂台宴</h1>
+        <p style="color: var(--fire-gold); letter-spacing: 6px; font-weight: bold;">「預賽雙敗制 · 決賽階梯挑戰」</p>
+    </div>
+
+    <div class="panel">
+        <h2 style="color: var(--fire-gold); border-left: 5px solid var(--fire-gold); padding-left: 15px; margin: 0;">⚔️ 暴力輸出池 (DPS Pool)</h2>
+        <div class="pool-grid">
+            <div class="class-card"><div class="class-icon">碎</div><span>碎夢</span></div>
+            <div class="class-card"><div class="class-icon">玄</div><span>玄機</span></div>
+            <div class="class-card"><div class="class-icon">神</div><span>神相</span></div>
+            <div class="class-card"><div class="class-icon">九</div><span>九靈</span></div>
+            <div class="class-card"><div class="class-icon">鐵</div><span>鐵衣</span></div>
+            <div class="class-card"><div class="class-icon">血</div><span>血河</span></div>
+            <div class="class-card"><div class="class-icon">天</div><span>天問(素問)</span></div>
+            <div class="class-card"><div class="class-icon">龍</div><span>龍吟</span></div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h2 style="color: var(--nurse-green); border-left: 5px solid var(--nurse-green); padding-left: 15px; margin: 0;">🌿 核心奶媽池 (1奶 + 2隨機輸出)</h2>
+        <div class="pool-grid" style="grid-template-columns: 1fr 0.5fr 1fr;">
+            <div class="class-card"><div class="class-icon nurse-icon">素</div><span>素問(素心)</span></div>
+            <div style="display:flex; align-items:center; justify-content:center; font-size:2rem; color:var(--fire-gold);">+</div>
+            <div class="class-card"><div class="class-icon">隨</div><span>隨機 2 位 DPS</span></div>
+        </div>
+    </div>
+
+    <div class="panel" style="text-align: center; border-style: dashed;">
+        <h2 style="color: #fff; margin-bottom: 10px;">🏆 賽事詳細解說</h2>
+        <p style="color: #ccc;">點擊展開預賽與決賽動態流程</p>
+        <button class="rule-btn" onclick="openModal()">進入動態解說廳</button>
+    </div>
+
+    <button class="rule-btn" style="padding: 20px 100px; font-size: 1.5rem; margin-top: 20px;">立即報名</button>
+</div>
+
+<div id="ruleModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 style="color: var(--fire-gold); text-align: center;">📜 賽事動態指南</h2>
+
+        <div style="margin-bottom: 50px;">
+            <h3 style="color: var(--fire-gold);">第一階段：預選賽 (雙敗淘汰)</h3>
+            <p>累積 2 勝者晉級決賽圈；累積 2 敗者止步於此。</p>
+            <div style="display:flex; justify-content: space-around; margin-top: 20px;">
+                <div style="text-align:center;">
+                    <div style="color: var(--win-green); margin-bottom: 10px;">晉級路徑</div>
+                    <div style="display:flex; gap: 10px;">
+                        <div style="width:25px; height:25px; border-radius:50%; background:var(--win-green); box-shadow: 0 0 10px var(--win-green);"></div>
+                        <div style="width:25px; height:25px; border-radius:50%; background:var(--win-green); box-shadow: 0 0 10px var(--win-green);"></div>
+                    </div>
+                </div>
+                <div style="text-align:center;">
+                    <div style="color: var(--lose-red); margin-bottom: 10px;">淘汰路徑</div>
+                    <div style="display:flex; gap: 10px;">
+                        <div style="width:25px; height:25px; border-radius:50%; background:var(--lose-red); box-shadow: 0 0 10px var(--lose-red);"></div>
+                        <div style="width:25px; height:25px; border-radius:50%; background:var(--lose-red); box-shadow: 0 0 10px var(--lose-red);"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h3 style="color: var(--fire-gold);">第二階段：決賽圈 (階梯挑戰 BO3)</h3>
+            <p>1 打 1 向上挑戰。贏家繼續打，直到挑戰最終擂台主！</p>
+            <div class="ladder-anim">
+                <div class="challenger">隊</div>
+                <div class="step" style="background: rgba(255,255,255,0.1); border-color: #fff;">🏆 擂台之王 (Finals)</div>
+                <div class="step">第三輪 挑戰位</div>
+                <div class="step">第二輪 挑戰位</div>
+                <div class="step">第一輪 對戰位</div>
+            </div>
+            <p style="text-align: center; color: #aaa; font-size: 0.9rem;">* 每場階梯賽均為 BO3 (三局兩勝)</p>
+        </div>
+
+        <button class="rule-btn" style="width:100%; margin-top:30px;" onclick="closeModal()">我已完全了解</button>
+    </div>
+</div>
+
+<script>
+    function openModal() { document.getElementById("ruleModal").style.display = "block"; }
+    function closeModal() { document.getElementById("ruleModal").style.display = "none"; }
+    window.onclick = function(e) { if (e.target == document.getElementById("ruleModal")) closeModal(); }
+</script>
+
+</body>
+</html>
