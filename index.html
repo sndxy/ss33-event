@@ -7,7 +7,7 @@
     <style>
         :root {
             --fire-gold: #ffaa00;
-            --glass-bg: rgba(10, 5, 5, 0.92);
+            --glass-bg: rgba(10, 5, 5, 0.9);
             --border-glow: rgba(255, 170, 0, 0.6);
             --nurse-green: #a0ffd0;
             --win-green: #2ecc71;
@@ -15,118 +15,109 @@
         }
 
         body, html {
-            margin: 0; padding: 0; height: 100%;
-            font-family: "Microsoft JhengHei", sans-serif;
+            margin: 0; padding: 0; min-height: 100%;
+            font-family: "Microsoft JhengHei", "Heiti TC", sans-serif;
             background-color: #000; color: #fff; overflow-x: hidden;
         }
 
-        /* 🚀 背景：bg.gif (動態火焰) */
+        /* 🚀 全局動態背景 */
         .bg-gif {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), 
-                              url('bg.gif'); 
+                              url('https://sndxy.github.io/ss33-event/bg.gif'); 
             background-size: cover; background-position: center; z-index: -2;
         }
 
         .main-ui {
             display: flex; flex-direction: column; align-items: center;
-            padding: 50px 20px; min-height: 100vh;
+            padding: 40px 20px; min-height: 100vh;
         }
 
         .main-title {
-            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-size: clamp(2.2rem, 7vw, 3.8rem);
             font-weight: 900;
             background: linear-gradient(to bottom, #fff, var(--fire-gold), #ff4500);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 20px rgba(255, 69, 0, 0.8));
-            margin-bottom: 10px; letter-spacing: 12px;
-            text-align: center;
+            filter: drop-shadow(0 0 15px rgba(255, 69, 0, 0.8));
+            margin-bottom: 5px; letter-spacing: 10px; text-align: center;
         }
 
         /* 🚀 倒數計時器 */
         .countdown-container {
             margin-bottom: 30px; text-align: center;
-            background: rgba(0, 0, 0, 0.6); padding: 12px 25px;
+            background: rgba(0, 0, 0, 0.6); padding: 12px 30px;
             border-radius: 30px; border: 1px solid var(--border-glow);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(10px);
         }
-        .countdown-label { font-size: 0.85rem; color: #bbb; margin-bottom: 5px; letter-spacing: 2px; }
+        .countdown-label { font-size: 0.9rem; color: #ccc; margin-bottom: 5px; letter-spacing: 2px; }
         #timer { font-size: 1.8rem; font-weight: bold; color: var(--fire-gold); text-shadow: 0 0 10px var(--fire-gold); }
-        .timer-unit { font-size: 0.75rem; color: #fff; margin: 0 5px; }
+        .timer-unit { font-size: 0.8rem; color: #fff; margin: 0 5px; }
 
-        /* 🏆 極致圓潤面板 */
         .panel {
-            background: var(--glass-bg);
-            backdrop-filter: blur(40px);
-            border-radius: 65px; 
-            border: 2px solid var(--border-glow);
-            width: 100%; max-width: 880px;
-            margin-bottom: 30px; padding: 35px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+            background: var(--glass-bg); backdrop-filter: blur(20px);
+            border-radius: 65px; border: 2px solid var(--border-glow);
+            width: 100%; max-width: 850px;
+            margin-bottom: 25px; padding: 35px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
         }
 
-        /* 🚀 職業圖片：鎖定 55px */
-        .class-icon {
-            width: 55px; height: 55px; border-radius: 50%;
-            border: 2px solid var(--fire-gold);
-            margin: 0 auto 8px;
-            background-size: cover; background-position: center;
-            box-shadow: 0 0 12px var(--border-glow);
-            background-color: #222; position: relative; overflow: hidden;
-        }
-
+        /* 🚀 職業圖標縮小與外框 */
         .pool-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
             gap: 15px; margin-top: 25px; text-align: center;
         }
 
-        /* 🚀 隨機 DPS 滑動框：鎖定 55px */
-        .random-dps-box {
+        .class-icon {
             width: 55px; height: 55px; border-radius: 50%;
-            border: 2px solid var(--fire-gold);
-            overflow: hidden; position: relative; margin: 0 auto 8px;
-            box-shadow: 0 0 12px var(--fire-gold);
+            border: 2px solid var(--fire-gold); margin: 0 auto 8px;
+            background-size: 80%; /* 讓圖片縮小，不佔滿外圈 */
+            background-repeat: no-repeat;
+            background-position: center;
+            box-shadow: 0 0 12px var(--border-glow);
+            background-color: rgba(0,0,0,0.3);
+            transition: 0.3s;
         }
-        .dps-slider { display: flex; flex-direction: column; width: 100%; animation: dpsScroll 4s infinite cubic-bezier(0.45, 0.05, 0.55, 0.95); }
-        .dps-slide-img { width: 55px; height: 55px; flex-shrink: 0; background-size: cover; background-position: center; }
-        
-        @keyframes dpsScroll { 
-            0%, 10% { transform: translateY(0); } 
-            14%, 24% { transform: translateY(-55px); } 
-            28%, 38% { transform: translateY(-110px); } 
-            42%, 52% { transform: translateY(-165px); } 
-            56%, 66% { transform: translateY(-220px); } 
-            70%, 80% { transform: translateY(-275px); } 
-            84%, 94% { transform: translateY(-330px); } 
-            100% { transform: translateY(-385px); } 
-        }
+        .class-icon:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--fire-gold); }
 
         .rule-btn {
             background: linear-gradient(45deg, #8b0000, #ff4500);
-            color: white; padding: 15px 50px; border-radius: 50px;
-            font-size: 1.2rem; font-weight: bold; border: none; cursor: pointer;
-            box-shadow: 0 10px 30px rgba(255, 69, 0, 0.4);
+            color: white; padding: 15px 60px; border-radius: 50px;
+            font-size: 1.3rem; font-weight: bold; border: none; cursor: pointer;
+            box-shadow: 0 8px 25px rgba(255, 69, 0, 0.5); transition: 0.3s;
         }
+        .rule-btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
 
-        /* 彈窗系統 */
+        /* 彈窗 */
         .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); backdrop-filter: blur(15px); }
         .modal-content {
             background: var(--glass-bg);
-            /* 🚀 修正：IMG_2574.png 做為背景 */
-            background-image: linear-gradient(rgba(10,5,5,0.88), rgba(10,5,5,0.98)), 
-                              url('IMG_2574.png'); 
+            background-image: linear-gradient(rgba(10,5,5,0.85), rgba(10,5,5,0.95)), 
+                              url('https://sndxy.github.io/ss33-event/IMG_2574.png'); 
             background-size: cover; background-position: center;
-            margin: 5vh auto; padding: 40px;
-            border: 2px solid var(--fire-gold); width: 85%; max-width: 750px;
-            border-radius: 50px; max-height: 85vh; overflow-y: auto; position: relative;
+            margin: 5vh auto; padding: 40px; border: 2px solid var(--fire-gold);
+            width: 85%; max-width: 750px; border-radius: 50px; max-height: 85vh; overflow-y: auto; position: relative;
         }
         .close { position: absolute; right: 30px; top: 20px; font-size: 2.5rem; cursor: pointer; color: var(--fire-gold); }
-        .example-box { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 25px; margin: 15px 0; border-left: 5px solid var(--fire-gold); }
+
+        /* 🚀 規則動畫說明 */
+        .anim-box { background: rgba(255,255,255,0.05); padding: 25px; border-radius: 30px; margin: 20px 0; border: 1px solid rgba(255,170,0,0.2); }
         
-        .ladder-container { position: relative; width: 100%; max-width: 400px; margin: 30px auto; }
-        .step { height: 50px; margin: 12px 0; border: 1px solid var(--fire-gold); border-radius: 20px; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.4); font-weight: bold; }
-        .challenger-dot { position: absolute; left: -10px; width: 40px; height: 40px; background: var(--fire-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #000; font-weight: 900; animation: climb 6s infinite ease-in-out; }
-        @keyframes climb { 0% { bottom: 0; opacity: 1; } 30% { bottom: 62px; } 60% { bottom: 124px; } 90% { bottom: 186px; opacity: 1; } 100% { bottom: 186px; opacity: 0; } }
+        /* 預賽動畫 */
+        .elimination-anim { display: flex; justify-content: space-around; align-items: center; text-align: center; }
+        .win-light { color: var(--win-green); font-size: 2rem; animation: blink 1s infinite alternate; }
+        .lose-light { color: var(--lose-red); font-size: 2rem; animation: blink 1s infinite alternate-reverse; }
+        @keyframes blink { from { opacity: 0.3; transform: scale(0.9); } to { opacity: 1; transform: scale(1.1); } }
+
+        /* 階梯挑戰動畫 */
+        .ladder-anim { position: relative; height: 150px; width: 200px; margin: 20px auto; border-left: 4px solid var(--fire-gold); border-bottom: 4px solid var(--fire-gold); }
+        .ladder-team { position: absolute; width: 30px; height: 30px; background: var(--fire-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #000; animation: climb 4s infinite linear; }
+        @keyframes climb { 
+            0% { bottom: 0; left: 10px; } 
+            25% { bottom: 40px; left: 10px; } 
+            50% { bottom: 40px; left: 80px; } 
+            75% { bottom: 100px; left: 80px; } 
+            100% { bottom: 100px; left: 150px; } 
+        }
     </style>
 </head>
 <body>
@@ -137,100 +128,79 @@
     <h1 class="main-title">歲歲 33 擂台宴</h1>
 
     <div class="countdown-container">
-        <div class="countdown-label" id="countdown-title">賽事準備中</div>
+        <div class="countdown-label" id="countdown-title">賽事即將開啟</div>
         <div id="timer">00<span class="timer-unit">天</span>00<span class="timer-unit">時</span>00<span class="timer-unit">分</span>00<span class="timer-unit">秒</span></div>
     </div>
 
     <div class="panel">
         <h2 style="color: var(--fire-gold); margin:0; text-align: center;">⚔️ 暴力輸出池 (5/17 21:30)</h2>
         <div class="pool-grid">
-            <div><div class="class-icon" style="background-image: url('assets/4.png');"></div><small>碎夢</small></div>
-            <div><div class="class-icon" style="background-image: url('assets/8.png');"></div><small>玄機</small></div>
-            <div><div class="class-icon" style="background-image: url('assets/5.png');"></div><small>神相</small></div>
-            <div><div class="class-icon" style="background-image: url('assets/2.png');"></div><small>九靈</small></div>
-            <div><div class="class-icon" style="background-image: url('assets/3.png');"></div><small>鐵衣</small></div>
-            <div><div class="class-icon" style="background-image: url('assets/6.png');"></div><small>血河</small></div>
-            <div><div class="class-icon" style="background-image: url('assets/7.png');"></div><small>龍吟</small></div>
-            <div><div class="class-icon" style="background-image: url('assets/1.png');"></div><small>天問</small></div>
+            <div><div class="class-icon" style="background-image: url('https://sndxy.github.io/ss33-event/assets/4.png');"></div><small>碎夢</small></div>
+            <div><div class="class-icon" style="background-image: url('https://sndxy.github.io/ss33-event/assets/8.png');"></div><small>玄機</small></div>
+            <div><div class="class-icon" style="background-image: url('https://sndxy.github.io/ss33-event/assets/5.png');"></div><small>神相</small></div>
+            <div><div class="class-icon" style="background-image: url('https://sndxy.github.io/ss33-event/assets/2.png');"></div><small>九靈</small></div>
+            <div><div class="class-icon" style="background-image: url('https://sndxy.github.io/ss33-event/assets/3.png');"></div><small>鐵衣</small></div>
+            <div><div class="class-icon" style="background-image: url('https://sndxy.github.io/ss33-event/assets/6.png');"></div><small>血河</small></div>
+            <div><div class="class-icon" style="background-image: url('https://sndxy.github.io/ss33-event/assets/7.png');"></div><small>龍吟</small></div>
+            <div><div class="class-icon" style="background-image: url('https://sndxy.github.io/ss33-event/assets/1.png');"></div><small>天問</small></div>
         </div>
     </div>
 
     <div class="panel" style="border-color: var(--nurse-green);">
         <h2 style="color: var(--nurse-green); margin:0; text-align: center;">🌿 核心奶媽池 (5/16 21:30)</h2>
-        <div style="display: flex; justify-content: center; align-items: center; gap: 30px; margin-top: 25px;">
+        <div style="display: flex; justify-content: center; align-items: center; gap: 40px; margin-top: 25px;">
             <div style="text-align:center;">
-                <div class="class-icon" style="border-color: var(--nurse-green); background-image: url('assets/1.png');"></div>
+                <div class="class-icon" style="border-color: var(--nurse-green); background-image: url('https://sndxy.github.io/ss33-event/assets/1.png');"></div>
                 <small>素問(素心)</small>
             </div>
-            <div style="font-size: 2.5rem; color: var(--fire-gold);">+</div>
+            <div style="font-size: 3rem; color: var(--fire-gold);">+</div>
             <div style="text-align:center;">
-                <div class="random-dps-box">
-                    <div class="dps-slider">
-                        <div class="dps-slide-img" style="background-image: url('assets/4.png');"></div>
-                        <div class="dps-slide-img" style="background-image: url('assets/8.png');"></div>
-                        <div class="dps-slide-img" style="background-image: url('assets/5.png');"></div>
-                        <div class="dps-slide-img" style="background-image: url('assets/2.png');"></div>
-                        <div class="dps-slide-img" style="background-image: url('assets/3.png');"></div>
-                        <div class="dps-slide-img" style="background-image: url('assets/6.png');"></div>
-                        <div class="dps-slide-img" style="background-image: url('assets/7.png');"></div>
-                        <div class="dps-slide-img" style="background-image: url('assets/4.png');"></div>
-                    </div>
-                </div>
-                <small>隨機 DPS</small>
-            </div>
-            <div style="text-align:center;">
-                <div class="random-dps-box">
-                    <div class="dps-slider" style="animation-delay: -2s;">
-                        <div class="dps-slide-img" style="background-image: url('assets/5.png');"></div>
-                        <div class="dps-slide-img" style="background-image: url('assets/2.png');"></div>
-                        <div class="dps-slide-img" style="background-image: url('assets/7.png');"></div>
-                        <div class="dps-slide-img" style="background-image: url('assets/4.png');"></div>
-                        <div class="dps-slide-img" style="background-image: url('assets/8.png');"></div>
-                        <div class="dps-slide-img" style="background-image: url('assets/6.png');"></div>
-                        <div class="dps-slide-img" style="background-image: url('assets/3.png');"></div>
-                        <div class="dps-slide-img" style="background-image: url('assets/5.png');"></div>
-                    </div>
-                </div>
-                <small>隨機 DPS</small>
+                <div class="class-icon" style="display:flex; align-items:center; justify-content:center; font-size:1.5rem; color:var(--fire-gold);">隨</div>
+                <small>隨機 2 輸出</small>
             </div>
         </div>
     </div>
 
     <div class="panel" style="text-align: center; border-style: dashed;">
-        <h2 style="color: var(--fire-gold);">📜 比賽詳情與注意事項</h2>
-        <button class="rule-btn" onclick="openModal()">查看詳細規程與範例</button>
+        <h2 style="color: var(--fire-gold); margin-bottom: 10px;">📜 賽事說明與注意事項</h2>
+        <p style="color: #bbb;">本賽事採取 <b>歲歲 DC 活動報名處</b> 進行登記</p>
+        <button class="rule-btn" onclick="openModal()">查看詳細規程與動畫演示</button>
     </div>
-
-    <button class="rule-btn" style="padding: 20px 100px; font-size: 1.5rem; margin-top: 10px;">立即報名參賽</button>
 </div>
 
 <div id="ruleModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
-        <h2 style="color: var(--fire-gold); text-align: center;">📜 詳細規程與範例</h2>
-        <h3>一、 預賽阶段 (雙敗淘汰)</h3>
-        <p>所有隊伍進行預選，爭奪晉級資格。</p>
-        <div class="example-box">
-            - <strong>雙勝晉級</strong>：兩勝直接晉級決賽。<br>
-            - <strong>雙敗淘汰</strong>：兩敗則遺憾出局。
+        <h2 style="color: var(--fire-gold); text-align: center; border-bottom: 2px solid var(--fire-gold); padding-bottom: 10px;">🏆 賽事詳細規程</h2>
+        
+        <h3>一、 預賽階段：雙敗淘汰制</h3>
+        <p>所有隊伍進行初步對決。只要累積「兩場勝利」即晉級；累積「兩場失敗」則遺憾淘汰。</p>
+        <div class="anim-box elimination-anim">
+            <div><div class="win-light">● ●</div><div style="color:var(--win-green); font-weight:bold;">兩勝 ➔ 晉級</div></div>
+            <div><div class="lose-light">● ●</div><div style="color:var(--lose-red); font-weight:bold;">兩敗 ➔ 淘汰</div></div>
         </div>
-        <h3>二、 決賽阶段 (階梯挑戰 BO3)</h3>
-        <div class="ladder-container">
-            <div class="challenger-dot">隊</div>
-            <div class="step" style="border-color:#fff;">🏆 最終擂台主 (Finals)</div>
-            <div class="step">第三挑戰位</div>
-            <div class="step">第二挑戰位</div>
-            <div class="step">第一挑戰位</div>
+
+        <h3>二、 決賽階段：階梯挑戰 (BO3)</h3>
+        <p>晉級隊伍根據預賽表現排列序位。由低序位開始，逐層向上挑戰高序位隊伍。</p>
+        <div class="anim-box">
+            <div class="ladder-anim">
+                <div class="ladder-team">隊</div>
+                <div style="position:absolute; top:10px; right:10px; color:#fff; font-weight:bold;">🏆 最終擂台主</div>
+            </div>
+            <p style="text-align:center; font-size:0.9rem; color:#ccc;">贏家晉級下一層挑戰，輸家止步當前排名。</p>
         </div>
-        <button class="rule-btn" style="width:100%; margin-top:20px;" onclick="closeModal()">了解完畢</button>
+
+        <button class="rule-btn" style="width:100%;" onclick="closeModal()">我已了解規則</button>
     </div>
 </div>
 
 <script>
+    // 🚀 倒數計時器邏輯
     const events = [
         { name: "5/16 奶池賽倒數", time: new Date("May 16, 2026 21:30:00").getTime() },
         { name: "5/17 DPS池賽倒數", time: new Date("May 17, 2026 21:30:00").getTime() }
     ];
+
     function updateCountdown() {
         const now = new Date().getTime();
         let target = null;
@@ -247,8 +217,11 @@
         timerDisplay.innerHTML = d.toString().padStart(2,'0')+'<span class="timer-unit">天</span>'+h.toString().padStart(2,'0')+'<span class="timer-unit">時</span>'+m.toString().padStart(2,'0')+'<span class="timer-unit">分</span>'+s.toString().padStart(2,'0')+'<span class="timer-unit">秒</span>';
     }
     setInterval(updateCountdown, 1000); updateCountdown();
+
+    // 彈窗邏輯
     function openModal() { document.getElementById("ruleModal").style.display = "block"; }
     function closeModal() { document.getElementById("ruleModal").style.display = "none"; }
+    window.onclick = function(e) { if (e.target == document.getElementById("ruleModal")) closeModal(); }
 </script>
 
 </body>
