@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>歲歲 33 擂台宴 - 賽事官網</title>
+    <title>歲歲 33 擂台宴 - 官方賽事網頁</title>
     <style>
         :root {
             --fire-gold: #ffaa00;
-            --blood-red: #8b0000;
-            --glass-bg: rgba(15, 5, 5, 0.92);
-            --border-glow: rgba(255, 170, 0, 0.5);
+            --glass-bg: rgba(10, 5, 5, 0.9);
+            --border-glow: rgba(255, 170, 0, 0.6);
             --nurse-green: #a0ffd0;
             --win-green: #2ecc71;
             --lose-red: #e74c3c;
@@ -18,225 +17,172 @@
         body, html {
             margin: 0; padding: 0; height: 100%;
             font-family: "Microsoft JhengHei", sans-serif;
-            background-color: #050000; color: #fff; overflow-x: hidden;
+            background-color: #000; color: #fff; overflow-x: hidden;
         }
 
-        /* 模擬 GIF 的動態背景 */
-        .bg {
+        /* 🚀 讀取你上傳的 bg.gif */
+        .bg-video {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)),
-                        url('https://images.unsplash.com/photo-1614850523296-d8c1af93d400?q=80&w=2000');
-            background-size: cover; background-position: center; z-index: -1;
-            filter: saturate(1.5) brightness(0.3);
+            background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), 
+                              url('bg.gif'); 
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
         }
-
-        .fire-flicker {
-            position: fixed; top:0; left:0; width:100%; height:100%;
-            box-shadow: inset 0 0 120px rgba(139,0,0,0.6);
-            pointer-events: none; animation: flicker-anim 2s infinite alternate;
-        }
-        @keyframes flicker-anim { 0% { opacity: 0.3; } 100% { opacity: 0.7; } }
 
         .main-ui {
             display: flex; flex-direction: column; align-items: center;
-            padding: 60px 20px; min-height: 100vh;
+            padding: 50px 20px;
         }
 
         .main-title {
-            font-size: clamp(2.2rem, 7vw, 4rem);
+            font-size: clamp(2.5rem, 8vw, 4rem);
             font-weight: 900;
             background: linear-gradient(to bottom, #fff, var(--fire-gold), #ff4500);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 0 20px rgba(255, 69, 0, 0.8));
-            margin: 0; letter-spacing: 12px;
+            margin: 0 0 30px 0; letter-spacing: 12px;
             text-align: center;
         }
 
-        /* 圓潤面板樣式 */
+        /* 🏆 參考 IMG_2574 的極致圓潤面板 */
         .panel {
             background: var(--glass-bg);
-            backdrop-filter: blur(35px);
-            border-radius: 45px; 
-            border: 1px solid var(--border-glow);
+            backdrop-filter: blur(40px);
+            border-radius: 65px; 
+            border: 2px solid var(--border-glow);
             width: 100%; max-width: 900px;
             margin-bottom: 30px; padding: 35px;
-            box-shadow: 0 20px 60px rgba(0,0,0,1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
             transition: 0.3s ease;
         }
-        .panel:hover { transform: translateY(-5px); border-color: var(--fire-gold); }
 
-        /* 職業圖標網格 */
         .pool-grid {
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
-            gap: 20px; margin-top: 20px; text-align: center;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 20px; margin-top: 25px; text-align: center;
         }
 
-        .class-card {
-            display: flex; flex-direction: column; align-items: center;
-        }
-
+        /* 職業圖片圓框 */
         .class-icon {
-            width: 70px; height: 70px; border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid var(--fire-gold);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; font-weight: bold; color: var(--fire-gold);
+            width: 80px; height: 80px; border-radius: 50%;
+            border: 3px solid var(--fire-gold);
+            margin: 0 auto 8px;
+            background-size: cover;
+            background-position: center;
             box-shadow: 0 0 15px var(--border-glow);
-            margin-bottom: 8px;
-            position: relative; overflow: hidden;
+            background-color: #222;
+            position: relative;
         }
 
+        /* 呼吸光效 */
         .class-icon::after {
             content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
             background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-            transform: rotate(45deg); animation: shine 3s infinite;
+            transform: rotate(45deg); animation: shine 4s infinite;
         }
         @keyframes shine { 0% { left: -150%; } 100% { left: 150%; } }
 
-        .nurse-icon { border-color: var(--nurse-green); color: var(--nurse-green); box-shadow: 0 0 15px var(--nurse-green); }
-
-        /* 動態說明區域 */
-        .rule-btn {
-            background: linear-gradient(45deg, #8b0000, #ff4500);
-            color: white; padding: 15px 50px; border-radius: 50px;
-            border: none; font-size: 1.2rem; font-weight: bold;
-            cursor: pointer; box-shadow: 0 5px 20px rgba(255,69,0,0.4);
-            transition: 0.3s; margin-top: 10px;
-        }
-        .rule-btn:hover { transform: scale(1.05); box-shadow: 0 5px 30px rgba(255,69,0,0.7); }
-
-        /* 彈窗 */
-        .modal {
-            display: none; position: fixed; z-index: 100;
-            left: 0; top: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.96); backdrop-filter: blur(20px);
-        }
-        .modal-content {
-            background: var(--glass-bg); margin: 3vh auto; padding: 40px;
-            border: 1px solid var(--fire-gold); width: 85%; max-width: 800px;
-            border-radius: 50px; max-height: 90vh; overflow-y: auto; position: relative;
-        }
-        .close { position: absolute; right: 35px; top: 25px; font-size: 2.5rem; cursor: pointer; color: var(--fire-gold); }
-
         /* 階梯動畫 */
-        .ladder-anim {
-            position: relative; width: 100%; max-width: 400px; margin: 40px auto; padding-left: 60px;
+        .ladder-container {
+            position: relative; width: 100%; max-width: 400px; margin: 30px auto;
         }
         .step {
             height: 50px; margin: 12px 0; border: 1px solid var(--fire-gold);
-            border-radius: 15px; display: flex; align-items: center; justify-content: center;
-            background: rgba(255,170,0,0.1); font-weight: bold;
+            border-radius: 20px; display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(to right, rgba(255,170,0,0.1), rgba(0,0,0,0.4));
+            font-weight: bold;
         }
-        .challenger {
-            position: absolute; left: 0; width: 45px; height: 45px;
+        .challenger-dot {
+            position: absolute; left: -10px; width: 40px; height: 40px;
             background: var(--fire-gold); border-radius: 50%;
             display: flex; align-items: center; justify-content: center; color: #000;
-            font-weight: 900; animation: climb-ladder 6s infinite ease-in-out;
-            box-shadow: 0 0 20px var(--fire-gold);
+            font-weight: 900; box-shadow: 0 0 15px var(--fire-gold);
+            animation: climb 6s infinite ease-in-out;
         }
-        @keyframes climb-ladder {
+        @keyframes climb {
             0% { bottom: 0; opacity: 1; }
-            25% { bottom: 65px; }
-            50% { bottom: 130px; }
-            75% { bottom: 195px; }
-            90% { bottom: 195px; opacity: 1; }
-            100% { bottom: 195px; opacity: 0; }
+            30% { bottom: 62px; }
+            60% { bottom: 124px; }
+            90% { bottom: 186px; opacity: 1; }
+            100% { bottom: 186px; opacity: 0; }
         }
 
+        .cta-btn {
+            background: linear-gradient(45deg, #b22222, #ff4500);
+            color: white; padding: 18px 70px; border-radius: 50px;
+            font-size: 1.4rem; font-weight: bold; border: none; cursor: pointer;
+            box-shadow: 0 10px 30px rgba(255, 69, 0, 0.5);
+            transition: 0.3s;
+        }
+        .cta-btn:hover { transform: scale(1.05); filter: brightness(1.2); }
     </style>
 </head>
 <body>
 
-<div class="bg"></div>
-<div class="fire-flicker"></div>
+<div class="bg-video"></div>
 
 <div class="main-ui">
-    <div style="text-align:center; margin-bottom: 50px;">
-        <h1 class="main-title">歲歲 33 擂台宴</h1>
-        <p style="color: var(--fire-gold); letter-spacing: 6px; font-weight: bold;">「預賽雙敗制 · 決賽階梯挑戰」</p>
-    </div>
+    <h1 class="main-title">歲歲 33 擂台宴</h1>
 
     <div class="panel">
-        <h2 style="color: var(--fire-gold); border-left: 5px solid var(--fire-gold); padding-left: 15px; margin: 0;">⚔️ 暴力輸出池 (DPS Pool)</h2>
+        <h2 style="color: var(--fire-gold); margin:0; text-align: center;">⚔️ 暴力輸出池</h2>
         <div class="pool-grid">
-            <div class="class-card"><div class="class-icon">碎</div><span>碎夢</span></div>
-            <div class="class-card"><div class="class-icon">玄</div><span>玄機</span></div>
-            <div class="class-card"><div class="class-icon">神</div><span>神相</span></div>
-            <div class="class-card"><div class="class-icon">九</div><span>九靈</span></div>
-            <div class="class-card"><div class="class-icon">鐵</div><span>鐵衣</span></div>
-            <div class="class-card"><div class="class-icon">血</div><span>血河</span></div>
-            <div class="class-card"><div class="class-icon">天</div><span>天問(素問)</span></div>
-            <div class="class-card"><div class="class-icon">龍</div><span>龍吟</span></div>
+            <div><div class="class-icon" style="background-image: url('4.jpg');"></div>碎夢</div>
+            <div><div class="class-icon" style="background-image: url('8.jpg');"></div>玄機</div>
+            <div><div class="class-icon" style="background-image: url('5.jpg');"></div>神相</div>
+            <div><div class="class-icon" style="background-image: url('2.jpg');"></div>九靈</div>
+            <div><div class="class-icon" style="background-image: url('3.jpg');"></div>鐵衣</div>
+            <div><div class="class-icon" style="background-image: url('6.jpg');"></div>血河</div>
+            <div><div class="class-icon" style="background-image: url('7.jpg');"></div>龍吟</div>
+            <div><div class="class-icon" style="background-image: url('1.jpg');"></div>天問</div>
+        </div>
+    </div>
+
+    <div class="panel" style="border-color: var(--nurse-green);">
+        <h2 style="color: var(--nurse-green); margin:0; text-align: center;">🌿 核心奶媽池</h2>
+        <div style="display: flex; justify-content: center; align-items: center; gap: 40px; margin-top: 25px;">
+            <div style="text-align:center;">
+                <div class="class-icon" style="border-color: var(--nurse-green); background-image: url('1.jpg');"></div>
+                素問(素心)
+            </div>
+            <div style="font-size: 2.5rem; color: var(--fire-gold);">+</div>
+            <div style="text-align:center;">
+                <div class="class-icon" style="display:flex; align-items:center; justify-content:center; font-size:1.5rem;">隨</div>
+                隨機 2 輸出
+            </div>
         </div>
     </div>
 
     <div class="panel">
-        <h2 style="color: var(--nurse-green); border-left: 5px solid var(--nurse-green); padding-left: 15px; margin: 0;">🌿 核心奶媽池 (1奶 + 2隨機輸出)</h2>
-        <div class="pool-grid" style="grid-template-columns: 1fr 0.5fr 1fr;">
-            <div class="class-card"><div class="class-icon nurse-icon">素</div><span>素問(素心)</span></div>
-            <div style="display:flex; align-items:center; justify-content:center; font-size:2rem; color:var(--fire-gold);">+</div>
-            <div class="class-card"><div class="class-icon">隨</div><span>隨機 2 位 DPS</span></div>
-        </div>
-    </div>
-
-    <div class="panel" style="text-align: center; border-style: dashed;">
-        <h2 style="color: #fff; margin-bottom: 10px;">🏆 賽事詳細解說</h2>
-        <p style="color: #ccc;">點擊展開預賽與決賽動態流程</p>
-        <button class="rule-btn" onclick="openModal()">進入動態解說廳</button>
-    </div>
-
-    <button class="rule-btn" style="padding: 20px 100px; font-size: 1.5rem; margin-top: 20px;">立即報名</button>
-</div>
-
-<div id="ruleModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h2 style="color: var(--fire-gold); text-align: center;">📜 賽事動態指南</h2>
-
-        <div style="margin-bottom: 50px;">
-            <h3 style="color: var(--fire-gold);">第一階段：預選賽 (雙敗淘汰)</h3>
-            <p>累積 2 勝者晉級決賽圈；累積 2 敗者止步於此。</p>
-            <div style="display:flex; justify-content: space-around; margin-top: 20px;">
-                <div style="text-align:center;">
-                    <div style="color: var(--win-green); margin-bottom: 10px;">晉級路徑</div>
-                    <div style="display:flex; gap: 10px;">
-                        <div style="width:25px; height:25px; border-radius:50%; background:var(--win-green); box-shadow: 0 0 10px var(--win-green);"></div>
-                        <div style="width:25px; height:25px; border-radius:50%; background:var(--win-green); box-shadow: 0 0 10px var(--win-green);"></div>
-                    </div>
+        <h2 style="color: var(--fire-gold); text-align: center; margin-top: 0;">🏆 賽事流程說明</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px;">
+            <div>
+                <h3>1. 預賽：雙敗淘汰</h3>
+                <p>兩勝晉級決賽圈，兩敗則遺憾淘汰。</p>
+                <div style="display: flex; align-items: center; gap: 15px; margin: 15px 0;">
+                    <div style="width:25px; height:25px; background:var(--win-green); border-radius:50%; box-shadow: 0 0 15px var(--win-green);"></div>
+                    <div style="width:25px; height:25px; background:var(--win-green); border-radius:50%; box-shadow: 0 0 15px var(--win-green);"></div>
+                    <span style="color:var(--win-green); font-weight:bold;">勝勝 ➔ 晉級</span>
                 </div>
-                <div style="text-align:center;">
-                    <div style="color: var(--lose-red); margin-bottom: 10px;">淘汰路徑</div>
-                    <div style="display:flex; gap: 10px;">
-                        <div style="width:25px; height:25px; border-radius:50%; background:var(--lose-red); box-shadow: 0 0 10px var(--lose-red);"></div>
-                        <div style="width:25px; height:25px; border-radius:50%; background:var(--lose-red); box-shadow: 0 0 10px var(--lose-red);"></div>
-                    </div>
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div style="width:25px; height:25px; background:var(--lose-red); border-radius:50%; box-shadow: 0 0 15px var(--lose-red);"></div>
+                    <div style="width:25px; height:25px; background:var(--lose-red); border-radius:50%; box-shadow: 0 0 15px var(--lose-red);"></div>
+                    <span style="color:var(--lose-red); font-weight:bold;">敗敗 ➔ 淘汰</span>
                 </div>
             </div>
-        </div>
-
-        <div>
-            <h3 style="color: var(--fire-gold);">第二階段：決賽圈 (階梯挑戰 BO3)</h3>
-            <p>1 打 1 向上挑戰。贏家繼續打，直到挑戰最終擂台主！</p>
-            <div class="ladder-anim">
-                <div class="challenger">隊</div>
-                <div class="step" style="background: rgba(255,255,255,0.1); border-color: #fff;">🏆 擂台之王 (Finals)</div>
-                <div class="step">第三輪 挑戰位</div>
-                <div class="step">第二輪 挑戰位</div>
-                <div class="step">第一輪 對戰位</div>
+            <div class="ladder-container">
+                <div class="challenger-dot">隊</div>
+                <div class="step" style="border-color:#fff; box-shadow: 0 0 15px #fff;">🏆 最終擂台主 (決賽)</div>
+                <div class="step">第三挑戰位 (BO3)</div>
+                <div class="step">第二挑戰位 (BO3)</div>
+                <div class="step">第一挑戰位 (BO3)</div>
             </div>
-            <p style="text-align: center; color: #aaa; font-size: 0.9rem;">* 每場階梯賽均為 BO3 (三局兩勝)</p>
         </div>
-
-        <button class="rule-btn" style="width:100%; margin-top:30px;" onclick="closeModal()">我已完全了解</button>
     </div>
-</div>
 
-<script>
-    function openModal() { document.getElementById("ruleModal").style.display = "block"; }
-    function closeModal() { document.getElementById("ruleModal").style.display = "none"; }
-    window.onclick = function(e) { if (e.target == document.getElementById("ruleModal")) closeModal(); }
-</script>
+    <button class="cta-btn" onclick="window.location.href='這裡放你的Discord或報名連結'">立即前往報名</button>
+</div>
 
 </body>
 </html>
