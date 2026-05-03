@@ -16,23 +16,19 @@
 
         /* 🚀 競技風背景設計 */
         body, html {
-                margin: 0; padding: 0; min-height: 100%;
-                font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
-                color: #fff;
+    margin: 0; padding: 0; min-height: 100%;
+    font-family: "Microsoft JhengHei", sans-serif;
+    color: #fff;
     
-    /* 1. 設定背景圖路徑 */
-                background-image: 
-        /* 這層是「遮罩」，讓圖片變暗，前面的字才看得清楚 */
-                linear-gradient(rgba(6, 9, 15, 0.85), rgba(6, 9, 15, 0.85)), 
-                url('BG.png'); /* <--- 這裡改你的檔名 */
+    /* 🚀 讓圖變顯眼：只加 30% 的暗化，圖片會非常清楚 */
+    background-image: 
+        linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+        url('BG.png'); 
 
-    /* 2. 背景圖不重複，且固定住不動（更有質感） */
-                background-attachment: fixed;
-                background-repeat: no-repeat;
-
-    /* 3. 強制圖片填滿整個網頁，不留白 */
-                background-size: cover;
-                background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 
         .main-container {
@@ -42,12 +38,17 @@
         /* 標題設計 */
         .header-section { text-align: center; margin-bottom: 40px; }
         .main-title {
-            font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 900;
-            background: linear-gradient(to bottom, #fff, var(--primary-cyan));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(0, 242, 255, 0.5);
-            margin: 0; letter-spacing: 15px;
-        }
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    font-weight: 900;
+    background: linear-gradient(to bottom, #fff, var(--primary-cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    /* 🚀 增加文字投影，確保背景圖再顯眼也不會蓋掉標題 */
+    filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.9)) 
+            drop-shadow(0 0 30px rgba(0, 242, 255, 0.6));
+    margin: 0; letter-spacing: 15px;
+}
 
         /* ⏳ 電磁感倒數計時 */
         .countdown-wrap { display: flex; gap: 15px; margin-top: 20px; }
@@ -61,10 +62,17 @@
 
         /* 面板設計 */
         .panel {
-            background: var(--panel-bg); border-radius: 20px; border: 1px solid rgba(0, 242, 255, 0.2);
-            width: 100%; max-width: 900px; margin-bottom: 30px; padding: 30px;
-            position: relative; backdrop-filter: blur(10px);
-        }
+    /* 🚀 加深面板底色，這樣背景圖再亮，字也是清楚的 */
+    background: rgba(6, 9, 15, 0.92); 
+    border-radius: 20px;
+    /* 🚀 強化發光邊框，增加競技感 */
+    border: 2px solid var(--primary-cyan);
+    box-shadow: 0 0 25px rgba(0, 242, 255, 0.4);
+    
+    width: 100%; max-width: 900px;
+    margin-bottom: 30px; padding: 30px;
+    position: relative;
+}
         .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
         .panel-title { font-size: 1.5rem; font-weight: bold; color: var(--primary-cyan); margin: 0; }
         .match-time { background: var(--secondary-purple); padding: 5px 15px; border-radius: 5px; font-size: 0.9rem; font-weight: bold; }
