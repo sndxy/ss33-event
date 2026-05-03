@@ -4,12 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>歲歲 33 擂台宴 - 競技官網</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --primary-cyan: #00f2ff;
             --secondary-purple: #bc13fe;
             --bg-dark: #06090f;
-            --panel-bg: rgba(6, 9, 15, 0.5);
+            /* 調整面板透明度為 0.25，讓背景圖更清晰 */
+            --panel-bg: rgba(6, 9, 15, 0.25); 
             --win-green: #00ff88;
             --lose-red: #ff0055;
         }
@@ -20,7 +24,7 @@
             font-family: "Microsoft JhengHei", sans-serif;
             color: #fff;
             background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
                 url('BG.png'); 
             background-attachment: fixed;
             background-repeat: no-repeat;
@@ -34,98 +38,80 @@
             padding: 20px 15px; box-sizing: border-box;
         }
 
-        /* 🚀 標題與倒數 */
+        /* 🚀 燃燒標題設計 (馬善政毛筆體) */
         .header-section { text-align: center; margin-bottom: 30px; width: 100%; }
-        .countdown-title { color: var(--primary-cyan); font-weight: bold; letter-spacing: 5px; margin-bottom: 8px; font-size: 1.1rem; text-shadow: 0 0 10px var(--primary-cyan); }
-        /* 🚀 燃燒武俠標題核心樣式 */
-.main-title {
-    /* 1. 基礎設定：建議使用較粗的字體檔以強化燃燒效果 */
-    font-size: clamp(2.5rem, 8vw, 4.5rem);
-    font-weight: 900;
-    margin: 0;
-    letter-spacing: 15px;
-    position: relative; /* 為動畫偽元素定位 */
-    display: inline-block;
-    color: transparent; /* 隱藏原本文字顏色，改用漸層底色 */
+        
+        .countdown-title { 
+            color: var(--primary-cyan); font-weight: bold; letter-spacing: 5px; 
+            margin-bottom: 8px; font-size: 1.1rem; text-shadow: 0 0 10px var(--primary-cyan); 
+        }
 
-    /* 2. 黑紅漸層文字主體 */
-    background-image: linear-gradient(
-        to bottom,
-        #000000 0%,    /* 頂部純黑 */
-        #440000 30%,   /* 深紅 */
-        #ff0000 70%,   /* 正紅 */
-        #ff4500 100%   /* 底部帶點橙紅，模擬火根 */
-    );
-    -webkit-background-clip: text; /* 將漸層套用到文字上 */
-    background-clip: text;
+        .main-title {
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: clamp(3.5rem, 15vw, 6rem); 
+            margin: 10px 0;
+            letter-spacing: 5px;
+            position: relative;
+            display: inline-block;
+            color: transparent;
+            /* 黑紅漸層文字 */
+            background-image: linear-gradient(
+                to bottom,
+                #000000 0%,
+                #660000 40%,
+                #cc0000 70%,
+                #ff4500 100%
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            /* 火焰氛圍發光 */
+            filter: 
+                drop-shadow(0 0 8px rgba(255, 69, 0, 0.9))
+                drop-shadow(0 0 20px rgba(255, 0, 0, 0.6))
+                drop-shadow(0 0 45px rgba(255, 140, 0, 0.4));
+        }
 
-    /* 3. 核心火焰發光 (Drop-Shadow)：關鍵在於多層次與顏色疊加 */
-    /* 這裡使用 drop-shadow 是為了讓發光能順著漸層文字的形狀 */
-    filter: 
-        drop-shadow(0 0 5px rgba(255, 69, 0, 0.8))   /* 橙色內焰 */
-        drop-shadow(0 0 15px rgba(255, 0, 0, 0.6))  /* 紅色中焰 */
-        drop-shadow(0 0 30px rgba(255, 165, 0, 0.4)); /* 橙黃外焰，增加亮度 */
-}
+        /* 標題燃燒動畫遮罩 */
+        .main-title::after {
+            content: "歲歲 33 擂台宴";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            color: transparent;
+            background-image: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.6) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            mix-blend-mode: screen; 
+            animation: fire-burn 2s ease-in-out infinite alternate;
+            filter: blur(1.5px);
+        }
 
-/* 4. 動態燃燒與閃爍效果 (利用偽元素和遮罩) */
-.main-title::after {
-    content: "歲歲 33 擂台宴"; /* 必須與原本文字完全相同 */
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    color: transparent;
-    
-    /* 建立一個會晃動的漸層遮罩，模擬熱氣與火焰晃動 */
-    background-image: linear-gradient(
-        to bottom,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.8) 50%,
-        rgba(255, 255, 255, 0) 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    
-    /* 套用混合模式，讓遮罩亮部強化文字亮度 */
-    mix-mode: screen; 
-    
-    /* 套用動畫 */
-    animation: fire-burn 1.5s ease-in-out infinite alternate;
-    
-    /* 稍微模糊一點，增加真實感 */
-    filter: blur(1px);
-}
+        @keyframes fire-burn {
+            0% { transform: translate(0, 0) skewX(0deg) scale(1); opacity: 0.7; filter: blur(1px) drop-shadow(0 0 15px rgba(255, 69, 0, 0.5)); }
+            50% { transform: translate(-2px, -3px) skewX(-1deg) scale(1.02); opacity: 0.9; }
+            100% { transform: translate(2px, -5px) skewX(1deg) scale(1.05); opacity: 1; filter: blur(2px) drop-shadow(0 0 35px rgba(255, 165, 0, 0.8)); }
+        }
 
-/* 🚀 火焰燃燒動畫定義 */
-@keyframes fire-burn {
-    0% {
-        transform: translate(0, 0) scale(1);
-        opacity: 0.7;
-        /* 初始發光強度 */
-        filter: blur(1px) drop-shadow(0 0 20px rgba(255, 69, 0, 0.6));
-    }
-    30% {
-        /* 稍微往上偏移並晃動，模擬火焰上升 */
-        transform: translate(-1px, -2px) scale(1.01);
-        opacity: 0.9;
-    }
-    60% {
-        transform: translate(1px, -1px) scale(0.99);
-        opacity: 0.8;
-    }
-    100% {
-        /* 動態強化發光，模擬火焰閃爍 */
-        transform: translate(0, -3px) scale(1.02);
-        opacity: 1;
-        filter: blur(1.5px) drop-shadow(0 0 40px rgba(255, 165, 0, 0.8));
-    }
-}
+        /* ⏳ 倒數計時 */
         .countdown-wrap { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
-        .time-box { background: rgba(22, 27, 34, 0.8); border: 2px solid var(--primary-cyan); padding: 10px; border-radius: 12px; min-width: 65px; text-align: center; box-shadow: 0 0 15px rgba(0, 242, 255, 0.3); }
+        .time-box { background: rgba(22, 27, 34, 0.8); border: 2px solid var(--primary-cyan); padding: 10px; border-radius: 12px; min-width: 65px; text-align: center; }
         .time-num { font-size: 1.8rem; font-weight: 900; color: var(--primary-cyan); display: block; line-height: 1; }
         .time-label { font-size: 0.6rem; color: #aaa; text-transform: uppercase; margin-top: 4px; display: block; }
 
-        /* 🚀 面板設計 */
-        .panel { background: var(--panel-bg); border-radius: 20px; border: 2px solid var(--primary-cyan); box-shadow: 0 0 20px rgba(0, 242, 255, 0.3); width: 100%; max-width: 900px; margin-bottom: 25px; padding: 20px; box-sizing: border-box; }
+        /* 🚀 面板設計 (半透明背景) */
+        .panel { 
+            background: var(--panel-bg); 
+            border-radius: 20px; 
+            border: 2px solid var(--primary-cyan); 
+            backdrop-filter: blur(5px); /* 加入磨砂玻璃效果，看背景更具質感 */
+            width: 100%; max-width: 900px; 
+            margin-bottom: 25px; padding: 20px; 
+            box-sizing: border-box; 
+        }
         .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; flex-wrap: wrap; gap: 10px; }
         .panel-title { font-size: 1.3rem; font-weight: bold; color: var(--primary-cyan); margin: 0; }
         .match-time { background: var(--secondary-purple); padding: 5px 12px; border-radius: 5px; font-size: 0.8rem; font-weight: bold; }
@@ -148,28 +134,26 @@
         .btn { padding: 15px 30px; border-radius: 5px; font-weight: bold; cursor: pointer; border: none; font-size: 1rem; width: 100%; max-width: 300px; transition: 0.3s; }
         .btn-outline { background: transparent; color: #fff; border: 1px solid #444; }
         .btn-primary { background: var(--primary-cyan); color: #000; box-shadow: 0 0 15px rgba(0, 242, 255, 0.4); }
-        .btn:hover { transform: scale(1.05); filter: brightness(1.2); }
 
         .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); overflow-y: auto; }
         .modal-content { background: #0a0e17; margin: 2vh auto; padding: 25px; border: 1px solid var(--primary-cyan); width: 85%; border-radius: 20px; max-width: 600px; }
         
-        /* 🏆 賽制視覺設計 */
         .rules-section { background: rgba(255,255,255,0.05); border-left: 4px solid var(--primary-cyan); padding: 15px; margin: 15px 0; border-radius: 0 10px 10px 0; }
-        .rules-title { color: var(--primary-cyan); font-weight: bold; display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
         .light { width: 14px; height: 14px; border-radius: 50%; display: inline-block; margin-right: 5px; vertical-align: middle; }
-        .win { background: var(--win-green); box-shadow: 0 0 10px var(--win-green); animation: pulse 1s infinite; }
-        .lose { background: var(--lose-red); box-shadow: 0 0 10px var(--lose-red); animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+        .win { background: var(--win-green); box-shadow: 0 0 10px var(--win-green); }
+        .lose { background: var(--lose-red); box-shadow: 0 0 10px var(--lose-red); }
 
-        /* 決賽圖表手機版優化 */
-        .bracket-mini { display: flex; flex-direction: column; gap: 15px; align-items: center; margin-top: 15px; }
-        .bracket-row { display: flex; gap: 10px; }
-        .team-box { background: #161b22; border: 1px solid #333; padding: 8px 15px; font-size: 0.85rem; border-radius: 5px; min-width: 80px; text-align: center; }
-        .team-box.winner { border-color: var(--primary-cyan); color: var(--primary-cyan); box-shadow: 0 0 10px rgba(0,242,255,0.2); }
-        .champ-box { background: rgba(188, 19, 254, 0.1); border: 2px solid var(--secondary-purple); padding: 15px; text-align: center; width: 100%; box-sizing: border-box; border-radius: 10px; }
+        /* 🏆 製作署名樣式 */
+        .maker-credit {
+            position: fixed; bottom: 10px; right: 15px;
+            color: rgba(255, 255, 255, 0.4); font-size: 0.75rem;
+            letter-spacing: 1px; z-index: 999;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+            pointer-events: none;
+        }
 
         @media (max-width: 480px) {
-            .main-title { letter-spacing: 5px; font-size: 2.2rem; }
+            .main-title { font-size: 3rem; letter-spacing: 2px; }
             .icon-circle-main, .slot-box, .slot-item { width: 60px; height: 60px; }
             @keyframes scroll-v-mobile { 0% { transform: translateY(0); } 100% { transform: translateY(-420px); } }
             .slot-track { animation: scroll-v-mobile 8s linear infinite; }
@@ -196,12 +180,12 @@
     <div class="panel" style="text-align: center;">
         <div class="panel-header">
             <h2 class="panel-title">🌿 核心奶媽池</h2>
-            <div class="match-time">5/16 (六) 21:30</div>
+            <div class="match-time">5/16 (六) 21:30 開始</div>
         </div>
         <div class="slot-container">
             <div style="display: flex; flex-direction: column; align-items: center;">
                 <div class="icon-circle-main" style="background-image: url('assets/1.png');"></div>
-                <div style="font-size: 0.75rem; color: #fff; margin-top: 5px; font-weight: bold;">核心：素問</div>
+                <div style="font-size: 0.7rem; color: #fff; margin-top: 5px;">核心：素問</div>
             </div>
             <div style="font-size: 1.5rem; color: var(--secondary-purple); font-weight: 900;">+</div>
             <div class="slot-box">
@@ -231,8 +215,8 @@
 
     <div class="panel">
         <div class="panel-header">
-            <h2 class="panel-title">⚔️ 暴力輸出池</h2>
-            <div class="match-time" style="background: #0066ff;">5/17 (日) 21:30</div>
+            <h2 class="panel-title">⚔️ 暴力輸出池 (DPS Only)</h2>
+            <div class="match-time" style="background: #0066ff;">5/17 (日) 21:30 開始</div>
         </div>
         <div class="pool-grid">
             <div><div class="icon-circle" style="background-image: url('assets/4.png');"></div>碎夢</div>
@@ -252,59 +236,38 @@
     </div>
 </div>
 
+<div class="maker-credit">製作者：夜月臨空</div>
+
 <div id="rulesModal" class="modal">
     <div class="modal-content">
-        <h2 style="color: var(--primary-cyan); text-align: center; border-bottom: 2px solid var(--primary-cyan); padding-bottom: 10px; margin-top: 0;">🏆 賽制流程詳解</h2>
-        
+        <h2 style="color: var(--primary-cyan); text-align: center; border-bottom: 2px solid var(--primary-cyan); padding-bottom: 10px;">🏆 賽制流程</h2>
         <div class="rules-section">
-            <div class="rules-title">⚔️ 第一階段：預賽 (雙敗淘汰)</div>
-            <p style="font-size: 0.9rem; margin: 5px 0;">累積兩場勝場即晉級，累積兩場敗場則淘汰。</p>
-            <div style="font-size: 0.85rem; line-height: 1.8;">
-                範例 A：<span class="light win"></span><span class="light win"></span> ➜ 晉級決賽<br>
-                範例 B：<span class="light win"></span><span class="light lose"></span><span class="light win"></span> ➜ 晉級決賽<br>
-                範例 C：<span class="light lose"></span><span class="light lose"></span> ➜ 遺憾淘汰
+            <p><b>1. 預賽：雙敗淘汰制</b></p>
+            <p style="font-size: 0.9rem;">累積兩場勝場即晉級，累積兩場敗場則淘汰。</p>
+            <div style="font-size: 0.85rem;">
+                範例：<span class="light win"></span><span class="light win"></span> ➜ 晉級決賽<br>
+                範例：<span class="light lose"></span><span class="light lose"></span> ➜ 遺憾淘汰
             </div>
         </div>
-
         <div class="rules-section">
-            <div class="rules-title">🔥 第二階段：決賽圈 BO3 對決</div>
-            <p style="font-size: 0.9rem; margin: 5px 0;">決賽圈重新抽籤進行分組，採取抽籤決定對手，一對一爬梯 BO3（三戰兩勝）淘汰制，輸一場即止步。以下是假如4隊決賽圈範例</p>
-            <div class="bracket-mini">
-                <div class="bracket-row">
-                    <div class="team-box winner">隊伍 A (勝)</div>
-                    <div class="team-box">隊伍 B (敗)</div>
-                </div>
-                <div class="champ-box">
-                    <div style="color:var(--secondary-purple); font-size: 0.8rem; font-weight: bold;">總決賽</div>
-                    <div style="font-size: 1.1rem; font-weight: 900;">BO3 爭霸</div>
-                </div>
-                <div class="bracket-row">
-                    <div class="team-box">隊伍 C (敗)</div>
-                    <div class="team-box winner">隊伍 D (勝)</div>
-                </div>
-            </div>
+            <p><b>2. 決賽圈：BO3 對決</b></p>
+            <p style="font-size: 0.9rem;">四強重新抽籤進行三戰兩勝淘汰賽，勝者晉級總決賽。</p>
         </div>
-        
-        <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="closeModal('rulesModal')">關閉說明</button>
+        <button class="btn btn-primary" style="width:100%;" onclick="closeModal('rulesModal')">關閉</button>
     </div>
 </div>
 
 <div id="joinModal" class="modal">
     <div class="modal-content">
-        <h2 style="color: var(--secondary-purple); text-align: center; border-bottom: 2px solid var(--secondary-purple); padding-bottom: 10px; margin-top: 0;">📢 報名方式</h2>
-        
-        <div style="line-height: 1.8; font-size: 0.95rem;">
-            <p>1. <b>報名地點</b>：請前往 <b>歲歲 Discord</b> 的「活動投票處」頻道進行報名。</p>
-            <p>2. <b>私訊確認</b>：登記後請私訊下列人員進行確認：
-                <br><span style="color: var(--primary-cyan);">● 夜月臨空、聽辭、殊辭</span> 等管理人員。</p>
-            <p>3. <b>單人報名</b>：如單人報名者，將由官方<b>自動分配組員</b>。</p>
-            
-            <div style="background: rgba(188, 19, 254, 0.1); padding: 15px; border-radius: 10px; border: 1px dashed var(--secondary-purple); margin-top: 15px;">
-                <b style="color: var(--secondary-purple);">⚠️ 注意事項：</b>
-                <br>● 報名最多可找 <b>1位外援</b> (非本幫人士)。
+        <h2 style="color: var(--secondary-purple); text-align: center; border-bottom: 2px solid var(--secondary-purple); padding-bottom: 10px;">📢 報名方式</h2>
+        <div style="line-height: 1.8;">
+            <p>1. 請至 <b>歲歲 Discord</b> 活動投票處報名。</p>
+            <p>2. 報名後請私訊：<b>夜月臨空、聽辭、殊辭</b>。</p>
+            <p>3. 單人報名者將由管理層自動分配組員。</p>
+            <div style="background: rgba(188, 19, 254, 0.1); padding: 10px; border-radius: 10px; border: 1px dashed var(--secondary-purple);">
+                <b>⚠️ 注意事項：</b><br>每組最多可找 1 位外援（非本幫人士）。
             </div>
         </div>
-        
         <button class="btn btn-primary" style="width:100%; margin-top:20px;" onclick="closeModal('joinModal')">我知道了</button>
     </div>
 </div>
@@ -324,18 +287,6 @@
     function openModal(id) { document.getElementById(id).style.display = 'block'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 </script>
-<div style="
-    position: fixed;
-    bottom: 15px;
-    right: 15px;
-    color: rgba(255, 255, 255, 0.5); /* 半透明白色，不搶戲 */
-    font-size: 0.8rem;
-    letter-spacing: 1px;
-    z-index: 999;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-    pointer-events: none; /* 防止擋住後方的點擊動作 */
-">
-    製作者：夜月臨空
-</div>
+
 </body>
 </html>
