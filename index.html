@@ -16,16 +16,24 @@
 
         /* 🚀 競技風背景設計 */
         body, html {
-            margin: 0; padding: 0; min-height: 100%;
-            font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
-            color: #fff; background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(circle at 50% 50%, #161b22 0%, #06090f 100%),
-                linear-gradient(rgba(0, 242, 255, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 242, 255, 0.05) 1px, transparent 1px);
-            background-size: cover, 40px 40px, 40px 40px;
-            background-attachment: fixed;
-        }
+                margin: 0; padding: 0; min-height: 100%;
+                font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+                color: #fff;
+    
+    /* 1. 設定背景圖路徑 */
+                background-image: 
+        /* 這層是「遮罩」，讓圖片變暗，前面的字才看得清楚 */
+                linear-gradient(rgba(6, 9, 15, 0.85), rgba(6, 9, 15, 0.85)), 
+                url('BG.png'); /* <--- 這裡改你的檔名 */
+
+    /* 2. 背景圖不重複，且固定住不動（更有質感） */
+                background-attachment: fixed;
+                background-repeat: no-repeat;
+
+    /* 3. 強制圖片填滿整個網頁，不留白 */
+                background-size: cover;
+                background-position: center;
+}
 
         .main-container {
             display: flex; flex-direction: column; align-items: center; padding: 40px 20px;
