@@ -122,19 +122,87 @@
         .champion-card { width: 180px; padding: 30px; border: 2px solid var(--secondary-purple); background: rgba(188, 19, 254, 0.1); text-align: center; }
         .connect-line { position: absolute; height: 2px; background: var(--primary-cyan); width: 0; animation: draw 3s infinite; box-shadow: 0 0 10px var(--primary-cyan); }
         @keyframes draw { 0% { width: 0; } 100% { width: 60px; } }
+
+        /* --- 這裡開始是新增的修正代碼 --- */
+
+/* 1. 武俠水墨風格標題 */
+.ink-style {
+    font-family: "Kaiti", "STKaiti", "Noto Serif TC", serif;
+    font-style: italic; 
+    letter-spacing: 12px !important; /* 縮小一點點避免跑版，可自行調整 */
+    text-shadow: 
+        3px 3px 0px rgba(0,0,0,0.8), 
+        0 0 20px rgba(0, 242, 255, 0.6) !important;
+    filter: contrast(1.2);
+    display: block;
+    margin-bottom: 20px;
+}
+
+/* 2. 放大滾動框並改成圓形，與素問平衡 */
+.slot-box { 
+    width: 75px !important;  /* 強制放大 */
+    height: 75px !important; /* 強制放大 */
+    border-radius: 50% !important; /* 改成圓形 */
+    border: 2px solid var(--primary-cyan); 
+    overflow: hidden; 
+    position: relative; 
+    background: rgba(0,0,0,0.6); 
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.4);
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* 修正滾動動畫的高度（因為現在一個圖標是 75px） */
+.slot-track { 
+    display: flex; 
+    flex-direction: column; 
+    position: absolute; 
+    top: 0; 
+    animation: scroll-v-new 8s linear infinite; 
+}
+
+@keyframes scroll-v-new { 
+    0% { transform: translateY(0); } 
+    100% { transform: translateY(-525px); } /* 7個圖標 * 75px = 525 */
+}
+
+.slot-item { 
+    width: 75px; 
+    height: 75px; 
+    background-size: 70%; 
+    background-repeat: no-repeat; 
+    background-position: center; 
+    flex-shrink: 0;
+}
+
+/* 確保素問也是 75px */
+.icon-circle-main {
+    width: 75px !important;
+    height: 75px !important;
+    border-radius: 50%;
+    border: 2px solid var(--win-green);
+    background-size: cover;
+    background-position: center;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* --- 修正結束 --- */
     </style>
 </head>
 <body>
 
 <div class="main-container">
     <div class="header-section">
-        <h1 class="main-title">歲歲 33 擂台宴</h1>
-        <div class="countdown-wrap">
-            <div class="time-box"><span class="time-num" id="d">00</span><small class="time-label">DAYS</small></div>
-            <div class="time-box"><span class="time-num" id="h">00</span><small class="time-label">HRS</small></div>
-            <div class="time-box"><span class="time-num" id="m">00</span><small class="time-label">MINS</small></div>
-            <div class="time-box"><span class="time-num" id="s">00</span><small class="time-label">SECS</small></div>
+    <div style="color: var(--primary-cyan); font-weight: bold; letter-spacing: 5px; margin-bottom: 10px; font-size: 1.2rem; text-shadow: 0 0 10px var(--primary-cyan);">
+        ⚔️ 開戰倒數 ⚔️
+    </div>
+    
+    <h1 class="main-title ink-style">歲歲 33 擂台宴</h1>
+    
+    <div class="countdown-wrap">
         </div>
+</div>
     </div>
 
     <div class="panel">
@@ -143,34 +211,37 @@
             <div class="match-time">5/16 (六) 21:30 開始</div>
         </div>
         <div class="slot-container">
-            <div style="text-align: center;">
-                <div class="icon-circle" style="width:70px; height:70px; background-image: url('assets/1.png'); border-color: var(--win-green);"></div>
-                <small>核心：素問</small>
-            </div>
-            <div style="font-size: 2rem; color: var(--secondary-purple);">+</div>
-            <div class="slot-box">
-                <div class="slot-track">
-                    <div class="slot-item" style="background-image: url('assets/4.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/8.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/5.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/2.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/3.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/6.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/7.png');"></div>
-                </div>
-            </div>
-            <div class="slot-box">
-                <div class="slot-track" style="animation-delay: -3s;">
-                    <div class="slot-item" style="background-image: url('assets/2.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/5.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/8.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/7.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/6.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/4.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/3.png');"></div>
-                </div>
-            </div>
+    <div style="text-align: center; display: inline-block; vertical-align: middle;">
+        <div class="icon-circle-main" style="background-image: url('assets/1.png'); border: 2px solid var(--win-green);"></div>
+        <div style="font-size: 0.85rem; color: #fff; margin-top: 5px; font-weight: bold;">核心：素問</div>
+    </div>
+
+    <div style="font-size: 2.5rem; color: var(--secondary-purple); display: inline-block; vertical-align: middle; margin: 0 15px; font-weight: 900;">+</div>
+
+    <div class="slot-box">
+        <div class="slot-track">
+            <div class="slot-item" style="background-image: url('assets/4.png');"></div>
+            <div class="slot-item" style="background-image: url('assets/8.png');"></div>
+            <div class="slot-item" style="background-image: url('assets/5.png');"></div>
+            <div class="slot-item" style="background-image: url('assets/2.png');"></div>
+            <div class="slot-item" style="background-image: url('assets/3.png');"></div>
+            <div class="slot-item" style="background-image: url('assets/6.png');"></div>
+            <div class="slot-item" style="background-image: url('assets/7.png');"></div>
         </div>
+    </div>
+
+    <div class="slot-box" style="margin-left: 10px;">
+        <div class="slot-track" style="animation-delay: -3.5s;">
+            <div class="slot-item" style="background-image: url('assets/2.png');"></div>
+            <div class="slot-item" style="background-image: url('assets/5.png');"></div>
+            <div class="slot-item" style="background-image: url('assets/8.png');"></div>
+            <div class="slot-item" style="background-image: url('assets/7.png');"></div>
+            <div class="slot-item" style="background-image: url('assets/6.png');"></div>
+            <div class="slot-item" style="background-image: url('assets/4.png');"></div>
+            <div class="slot-item" style="background-image: url('assets/3.png');"></div>
+        </div>
+    </div>
+</div>
     </div>
 
     <div class="panel">
