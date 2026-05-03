@@ -17,7 +17,7 @@
             --lose-red: #ff0055;
         }
 
-        /* 🚀 背景與基礎設定 */
+        /* 🚀 背景設定 */
         body, html {
             margin: 0; padding: 0; min-height: 100%;
             font-family: "Microsoft JhengHei", sans-serif;
@@ -37,7 +37,7 @@
             padding: 20px 15px; box-sizing: border-box;
         }
 
-        /* 🚀 燃燒標題設計 (黑紅斜體) */
+        /* 🚀 黑紅燃燒火焰標題 (斜體) */
         .header-section { text-align: center; margin-bottom: 30px; width: 100%; }
         
         .countdown-title { 
@@ -54,6 +54,7 @@
             position: relative;
             display: inline-block;
             color: transparent;
+            /* 黑紅火焰漸層 */
             background-image: linear-gradient(
                 to bottom,
                 #000000 0%,
@@ -63,6 +64,7 @@
             );
             -webkit-background-clip: text;
             background-clip: text;
+            /* 火焰發光效果 */
             filter: 
                 drop-shadow(0 0 8px rgba(255, 69, 0, 0.9))
                 drop-shadow(0 0 20px rgba(255, 0, 0, 0.6))
@@ -100,7 +102,7 @@
         .time-num { font-size: 1.8rem; font-weight: 900; color: var(--primary-cyan); display: block; line-height: 1; }
         .time-label { font-size: 0.6rem; color: #aaa; text-transform: uppercase; margin-top: 4px; display: block; }
 
-        /* 🚀 面板設計 */
+        /* 🚀 面板樣式 */
         .panel { 
             background: var(--panel-bg); 
             border-radius: 20px; 
@@ -111,10 +113,10 @@
             box-sizing: border-box; 
         }
         .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; flex-wrap: wrap; gap: 10px; }
-        .panel-title { font-size: 1.3rem; font-weight: bold; color: var(--primary-cyan); margin: 0; }
+        .panel-title { font-size: 1.1rem; font-weight: bold; color: var(--primary-cyan); margin: 0; }
         .match-time { background: var(--secondary-purple); padding: 5px 12px; border-radius: 5px; font-size: 0.8rem; font-weight: bold; }
 
-        /* 🌿 奶池與 DPS 網格 */
+        /* 🌿 核心奶池捲軸 */
         .slot-container { display: flex; justify-content: center; align-items: center; gap: 10px; padding: 10px 0; }
         .icon-circle-main, .slot-box { width: 75px; height: 75px; border-radius: 50%; border: 2px solid var(--primary-cyan); overflow: hidden; position: relative; background: rgba(0,0,0,0.6); flex-shrink: 0; }
         .icon-circle-main { background-size: cover; background-position: center; border-color: var(--win-green); }
@@ -122,33 +124,33 @@
         @keyframes scroll-v-new { 0% { transform: translateY(0); } 100% { transform: translateY(-525px); } }
         .slot-item { width: 75px; height: 75px; background-size: 70%; background-repeat: no-repeat; background-position: center; flex-shrink: 0; }
         
+        /* ⚔️ DPS 網格 */
         .pool-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; }
         .icon-circle { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--primary-cyan); margin: 0 auto 5px; background-size: 70%; background-repeat: no-repeat; background-position: center; background-color: rgba(0,0,0,0.5); }
         .pool-grid div { font-size: 0.8rem; }
 
-        /* 按鈕 */
+        /* 按鈕與彈窗 */
         .btn-group { display: flex; gap: 15px; width: 100%; justify-content: center; flex-wrap: wrap; }
         .btn { padding: 15px 30px; border-radius: 5px; font-weight: bold; cursor: pointer; border: none; font-size: 1rem; width: 100%; max-width: 300px; transition: 0.3s; }
         .btn-outline { background: transparent; color: #fff; border: 1px solid #444; }
         .btn-primary { background: var(--primary-cyan); color: #000; box-shadow: 0 0 15px rgba(0, 242, 255, 0.4); }
 
-        /* 彈窗樣式修復 */
         .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); overflow-y: auto; }
-        .modal-content { background: #0a0e17; margin: 5vh auto; padding: 25px; border: 1px solid var(--primary-cyan); width: 90%; border-radius: 15px; max-width: 650px; box-shadow: 0 0 30px rgba(0, 242, 255, 0.2); }
+        .modal-content { background: #0a0e17; margin: 5vh auto; padding: 25px; border: 1px solid var(--primary-cyan); width: 90%; border-radius: 15px; max-width: 650px; }
         .modal-header { border-bottom: 1px solid var(--primary-cyan); padding-bottom: 15px; margin-bottom: 20px; text-align: center; font-size: 1.5rem; font-weight: bold; color: var(--primary-cyan); }
         
+        /* 📋 彈窗內部細節 */
         .rules-detail-box { background: rgba(255,255,255,0.03); border-radius: 10px; padding: 15px; margin-bottom: 20px; border-left: 4px solid var(--primary-cyan); }
-        .rule-step-title { color: var(--primary-cyan); font-weight: bold; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .rule-step-title { color: var(--primary-cyan); font-weight: bold; margin-bottom: 10px; }
         .example-row { display: flex; align-items: center; gap: 10px; margin: 8px 0; font-size: 0.95rem; }
         .dot { width: 15px; height: 15px; border-radius: 50%; display: inline-block; }
         .dot-win { background: var(--win-green); box-shadow: 0 0 8px var(--win-green); }
         .dot-lose { background: var(--lose-red); box-shadow: 0 0 8px var(--lose-red); }
 
-        /* 決賽圖形 */
         .bracket-box { border: 1px solid #333; border-radius: 10px; padding: 15px; text-align: center; background: rgba(0,0,0,0.3); }
         .team-slot { display: inline-block; padding: 5px 15px; border: 1px solid #555; border-radius: 5px; margin: 5px; font-size: 0.85rem; }
         .team-win { border-color: var(--primary-cyan); color: var(--primary-cyan); }
-        .final-match { border: 2px solid var(--secondary-purple); color: #fff; margin: 15px auto; padding: 10px; border-radius: 10px; width: 80%; background: rgba(188, 19, 254, 0.1); }
+        .final-match { border: 2px solid var(--secondary-purple); color: #fff; margin: 15px auto; padding: 10px; border-radius: 10px; background: rgba(188, 19, 254, 0.1); }
 
         .maker-credit { position: fixed; bottom: 10px; right: 15px; color: rgba(255, 255, 255, 0.3); font-size: 0.7rem; pointer-events: none; }
 
@@ -235,7 +237,7 @@
         
         <div class="rules-detail-box">
             <div class="rule-step-title">⚔️ 第一階段：預賽 (雙敗淘汰)</div>
-            <p style="font-size: 0.9rem; margin-bottom: 10px;">累積兩場勝場即晉級，累積兩場敗場則淘汰。</p>
+            <p style="font-size: 0.9rem;">累積兩場勝場即晉級，累積兩場敗場則淘汰。</p>
             <div class="example-row">範例 A：<span class="dot dot-win"></span> <span class="dot dot-win"></span> ➜ 晉級決賽</div>
             <div class="example-row">範例 B：<span class="dot dot-win"></span> <span class="dot dot-lose"></span> <span class="dot dot-win"></span> ➜ 晉級決賽</div>
             <div class="example-row">範例 C：<span class="dot dot-lose"></span> <span class="dot dot-lose"></span> ➜ 遺憾淘汰</div>
@@ -243,18 +245,10 @@
 
         <div class="rules-detail-box" style="border-left-color: #ff9d00;">
             <div class="rule-step-title" style="color: #ff9d00;">🔥 第二階段：決賽圈 BO3 對決</div>
-            <p style="font-size: 0.9rem;">採隨機抽籤對手，一對一爬梯 BO3（三戰兩勝）淘汰制。</p>
             <div class="bracket-box">
-                <div>
-                    <span class="team-slot team-win">隊伍 A (勝)</span> ⚔️ <span class="team-slot">隊伍 B (敗)</span>
-                </div>
-                <div class="final-match">
-                    <div style="font-size: 0.7rem; color: var(--secondary-purple);">總決賽</div>
-                    BO3 爭霸
-                </div>
-                <div>
-                    <span class="team-slot">隊伍 C (敗)</span> ⚔️ <span class="team-slot team-win">隊伍 D (勝)</span>
-                </div>
+                <span class="team-slot team-win">隊伍 A (勝)</span> ⚔️ <span class="team-slot">隊伍 B (敗)</span>
+                <div class="final-match">總決賽 BO3 爭霸</div>
+                <span class="team-slot">隊伍 C (敗)</span> ⚔️ <span class="team-slot team-win">隊伍 D (勝)</span>
             </div>
         </div>
 
@@ -265,18 +259,18 @@
 <div id="joinModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">📢 報名方式</div>
-        <div style="line-height: 2;">
-            <p>1. <b>報名地點：</b>請前往 <b>歲歲 Discord</b> 的「活動投票處」頻道進行報名。</p>
-            <p>2. <b>私訊確認：</b>登記後請私訊下列人員進行確認：</p>
-            <p style="color: var(--primary-cyan); padding-left: 20px;">● 夜月臨空、聽辭、殊辭 等管理人員。</p>
-            <p>3. <b>單人報名：</b>如單人報名者，將由官方自動分配組員。</p>
+        <div style="line-height: 1.8; font-size: 0.95rem;">
+            <p>1. <b>報名地點：</b>請至 <b>歲歲 Discord</b> 的「活動投票處」頻道報名。</p>
+            <p>2. <b>私訊確認：</b>登記後請私訊下列管理人員：</p>
+            <p style="color: var(--primary-cyan); padding-left: 15px;">● 夜月臨空、聽辭、殊辭</p>
+            <p>3. <b>分配規則：</b>單人報名者將由官方自動分配組員。</p>
             
-            <div style="background: rgba(188, 19, 254, 0.1); padding: 15px; border-radius: 10px; border: 1px dashed var(--secondary-purple); margin-top: 20px;">
+            <div style="background: rgba(188, 19, 254, 0.1); padding: 12px; border-radius: 10px; border: 1px dashed var(--secondary-purple); margin-top: 15px;">
                 <b style="color: var(--secondary-purple);">⚠️ 注意事項：</b><br>
                 ● 報名最多可找 <b>1位外援</b> (非本幫人士)。
             </div>
         </div>
-        <button class="btn btn-primary" style="width:100%; margin-top:25px;" onclick="closeModal('joinModal')">我知道了</button>
+        <button class="btn btn-primary" style="width:100%; margin-top:20px;" onclick="closeModal('joinModal')">我知道了</button>
     </div>
 </div>
 
