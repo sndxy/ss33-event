@@ -249,6 +249,18 @@
     function openModal(id) { document.getElementById(id).style.display = 'block'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 </script>
-
+<div style="
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    color: rgba(255, 255, 255, 0.5); /* 半透明白色，不搶戲 */
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    z-index: 999;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+    pointer-events: none; /* 防止擋住後方的點擊動作 */
+">
+    製作者：夜月臨空
+</div>
 </body>
 </html>
