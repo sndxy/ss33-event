@@ -12,8 +12,7 @@
             --primary-cyan: #00f2ff;
             --secondary-purple: #bc13fe;
             --bg-dark: #06090f;
-            /* 調整面板透明度為 0.25，讓背景圖更清晰 */
-            --panel-bg: rgba(6, 9, 15, 0.5); 
+            --panel-bg: rgba(6, 9, 15, 0.6); 
             --win-green: #00ff88;
             --lose-red: #ff0055;
         }
@@ -38,7 +37,7 @@
             padding: 20px 15px; box-sizing: border-box;
         }
 
-        /* 🚀 燃燒標題設計 (馬善政毛筆體) */
+        /* 🚀 燃燒標題設計 (黑紅斜體) */
         .header-section { text-align: center; margin-bottom: 30px; width: 100%; }
         
         .countdown-title { 
@@ -47,33 +46,52 @@
         }
 
         .main-title {
-    font-family: 'Ma Shan Zheng', cursive;
-    font-size: clamp(3.5rem, 15vw, 6rem); 
-    /* 🚀 這裡加入斜體屬性 */
-    font-style: italic; 
-    margin: 10px 0;
-    /* 書法斜體建議稍微加大間距，避免筆觸重疊 */
-    letter-spacing: 8px; 
-    position: relative;
-    display: inline-block;
-    /* ... 漸層與發光代碼維持不變 ... */
-}
+            font-family: 'Ma Shan Zheng', cursive;
+            font-size: clamp(3rem, 12vw, 5.5rem); 
+            font-style: italic; 
+            margin: 10px 0;
+            letter-spacing: 8px; 
+            position: relative;
+            display: inline-block;
+            color: transparent;
+            background-image: linear-gradient(
+                to bottom,
+                #000000 0%,
+                #660000 40%,
+                #cc0000 70%,
+                #ff4500 100%
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            filter: 
+                drop-shadow(0 0 8px rgba(255, 69, 0, 0.9))
+                drop-shadow(0 0 20px rgba(255, 0, 0, 0.6))
+                drop-shadow(0 0 45px rgba(255, 140, 0, 0.4));
+        }
 
-        /* 標題燃燒動畫遮罩 */
         .main-title::after {
-    content: "歲歲三三擂台宴";
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    /* 🚀 這裡也必須加上斜體，否則動畫會對不準 */
-    font-style: italic; 
-    color: transparent;
-    /* ... 動畫與遮罩代碼維持不變 ... */
-}
+            content: "歲歲三三擂台宴";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            font-style: italic; 
+            color: transparent;
+            background-image: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.6) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            mix-blend-mode: screen; 
+            animation: fire-burn 2s ease-in-out infinite alternate;
+            filter: blur(1.5px);
+        }
 
         @keyframes fire-burn {
-            0% { transform: translate(0, 0) skewX(0deg) scale(1); opacity: 0.7; filter: blur(1px) drop-shadow(0 0 15px rgba(255, 69, 0, 0.5)); }
-            50% { transform: translate(-2px, -3px) skewX(-1deg) scale(1.02); opacity: 0.9; }
-            100% { transform: translate(2px, -5px) skewX(1deg) scale(1.05); opacity: 1; filter: blur(2px) drop-shadow(0 0 35px rgba(255, 165, 0, 0.8)); }
+            0% { transform: translate(0, 0) skewX(-1deg) scale(1); opacity: 0.7; filter: blur(1px) drop-shadow(0 0 15px rgba(255, 69, 0, 0.5)); }
+            50% { transform: translate(-2px, -3px) skewX(-2deg) scale(1.02); opacity: 0.9; }
+            100% { transform: translate(2px, -5px) skewX(0deg) scale(1.05); opacity: 1; filter: blur(2px) drop-shadow(0 0 35px rgba(255, 165, 0, 0.8)); }
         }
 
         /* ⏳ 倒數計時 */
@@ -82,12 +100,12 @@
         .time-num { font-size: 1.8rem; font-weight: 900; color: var(--primary-cyan); display: block; line-height: 1; }
         .time-label { font-size: 0.6rem; color: #aaa; text-transform: uppercase; margin-top: 4px; display: block; }
 
-        /* 🚀 面板設計 (半透明背景) */
+        /* 🚀 面板設計 */
         .panel { 
             background: var(--panel-bg); 
             border-radius: 20px; 
             border: 2px solid var(--primary-cyan); 
-            backdrop-filter: blur(5px); /* 加入磨砂玻璃效果，看背景更具質感 */
+            backdrop-filter: blur(5px);
             width: 100%; max-width: 900px; 
             margin-bottom: 25px; padding: 20px; 
             box-sizing: border-box; 
@@ -96,49 +114,46 @@
         .panel-title { font-size: 1.3rem; font-weight: bold; color: var(--primary-cyan); margin: 0; }
         .match-time { background: var(--secondary-purple); padding: 5px 12px; border-radius: 5px; font-size: 0.8rem; font-weight: bold; }
 
-        /* 🌿 奶池滾動 */
+        /* 🌿 奶池與 DPS 網格 */
         .slot-container { display: flex; justify-content: center; align-items: center; gap: 10px; padding: 10px 0; }
         .icon-circle-main, .slot-box { width: 75px; height: 75px; border-radius: 50%; border: 2px solid var(--primary-cyan); overflow: hidden; position: relative; background: rgba(0,0,0,0.6); flex-shrink: 0; }
         .icon-circle-main { background-size: cover; background-position: center; border-color: var(--win-green); }
         .slot-track { display: flex; flex-direction: column; position: absolute; top: 0; animation: scroll-v-new 8s linear infinite; }
         @keyframes scroll-v-new { 0% { transform: translateY(0); } 100% { transform: translateY(-525px); } }
         .slot-item { width: 75px; height: 75px; background-size: 70%; background-repeat: no-repeat; background-position: center; flex-shrink: 0; }
-
-        /* ⚔️ DPS 網格 */
+        
         .pool-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; }
         .icon-circle { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--primary-cyan); margin: 0 auto 5px; background-size: 70%; background-repeat: no-repeat; background-position: center; background-color: rgba(0,0,0,0.5); }
         .pool-grid div { font-size: 0.8rem; }
 
-        /* 按鈕與彈窗 */
+        /* 按鈕 */
         .btn-group { display: flex; gap: 15px; width: 100%; justify-content: center; flex-wrap: wrap; }
         .btn { padding: 15px 30px; border-radius: 5px; font-weight: bold; cursor: pointer; border: none; font-size: 1rem; width: 100%; max-width: 300px; transition: 0.3s; }
         .btn-outline { background: transparent; color: #fff; border: 1px solid #444; }
         .btn-primary { background: var(--primary-cyan); color: #000; box-shadow: 0 0 15px rgba(0, 242, 255, 0.4); }
 
-        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); overflow-y: auto; }
-        .modal-content { background: #0a0e17; margin: 2vh auto; padding: 25px; border: 1px solid var(--primary-cyan); width: 85%; border-radius: 20px; max-width: 600px; }
+        /* 彈窗樣式修復 */
+        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); overflow-y: auto; }
+        .modal-content { background: #0a0e17; margin: 5vh auto; padding: 25px; border: 1px solid var(--primary-cyan); width: 90%; border-radius: 15px; max-width: 650px; box-shadow: 0 0 30px rgba(0, 242, 255, 0.2); }
+        .modal-header { border-bottom: 1px solid var(--primary-cyan); padding-bottom: 15px; margin-bottom: 20px; text-align: center; font-size: 1.5rem; font-weight: bold; color: var(--primary-cyan); }
         
-        .rules-section { background: rgba(255,255,255,0.05); border-left: 4px solid var(--primary-cyan); padding: 15px; margin: 15px 0; border-radius: 0 10px 10px 0; }
-        .light { width: 14px; height: 14px; border-radius: 50%; display: inline-block; margin-right: 5px; vertical-align: middle; }
-        .win { background: var(--win-green); box-shadow: 0 0 10px var(--win-green); }
-        .lose { background: var(--lose-red); box-shadow: 0 0 10px var(--lose-red); }
+        .rules-detail-box { background: rgba(255,255,255,0.03); border-radius: 10px; padding: 15px; margin-bottom: 20px; border-left: 4px solid var(--primary-cyan); }
+        .rule-step-title { color: var(--primary-cyan); font-weight: bold; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        .example-row { display: flex; align-items: center; gap: 10px; margin: 8px 0; font-size: 0.95rem; }
+        .dot { width: 15px; height: 15px; border-radius: 50%; display: inline-block; }
+        .dot-win { background: var(--win-green); box-shadow: 0 0 8px var(--win-green); }
+        .dot-lose { background: var(--lose-red); box-shadow: 0 0 8px var(--lose-red); }
 
-        /* 🏆 製作署名樣式 */
-        .maker-credit {
-            position: fixed; bottom: 10px; right: 15px;
-            color: rgba(255, 255, 255, 0.4); font-size: 0.75rem;
-            letter-spacing: 1px; z-index: 999;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-            pointer-events: none;
-        }
+        /* 決賽圖形 */
+        .bracket-box { border: 1px solid #333; border-radius: 10px; padding: 15px; text-align: center; background: rgba(0,0,0,0.3); }
+        .team-slot { display: inline-block; padding: 5px 15px; border: 1px solid #555; border-radius: 5px; margin: 5px; font-size: 0.85rem; }
+        .team-win { border-color: var(--primary-cyan); color: var(--primary-cyan); }
+        .final-match { border: 2px solid var(--secondary-purple); color: #fff; margin: 15px auto; padding: 10px; border-radius: 10px; width: 80%; background: rgba(188, 19, 254, 0.1); }
+
+        .maker-credit { position: fixed; bottom: 10px; right: 15px; color: rgba(255, 255, 255, 0.3); font-size: 0.7rem; pointer-events: none; }
 
         @media (max-width: 480px) {
-            .main-title { font-size: 3rem; letter-spacing: 2px; }
-            .icon-circle-main, .slot-box, .slot-item { width: 60px; height: 60px; }
-            @keyframes scroll-v-mobile { 0% { transform: translateY(0); } 100% { transform: translateY(-420px); } }
-            .slot-track { animation: scroll-v-mobile 8s linear infinite; }
-            .pool-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; }
-            .icon-circle { width: 45px; height: 45px; }
+            .main-title { font-size: 2.8rem; letter-spacing: 3px; }
             .panel { padding: 15px; }
         }
     </style>
@@ -159,7 +174,7 @@
 
     <div class="panel" style="text-align: center;">
         <div class="panel-header">
-            <h2 class="panel-title">🌿 核心奶媽池</h2>
+            <h2 class="panel-title">🌿 核心奶媽池 (1奶+2隨機)</h2>
             <div class="match-time">5/16 (六) 21:30 開始</div>
         </div>
         <div class="slot-container">
@@ -168,28 +183,24 @@
                 <div style="font-size: 0.7rem; color: #fff; margin-top: 5px;">核心：素問</div>
             </div>
             <div style="font-size: 1.5rem; color: var(--secondary-purple); font-weight: 900;">+</div>
-            <div class="slot-box">
-                <div class="slot-track">
-                    <div class="slot-item" style="background-image: url('assets/4.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/8.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/5.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/2.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/3.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/6.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/7.png');"></div>
-                </div>
-            </div>
-            <div class="slot-box">
-                <div class="slot-track" style="animation-delay: -3.5s;">
-                    <div class="slot-item" style="background-image: url('assets/2.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/5.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/8.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/7.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/6.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/4.png');"></div>
-                    <div class="slot-item" style="background-image: url('assets/3.png');"></div>
-                </div>
-            </div>
+            <div class="slot-box"><div class="slot-track">
+                <div class="slot-item" style="background-image: url('assets/4.png');"></div>
+                <div class="slot-item" style="background-image: url('assets/8.png');"></div>
+                <div class="slot-item" style="background-image: url('assets/5.png');"></div>
+                <div class="slot-item" style="background-image: url('assets/2.png');"></div>
+                <div class="slot-item" style="background-image: url('assets/3.png');"></div>
+                <div class="slot-item" style="background-image: url('assets/6.png');"></div>
+                <div class="slot-item" style="background-image: url('assets/7.png');"></div>
+            </div></div>
+            <div class="slot-box"><div class="slot-track" style="animation-delay: -3.5s;">
+                <div class="slot-item" style="background-image: url('assets/2.png');"></div>
+                <div class="slot-item" style="background-image: url('assets/5.png');"></div>
+                <div class="slot-item" style="background-image: url('assets/8.png');"></div>
+                <div class="slot-item" style="background-image: url('assets/7.png');"></div>
+                <div class="slot-item" style="background-image: url('assets/6.png');"></div>
+                <div class="slot-item" style="background-image: url('assets/4.png');"></div>
+                <div class="slot-item" style="background-image: url('assets/3.png');"></div>
+            </div></div>
         </div>
     </div>
 
@@ -220,35 +231,52 @@
 
 <div id="rulesModal" class="modal">
     <div class="modal-content">
-        <h2 style="color: var(--primary-cyan); text-align: center; border-bottom: 2px solid var(--primary-cyan); padding-bottom: 10px;">🏆 賽制流程</h2>
-        <div class="rules-section">
-            <p><b>1. 預賽：雙敗淘汰制</b></p>
-            <p style="font-size: 0.9rem;">累積兩場勝場即晉級，累積兩場敗場則淘汰。</p>
-            <div style="font-size: 0.85rem;">
-                範例：<span class="light win"></span><span class="light win"></span> ➜ 晉級決賽<br>
-                範例：<span class="light lose"></span><span class="light lose"></span> ➜ 遺憾淘汰
+        <div class="modal-header">🏆 賽制流程詳解</div>
+        
+        <div class="rules-detail-box">
+            <div class="rule-step-title">⚔️ 第一階段：預賽 (雙敗淘汰)</div>
+            <p style="font-size: 0.9rem; margin-bottom: 10px;">累積兩場勝場即晉級，累積兩場敗場則淘汰。</p>
+            <div class="example-row">範例 A：<span class="dot dot-win"></span> <span class="dot dot-win"></span> ➜ 晉級決賽</div>
+            <div class="example-row">範例 B：<span class="dot dot-win"></span> <span class="dot dot-lose"></span> <span class="dot dot-win"></span> ➜ 晉級決賽</div>
+            <div class="example-row">範例 C：<span class="dot dot-lose"></span> <span class="dot dot-lose"></span> ➜ 遺憾淘汰</div>
+        </div>
+
+        <div class="rules-detail-box" style="border-left-color: #ff9d00;">
+            <div class="rule-step-title" style="color: #ff9d00;">🔥 第二階段：決賽圈 BO3 對決</div>
+            <p style="font-size: 0.9rem;">採隨機抽籤對手，一對一爬梯 BO3（三戰兩勝）淘汰制。</p>
+            <div class="bracket-box">
+                <div>
+                    <span class="team-slot team-win">隊伍 A (勝)</span> ⚔️ <span class="team-slot">隊伍 B (敗)</span>
+                </div>
+                <div class="final-match">
+                    <div style="font-size: 0.7rem; color: var(--secondary-purple);">總決賽</div>
+                    BO3 爭霸
+                </div>
+                <div>
+                    <span class="team-slot">隊伍 C (敗)</span> ⚔️ <span class="team-slot team-win">隊伍 D (勝)</span>
+                </div>
             </div>
         </div>
-        <div class="rules-section">
-            <p><b>2. 決賽圈：BO3 對決</b></p>
-            <p style="font-size: 0.9rem;">四強重新抽籤進行三戰兩勝淘汰賽，勝者晉級總決賽。</p>
-        </div>
-        <button class="btn btn-primary" style="width:100%;" onclick="closeModal('rulesModal')">關閉</button>
+
+        <button class="btn btn-primary" style="width:100%;" onclick="closeModal('rulesModal')">關閉說明</button>
     </div>
 </div>
 
 <div id="joinModal" class="modal">
     <div class="modal-content">
-        <h2 style="color: var(--secondary-purple); text-align: center; border-bottom: 2px solid var(--secondary-purple); padding-bottom: 10px;">📢 報名方式</h2>
-        <div style="line-height: 1.8;">
-            <p>1. 請至 <b>歲歲 Discord</b> 活動投票處報名。</p>
-            <p>2. 報名後請私訊：<b>夜月臨空、聽辭、殊辭</b>。</p>
-            <p>3. 單人報名者將由管理層自動分配組員。</p>
-            <div style="background: rgba(188, 19, 254, 0.1); padding: 10px; border-radius: 10px; border: 1px dashed var(--secondary-purple);">
-                <b>⚠️ 注意事項：</b><br>每組最多可找 1 位外援（非本幫人士）。
+        <div class="modal-header">📢 報名方式</div>
+        <div style="line-height: 2;">
+            <p>1. <b>報名地點：</b>請前往 <b>歲歲 Discord</b> 的「活動投票處」頻道進行報名。</p>
+            <p>2. <b>私訊確認：</b>登記後請私訊下列人員進行確認：</p>
+            <p style="color: var(--primary-cyan); padding-left: 20px;">● 夜月臨空、聽辭、殊辭 等管理人員。</p>
+            <p>3. <b>單人報名：</b>如單人報名者，將由官方自動分配組員。</p>
+            
+            <div style="background: rgba(188, 19, 254, 0.1); padding: 15px; border-radius: 10px; border: 1px dashed var(--secondary-purple); margin-top: 20px;">
+                <b style="color: var(--secondary-purple);">⚠️ 注意事項：</b><br>
+                ● 報名最多可找 <b>1位外援</b> (非本幫人士)。
             </div>
         </div>
-        <button class="btn btn-primary" style="width:100%; margin-top:20px;" onclick="closeModal('joinModal')">我知道了</button>
+        <button class="btn btn-primary" style="width:100%; margin-top:25px;" onclick="closeModal('joinModal')">我知道了</button>
     </div>
 </div>
 
