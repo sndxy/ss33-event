@@ -13,7 +13,7 @@
             --secondary-purple: #bc13fe;
             --bg-dark: #06090f;
             /* 🚀 優化 1：降低背景 alpha 值 (0.6 -> 0.35) 增加透明度 */
-            --panel-bg: rgba(6, 9, 15, 0.05); 
+            --panel-bg: rgba(6, 9, 15, 0.15); 
             --win-green: #00ff88;
             --lose-red: #ff0055;
         }
@@ -91,9 +91,9 @@
         .panel { 
             background: var(--panel-bg); 
             border-radius: 20px; 
-            border: 1.5px solid rgba(0, 242, 255, 0.3); 
-            backdrop-filter: blur(10px); /* 強化毛玻璃質感 */
-            -webkit-backdrop-filter: blur(10px);
+            border: 1.5px solid rgba(0, 242, 255, 0.5); 
+            backdrop-filter: blur(3px); /* 強化毛玻璃質感 */
+            -webkit-backdrop-filter: blur(3px);
             width: 100%; max-width: 900px; margin-bottom: 25px; padding: 20px; box-sizing: border-box; 
             transition: transform 0.3s ease;
         }
