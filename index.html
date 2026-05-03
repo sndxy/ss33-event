@@ -37,13 +37,88 @@
         /* 🚀 標題與倒數 */
         .header-section { text-align: center; margin-bottom: 30px; width: 100%; }
         .countdown-title { color: var(--primary-cyan); font-weight: bold; letter-spacing: 5px; margin-bottom: 8px; font-size: 1.1rem; text-shadow: 0 0 10px var(--primary-cyan); }
-        .main-title {
-            font-size: clamp(2rem, 10vw, 4.5rem); font-weight: 900;
-            font-family: "Kaiti", "STKaiti", serif; font-style: italic;
-            background: linear-gradient(to bottom, #fff, var(--primary-cyan));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.9)); margin: 0; letter-spacing: 10px;
-        }
+        /* 🚀 燃燒武俠標題核心樣式 */
+.main-title {
+    /* 1. 基礎設定：建議使用較粗的字體檔以強化燃燒效果 */
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    font-weight: 900;
+    margin: 0;
+    letter-spacing: 15px;
+    position: relative; /* 為動畫偽元素定位 */
+    display: inline-block;
+    color: transparent; /* 隱藏原本文字顏色，改用漸層底色 */
+
+    /* 2. 黑紅漸層文字主體 */
+    background-image: linear-gradient(
+        to bottom,
+        #000000 0%,    /* 頂部純黑 */
+        #440000 30%,   /* 深紅 */
+        #ff0000 70%,   /* 正紅 */
+        #ff4500 100%   /* 底部帶點橙紅，模擬火根 */
+    );
+    -webkit-background-clip: text; /* 將漸層套用到文字上 */
+    background-clip: text;
+
+    /* 3. 核心火焰發光 (Drop-Shadow)：關鍵在於多層次與顏色疊加 */
+    /* 這裡使用 drop-shadow 是為了讓發光能順著漸層文字的形狀 */
+    filter: 
+        drop-shadow(0 0 5px rgba(255, 69, 0, 0.8))   /* 橙色內焰 */
+        drop-shadow(0 0 15px rgba(255, 0, 0, 0.6))  /* 紅色中焰 */
+        drop-shadow(0 0 30px rgba(255, 165, 0, 0.4)); /* 橙黃外焰，增加亮度 */
+}
+
+/* 4. 動態燃燒與閃爍效果 (利用偽元素和遮罩) */
+.main-title::after {
+    content: "歲歲 33 擂台宴"; /* 必須與原本文字完全相同 */
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    color: transparent;
+    
+    /* 建立一個會晃動的漸層遮罩，模擬熱氣與火焰晃動 */
+    background-image: linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.8) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    
+    /* 套用混合模式，讓遮罩亮部強化文字亮度 */
+    mix-mode: screen; 
+    
+    /* 套用動畫 */
+    animation: fire-burn 1.5s ease-in-out infinite alternate;
+    
+    /* 稍微模糊一點，增加真實感 */
+    filter: blur(1px);
+}
+
+/* 🚀 火焰燃燒動畫定義 */
+@keyframes fire-burn {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0.7;
+        /* 初始發光強度 */
+        filter: blur(1px) drop-shadow(0 0 20px rgba(255, 69, 0, 0.6));
+    }
+    30% {
+        /* 稍微往上偏移並晃動，模擬火焰上升 */
+        transform: translate(-1px, -2px) scale(1.01);
+        opacity: 0.9;
+    }
+    60% {
+        transform: translate(1px, -1px) scale(0.99);
+        opacity: 0.8;
+    }
+    100% {
+        /* 動態強化發光，模擬火焰閃爍 */
+        transform: translate(0, -3px) scale(1.02);
+        opacity: 1;
+        filter: blur(1.5px) drop-shadow(0 0 40px rgba(255, 165, 0, 0.8));
+    }
+}
         .countdown-wrap { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
         .time-box { background: rgba(22, 27, 34, 0.8); border: 2px solid var(--primary-cyan); padding: 10px; border-radius: 12px; min-width: 65px; text-align: center; box-shadow: 0 0 15px rgba(0, 242, 255, 0.3); }
         .time-num { font-size: 1.8rem; font-weight: 900; color: var(--primary-cyan); display: block; line-height: 1; }
