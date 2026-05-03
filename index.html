@@ -102,7 +102,7 @@
 
         /* 🌿 捲軸樣式 */
         .slot-container { display: flex; justify-content: center; align-items: center; gap: 10px; padding: 10px 0; }
-        .icon-circle-main, .slot-box { width: 75px; height: 75px; border-radius: 50%; border: 2px solid var(--primary-cyan); overflow: hidden; position: relative; background: rgba(0,0,0,0.5); flex-shrink: 0; }
+        .icon-circle-main, .slot-box { width: 75px; height: 75px; border-radius: 50%; border: 2px solid var(--primary-cyan);background-size: cover;background-position: center;background-repeat: no-repeat; overflow: hidden; position: relative; background: rgba(0,0,0,0.5); flex-shrink: 0; }
         .slot-track { display: flex; flex-direction: column; position: absolute; top: 0; animation: scroll-v-new 8s linear infinite; }
         @keyframes scroll-v-new { 0% { transform: translateY(0); } 100% { transform: translateY(-525px); } }
         .slot-item { width: 75px; height: 75px; background-size: 70%; background-repeat: no-repeat; background-position: center; flex-shrink: 0; }
