@@ -32,22 +32,18 @@
             background-size: cover;
             background-position: center;
             overflow-x: hidden;
-            /* 隱藏原生游標（若要紅點完全取代可加，建議保留避免迷路） */
-            cursor: crosshair;
         }
 
-        /* 🔴 滑鼠拖曳紅點美化 */
-        .cursor-dot {
-            width: 8px; height: 8px; background: #ff0000;
-            position: fixed; border-radius: 50%; pointer-events: none;
-            z-index: 9999; transform: translate(-50%, -50%);
-            box-shadow: 0 0 15px #ff0000, 0 0 30px #ff0000;
-            transition: transform 0.1s ease-out;
-        }
+        /* 🔴 霧面紅點拖曳效果樣式 */
         .cursor-trail {
-            width: 4px; height: 4px; background: rgba(255, 0, 0, 0.5);
-            position: fixed; border-radius: 50%; pointer-events: none;
-            z-index: 9998; transform: translate(-50%, -50%);
+            width: 12px; height: 12px;
+            background: rgba(255, 0, 0, 0.6);
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none; /* 確保不干擾點擊 */
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            filter: blur(4px); /* 營造霧霧的感覺 */
         }
 
         .main-container {
@@ -122,16 +118,16 @@
             overflow: hidden; position: relative; background: rgba(0,0,0,0.5); flex-shrink: 0;
             transition: all 0.3s ease;
         }
-        /* ✨ 頭像移入閃爍動畫 */
+        
+        /* ✨ 職業閃爍動畫 (滑鼠移入效果) */
         .icon-circle-main:hover, .icon-circle:hover {
             border-color: #fff;
-            box-shadow: 0 0 20px var(--primary-cyan);
-            animation: pulse-border 1s infinite alternate;
+            animation: pulse-glow 0.8s infinite alternate;
             cursor: pointer;
         }
-        @keyframes pulse-border {
-            from { box-shadow: 0 0 10px var(--primary-cyan); }
-            to { box-shadow: 0 0 25px var(--primary-cyan), 0 0 40px rgba(0, 242, 255, 0.6); }
+        @keyframes pulse-glow {
+            from { box-shadow: 0 0 5px var(--primary-cyan); }
+            to { box-shadow: 0 0 20px var(--primary-cyan), 0 0 30px rgba(0, 242, 255, 0.6); }
         }
 
         .icon-circle-main { background-size: cover; background-position: center; }
@@ -155,8 +151,10 @@
             transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
         }
         .btn:hover { transform: translateY(-3px); filter: brightness(1.2); }
-        
-        /* 其他 Modal 與動畫樣式保持不變 */
+        .btn-outline { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(5px); }
+        .btn-primary { background: var(--primary-cyan); color: #000; box-shadow: 0 0 15px rgba(0, 242, 255, 0.4); }
+
+        /* 🚀 彈窗與決賽圈動畫 (完整保留) */
         .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); overflow-y: auto; }
         .modal-content { background: rgba(10, 14, 23, 0.9); margin: 5vh auto; padding: 25px; border: 1px solid var(--primary-cyan); width: 90%; border-radius: 15px; max-width: 650px; animation: modalFade 0.4s ease-out; }
         @keyframes modalFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -191,7 +189,7 @@
         /* 手機版修正 */
         @media (max-width: 480px) {
             body, html { background-size: contain; background-position: top center; background-attachment: scroll; }
-            .cursor-dot, .cursor-trail { display: none; } /* 手機端不需要紅點拖曳 */
+            .cursor-trail { display: none; } /* 手機端隱藏拖曳紅點 */
             .main-title { font-size: 2.5rem; letter-spacing: 2px; }
             .pool-grid { grid-template-columns: repeat(3, 1fr); }
             .icon-circle-main, .slot-box, .slot-item { width: 65px; height: 65px; }
@@ -201,8 +199,6 @@
     </style>
 </head>
 <body>
-
-<div class="cursor-dot"></div>
 
 <div class="main-container">
     <div class="header-section">
@@ -277,11 +273,33 @@
 
 <div class="maker-credit">製作者：夜月臨空</div>
 
-<div id="rulesModal" class="modal">...</div>
-<div id="joinModal" class="modal">...</div>
+<div id="rulesModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header" style="color: var(--primary-cyan); text-align: center; font-size: 1.5rem; margin-bottom: 20px; font-weight: bold;">🏆 賽制流程詳解</div>
+        <div class="rules-detail-box">
+            <div class="rule-step-title">⚔️ 第一階段：預賽 (雙敗淘汰)</div>
+            <p style="font-size: 0.85rem;">累積兩場勝場即晉級，累積兩場敗場則淘汰。</p>
+        </div>
+        <div class="rules-detail-box" style="border-left-color: #ff9d00;">
+            <div class="rule-step-title" style="color: #ff9d00;">🔥 第二階段：決賽圈 BO3</div>
+            <div class="bracket-box">
+                <div class="final-match">總決賽爭霸</div>
+            </div>
+        </div>
+        <button class="btn btn-primary" style="width:100%;" onclick="closeModal('rulesModal')">關閉說明</button>
+    </div>
+</div>
+
+<div id="joinModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header" style="color: var(--primary-cyan); text-align: center; font-size: 1.5rem; margin-bottom: 20px; font-weight: bold;">📢 報名方式</div>
+        <p>請至 Discord 活動處報名。</p>
+        <button class="btn btn-primary" style="width:100%; margin-top:20px;" onclick="closeModal('joinModal')">我知道了</button>
+    </div>
+</div>
 
 <script>
-    // ⏳ 倒數計時腳本
+    // ⏳ 倒數計時
     function updateTimer() {
         const target = new Date("May 16, 2026 21:30:00").getTime();
         const now = new Date().getTime();
@@ -294,10 +312,11 @@
     }
     setInterval(updateTimer, 1000); updateTimer();
 
-    // 🔴 滑鼠紅點拖曳美化腳本
-    const dot = document.querySelector('.cursor-dot');
+    // 🔴 霧面紅點拖曳美化腳本 (保留原生鼠標)
     const trails = [];
-    for(let i=0; i<8; i++) {
+    const trailCount = 12; // 增加數量讓霧感更連貫
+
+    for(let i=0; i<trailCount; i++) {
         let t = document.createElement('div');
         t.className = 'cursor-trail';
         document.body.appendChild(t);
@@ -305,15 +324,16 @@
     }
 
     window.addEventListener('mousemove', (e) => {
-        dot.style.left = e.clientX + 'px';
-        dot.style.top = e.clientY + 'px';
-        
         trails.forEach((t, index) => {
+            // 使用 setTimeout 創造物理上的延遲跟隨感
             setTimeout(() => {
                 t.style.left = e.clientX + 'px';
                 t.style.top = e.clientY + 'px';
-                t.style.opacity = (1 - index/8);
-            }, index * 15);
+                // 越後面的點越淡、越小，營造消失感
+                const ratio = (trailCount - index) / trailCount;
+                t.style.opacity = ratio * 0.5;
+                t.style.transform = `translate(-50%, -50%) scale(${ratio})`;
+            }, index * 12); 
         });
     });
 
