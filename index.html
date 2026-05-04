@@ -12,39 +12,48 @@
             --primary-cyan: #00f2ff;
             --secondary-purple: #bc13fe;
             --bg-dark: #06090f;
-            --panel-bg: rgba(10, 15, 25, 0.75); /* 稍微加深確保文字清晰 */
+            --panel-bg: rgba(6, 9, 15, 0.7); 
             --win-green: #00ff88;
             --lose-red: #ff0055;
             --neon-green: #39FF14;
         }
 
-        /* 🚀 背景穩定修復：解決手機背景跑掉/變黑的問題 */
+        /* 🚀 終極背景修復方案 */
+        * { box-sizing: border-box; }
+
         body, html {
             margin: 0; padding: 0; min-height: 100vh;
             font-family: "Microsoft JhengHei", -apple-system, sans-serif;
             color: #fff;
-            background-color: #000;
-            overflow-x: hidden;
+            background-color: #000; /* 防止加載前全白 */
         }
 
-        /* 使用偽元素承載背景，這是手機端最穩定的固定背景寫法 */
-        body::before {
-            content: "";
+        /* 這裡強制建立一個獨立的背景層 */
+        .bg-fixed-layer {
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* 確保在所有內容之後 */
             background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
-                url('BG.gif');
+                linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+                url('BG.gif'); 
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            /* 針對 iOS 的優化 */
+            -webkit-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
         }
 
         .main-container {
+            position: relative;
+            z-index: 1;
             display: flex; flex-direction: column; align-items: center; 
-            padding: 20px 15px 80px; box-sizing: border-box;
+            padding: 20px 15px 60px; 
             width: 100%;
+            overflow-x: hidden;
         }
 
         /* 🚀 標題樣式 (保留原設定並強化層次) */
@@ -189,7 +198,7 @@
     </style>
 </head>
 <body>
-
+<div class="bg-fixed-layer"></div>
 <div class="main-container">
     <div class="header-section">
         <div class="countdown-title">⚔️ 開戰倒數 ⚔️</div>
