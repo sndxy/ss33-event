@@ -34,7 +34,27 @@
             overflow-x: hidden;
         }
 
-        /* 🔴 霧面紅點拖曳效果 (保留原生鼠標) */
+        /* 🎵 音樂按鈕樣式 (加回) */
+        .music-btn {
+            position: fixed; top: 20px; right: 20px; z-index: 10001; 
+            cursor: pointer; background: rgba(0,0,0,0.6); 
+            border: 1px solid var(--primary-cyan); 
+            width: 45px; height: 45px; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            transition: all 0.3s ease; 
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+        }
+        .music-playing {
+            animation: musicRotate 4s linear infinite;
+            border-color: var(--win-green) !important;
+            box-shadow: 0 0 15px var(--win-green) !important;
+        }
+        @keyframes musicRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* 🔴 霧面紅點拖曳效果 */
         .cursor-trail {
             width: 12px; height: 12px;
             background: rgba(255, 0, 0, 0.6);
@@ -43,7 +63,7 @@
             pointer-events: none;
             z-index: 9999;
             transform: translate(-50%, -50%);
-            filter: blur(4px); /* 霧化效果 */
+            filter: blur(4px);
         }
 
         .main-container {
@@ -54,7 +74,6 @@
         /* 🚀 標題與倒數 */
         .header-section { text-align: center; margin-bottom: 30px; width: 100%; }
         
-        /* ✨ 新增：第二屆樣式 */
         .edition-text {
             font-family: 'Ma Shan Zheng', serif;
             font-size: 1.6rem;
@@ -94,7 +113,6 @@
         .time-num { font-size: 1.8rem; font-weight: 900; color: var(--primary-cyan); display: block; line-height: 1; }
         .time-label { font-size: 0.6rem; color: #aaa; text-transform: uppercase; margin-top: 4px; display: block; }
 
-        /* 🚀 面板與職業池 */
         .panel { 
             background: var(--panel-bg); border-radius: 20px; border: 1.2px solid rgba(0, 242, 255, 0.4); 
             backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
@@ -111,7 +129,6 @@
             transition: all 0.3s ease;
         }
 
-        /* ✨ 職業移入閃爍動畫 */
         .icon-circle-main:hover, .icon-circle:hover {
             border-color: #fff;
             animation: pulse-glow 0.8s infinite alternate;
@@ -131,14 +148,12 @@
         .pool-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; }
         .icon-circle { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--primary-cyan); margin: 0 auto 5px; background-size: 70%; background-repeat: no-repeat; background-position: center; background-color: rgba(0,0,0,0.4); transition: all 0.3s ease; }
 
-        /* 🚀 按鈕 */
         .btn-group { display: flex; gap: 15px; width: 100%; justify-content: center; flex-wrap: wrap; }
         .btn { padding: 15px 30px; border-radius: 5px; font-weight: bold; cursor: pointer; border: none; font-size: 1rem; width: 100%; max-width: 300px; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .btn:hover { transform: translateY(-3px); filter: brightness(1.2); }
         .btn-outline { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(5px); }
         .btn-primary { background: var(--primary-cyan); color: #000; box-shadow: 0 0 15px rgba(0, 242, 255, 0.4); }
 
-        /* 🚀 彈窗與決賽圈樣式 */
         .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); overflow-y: auto; }
         .modal-content { background: rgba(10, 14, 23, 0.95); margin: 5vh auto; padding: 25px; border: 1px solid var(--primary-cyan); width: 90%; border-radius: 15px; max-width: 650px; animation: modalFade 0.4s ease-out; }
         @keyframes modalFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -171,11 +186,9 @@
 
         .maker-credit { position: fixed; bottom: 10px; right: 15px; color: rgba(255, 255, 255, 0.3); font-size: 0.7rem; pointer-events: none; }
 
-        /* 手機版修正 */
         @media (max-width: 480px) {
             body, html { background-size: contain; background-position: top center; background-attachment: scroll; }
             .cursor-trail { display: none; }
-            /* ✨ 新增：第二屆手機版字體大小 */
             .edition-text { font-size: 1.1rem; margin-bottom: -10px; letter-spacing: 6px; }
             .main-title { font-size: 2.5rem; letter-spacing: 2px; }
             .pool-grid { grid-template-columns: repeat(3, 1fr); }
@@ -186,6 +199,14 @@
     </style>
 </head>
 <body>
+
+<audio id="bgMusic" loop>
+    <source src="BG_music.m4a" type="audio/mp4">
+</audio>
+
+<div id="musicBtn" class="music-btn" onclick="toggleMusic(event)">
+    <span id="musicIcon" style="font-size: 22px;">🔇</span>
+</div>
 
 <div class="main-container">
     <div class="header-section">
@@ -318,6 +339,36 @@
 </div>
 
 <script>
+    // 🎵 音樂邏輯 (加回)
+    const bgMusic = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+    const musicIcon = document.getElementById('musicIcon');
+    let hasInteracted = false;
+
+    // 點擊頁面任何地方開始播放
+    document.addEventListener('click', () => {
+        if (!hasInteracted) {
+            bgMusic.play().then(() => {
+                musicIcon.innerText = "🎵";
+                musicBtn.classList.add('music-playing');
+                hasInteracted = true;
+            }).catch(err => console.log("等待點擊播放"));
+        }
+    }, { once: false });
+
+    function toggleMusic(e) {
+        e.stopPropagation(); // 防止觸發全域點擊邏輯
+        if (bgMusic.paused) {
+            bgMusic.play();
+            musicIcon.innerText = "🎵";
+            musicBtn.classList.add('music-playing');
+        } else {
+            bgMusic.pause();
+            musicIcon.innerText = "🔇";
+            musicBtn.classList.remove('music-playing');
+        }
+    }
+
     // ⏳ 倒數計時
     function updateTimer() {
         const target = new Date("May 16, 2026 21:30:00").getTime();
