@@ -26,7 +26,7 @@
             background-color: var(--bg-dark);
             background-image: 
                 linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), 
-                url('.gif'); 
+                url('BG.gif'); 
             background-attachment: fixed;
             background-repeat: no-repeat;
             background-size: cover;
@@ -102,8 +102,9 @@
         .time-num { font-size: 1.8rem; font-weight: 900; color: var(--primary-cyan); display: block; line-height: 1; }
         .time-label { font-size: 0.6rem; color: #aaa; text-transform: uppercase; margin-top: 4px; display: block; }
 
+        /* 🚀 面板與職業池 */
         .panel { 
-            background: var(--panel-); border-radius: 20px; border: 1.2px solid rgba(0, 242, 255, 0.4); 
+            background: var(--panel-bg); border-radius: 20px; border: 1.2px solid rgba(0, 242, 255, 0.4); 
             backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
             width: 100%; max-width: 900px; margin-bottom: 25px; padding: 20px; box-sizing: border-box; 
         }
@@ -188,8 +189,9 @@
 </head>
 <body>
 
-<audio id="Music" loop>
-    <source src="BG_music.m4a" type="audio/mpeg">
+<audio id="bgMusic" loop>
+    <source src="BG_music.m4a" type="audio/mp4">
+    您的瀏覽器不支援此音訊格式。
 </audio>
 
 <div id="musicBtn" class="music-btn" onclick="toggleMusic()">
@@ -316,6 +318,10 @@
             <p>1. <b>報名地點：</b>請至 <b>歲歲 Discord</b> 的「活動投票處」報名。</p>
             <p>2. <b>私訊確認：</b>投票後如有找好組員請私訊當家。</p>
             <p>3. <b>單人報名：</b>由官方自動分配組員。</p>
+            <div style="background: rgba(188, 19, 254, 0.1); padding: 12px; border-radius: 10px; border: 1px dashed var(--secondary-purple); margin-top: 15px;">
+                <b style="color: var(--secondary-purple);">⚠️ 注意事項：</b><br>
+                ● 報名最多可找 1 位外援 (非本幫人士)。
+            </div>
         </div>
         <button class="btn btn-primary" style="width:100%; margin-top:20px;" onclick="closeModal('joinModal')">我知道了</button>
     </div>
@@ -329,7 +335,7 @@
 
     function toggleMusic() {
         if (bgMusic.paused) {
-            bgMusic.play().catch(e => console.log("需點擊後播放"));
+            bgMusic.play().catch(e => console.log("瀏覽器阻擋自動播放，需手動點擊按鈕"));
             musicIcon.innerText = "🎵";
             musicBtn.classList.add('music-playing');
         } else {
@@ -352,7 +358,7 @@
     }
     setInterval(updateTimer, 1000); updateTimer();
 
-    // 🔴 霧面紅點拖曳
+    // 🔴 霧面紅點拖曳美化
     const trails = [];
     const trailCount = 10;
     for(let i=0; i<trailCount; i++) {
