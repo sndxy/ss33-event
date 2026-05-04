@@ -73,16 +73,26 @@
         /* 🚀 標題與倒數 */
         .header-section { text-align: center; margin-bottom: 30px; width: 100%; }
         
-        .edition-text {
-            font-family: 'LXGW WenKai Mono TC', serif;
-            font-size: 1.6rem;
-            color: #ffd700;
-            letter-spacing: 12px;
-            margin-bottom: -15px;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
-            display: block;
-            margin-top: 15px;
-        }
+        /* ✨ 修改：第二屆樣式 - 毛筆字體 & 橘金色調 */
+.edition-text {
+    /* 1. 替換為與主標題一致的古風毛筆字體 */
+    font-family: 'Ma Shan Zheng', 'Microsoft JhengHei', serif;
+    font-size: 1.8rem; /* 稍微放大一點點，增加毛筆字的氣勢 */
+    
+    /* 2. 調整顏色為橘金色漸層 (從淺橘到深橘金) */
+    color: transparent; 
+    background-image: linear-gradient(to bottom, #ffca80 0%, #ff8c00 50%, #e65100 100%);
+    -webkit-background-clip: text; 
+    background-clip: text;
+
+    /* 3. 調整輝光為溫暖的橘色調 */
+    text-shadow: 0 0 10px rgba(255, 140, 0, 0.6);
+    
+    letter-spacing: 12px;
+    margin-bottom: -15px; /* 保持原有的與主標題緊密排列 */
+    display: block;
+    margin-top: 15px;
+}
 
         .countdown-title { 
             color: var(--primary-cyan); font-weight: bold; letter-spacing: 5px; 
