@@ -88,24 +88,60 @@
             color: var(--primary-cyan); font-weight: bold; letter-spacing: 5px; 
             margin-bottom: 8px; font-size: 1.1rem; text-shadow: 0 0 10px var(--primary-cyan); 
         }
-        .main-title {
-            font-family: "LXGW WenKai Mono TC", serif;
-            font-weight: 900; font-size: clamp(2.8rem, 12vw, 5.5rem); font-style: italic; 
-            margin: 10px 0; letter-spacing: 4px; position: relative; display: inline-block;
-            color: transparent; background-image: linear-gradient(to bottom, #000000 0%, #660000 40%, #cc0000 70%, #ff4500 100%);
-            -webkit-background-clip: text; background-clip: text;
-            filter: drop-shadow(0 0 5px rgba(0, 0, 0, 1)) drop-shadow(0 0 12px rgba(255, 69, 0, 0.8)) drop-shadow(0 0 30px rgba(255, 0, 0, 0.4));
-        }
-        .main-title::after {
-            content: "歲歲三三擂台宴"; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            color: transparent; background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0) 100%);
-            -webkit-background-clip: text; background-clip: text; mix-blend-mode: screen; 
-            animation: fire-burn 2.5s ease-in-out infinite alternate; filter: blur(1.5px);
-        }
-        @keyframes fire-burn {
-            0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
-            100% { transform: translate(2px, -4px) scale(1.03); opacity: 0.9; filter: blur(2px) drop-shadow(0 0 25px rgba(255, 69, 0, 0.7)); }
-        }
+        /* 🚀 標題改為燦金雷光樣式 */
+.main-title {
+    font-family: 'Ma Shan Zheng', 'Noto Serif TC', serif;
+    font-weight: 900; 
+    font-size: clamp(2.8rem, 12vw, 5.5rem); 
+    font-style: italic; 
+    margin: 10px 0; 
+    letter-spacing: 4px; 
+    position: relative; 
+    display: inline-block;
+    
+    /* 燦金色漸層：由亮金到深金 */
+    color: transparent; 
+    background-image: linear-gradient(to bottom, #fff7ad 0%, #ffd700 45%, #b8860b 100%);
+    -webkit-background-clip: text; 
+    background-clip: text;
+
+    /* 雷光輝光效果：使用白、青、金三層輝光營造打雷的瞬間感 */
+    filter: 
+        drop-shadow(0 0 5px rgba(255, 255, 255, 0.8))   /* 核心白光 */
+        drop-shadow(0 0 15px rgba(255, 215, 0, 0.6))  /* 金色主光 */
+        drop-shadow(0 0 30px rgba(0, 242, 255, 0.4)); /* 帶一點青色的雷電電離感 */
+    
+    /* 閃電跳動動畫 */
+    animation: lightning-flicker 3s infinite;
+}
+
+/* 移除原本的火燒效果，改為電光流動 */
+.main-title::after {
+    content: "歲歲三三擂台宴"; 
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    color: transparent; 
+    background-image: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.8) 50%, transparent 60%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text; 
+    background-clip: text;
+    mix-blend-mode: overlay;
+    animation: electric-sweep 4s linear infinite;
+    filter: blur(1px);
+}
+
+/* ⚡ 閃電跳動：模擬不規則的打雷閃爍 */
+@keyframes lightning-flicker {
+    0%, 90%, 100% { opacity: 1; filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6)); }
+    92% { opacity: 0.8; filter: drop-shadow(0 0 40px #fff) brightness(2); } /* 強閃光 */
+    94% { opacity: 1; }
+    96% { opacity: 0.9; filter: drop-shadow(0 0 50px rgba(0, 242, 255, 0.8)) brightness(2.5); } /* 二次閃電 */
+}
+
+/* ⚡ 電光掃過：模擬表面金屬反光 */
+@keyframes electric-sweep {
+    0% { background-position: -200% -200%; }
+    100% { background-position: 200% 200%; }
+}
 
         .countdown-wrap { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
         .time-box { background: rgba(0, 0, 0, 0.4); border: 2px solid var(--primary-cyan); padding: 10px; border-radius: 12px; min-width: 65px; text-align: center; backdrop-filter: blur(2px); }
