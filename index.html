@@ -12,7 +12,6 @@
             --primary-cyan: #00f2ff;
             --secondary-purple: #bc13fe;
             --bg-dark: #06090f;
-            /* 🚀 透明度優化：降低背景濃度，讓 GIF 更清晰 */
             --panel-bg: rgba(6, 9, 15, 0.15); 
             --win-green: #00ff88;
             --lose-red: #ff0055;
@@ -100,15 +99,46 @@
         .panel-title { font-size: 1.1rem; font-weight: bold; color: var(--primary-cyan); margin: 0; text-shadow: 0 0 10px rgba(0, 242, 255, 0.5); }
         .match-time { background: var(--secondary-purple); padding: 5px 12px; border-radius: 5px; font-size: 0.8rem; font-weight: bold; }
 
-        /* 🌿 捲軸樣式 */
-        .slot-container { display: flex; justify-content: center; align-items: center; gap: 10px; padding: 10px 0; }
-        .icon-circle-main, .slot-box { width: 75px; height: 75px; border-radius: 50%; border: 2px solid var(--primary-cyan);background-size: cover;background-position: center;background-repeat: no-repeat; overflow: hidden; position: relative; background: rgba(0,0,0,0.5); flex-shrink: 0; }
+        /* 🌿 修正後的圓形圖標樣式 */
+        .icon-circle-main, .slot-box { 
+            width: 75px; 
+            height: 75px; 
+            border-radius: 50%; 
+            border: 2px solid var(--primary-cyan);
+            background-size: contain;      /* 👈 關鍵：縮放圖片以適應圓框 */
+            background-position: center;   /* 👈 關鍵：置中 */
+            background-repeat: no-repeat; 
+            overflow: hidden; 
+            position: relative; 
+            background-color: rgba(0,0,0,0.5); 
+            flex-shrink: 0; 
+        }
+        
         .slot-track { display: flex; flex-direction: column; position: absolute; top: 0; animation: scroll-v-new 8s linear infinite; }
         @keyframes scroll-v-new { 0% { transform: translateY(0); } 100% { transform: translateY(-525px); } }
-        .slot-item { width: 75px; height: 75px; background-size: 70%; background-repeat: no-repeat; background-position: center; flex-shrink: 0; }
+        
+        .slot-item { 
+            width: 75px; 
+            height: 75px; 
+            background-size: 80%;          /* 👈 捲軸內的縮小至 80% 比較好看 */
+            background-repeat: no-repeat; 
+            background-position: center; 
+            flex-shrink: 0; 
+        }
         
         .pool-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; }
-        .icon-circle { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--primary-cyan); margin: 0 auto 5px; background-size: 70%; background-repeat: no-repeat; background-position: center; background-color: rgba(0,0,0,0.4); }
+        
+        .icon-circle { 
+            width: 50px; 
+            height: 50px; 
+            border-radius: 50%; 
+            border: 2px solid var(--primary-cyan); 
+            margin: 0 auto 5px; 
+            background-size: contain;      /* 👈 關鍵：縮放圖片 */
+            background-repeat: no-repeat; 
+            background-position: center; 
+            background-color: rgba(0,0,0,0.4); 
+        }
 
         /* 🚀 按鈕樣式 */
         .btn-group { display: flex; gap: 15px; width: 100%; justify-content: center; flex-wrap: wrap; }
@@ -246,8 +276,28 @@
                 <div style="font-size: 0.7rem; color: #fff; margin-top: 5px;">核心：素問</div>
             </div>
             <div style="font-size: 1.5rem; color: var(--secondary-purple); font-weight: 900;">+</div>
-            <div class="slot-box"><div class="slot-track"><div class="slot-item" style="background-image: url('assets/4.png');"></div><div class="slot-item" style="background-image: url('assets/8.png');"></div><div class="slot-item" style="background-image: url('assets/5.png');"></div><div class="slot-item" style="background-image: url('assets/2.png');"></div><div class="slot-item" style="background-image: url('assets/3.png');"></div><div class="slot-item" style="background-image: url('assets/6.png');"></div><div class="slot-item" style="background-image: url('assets/7.png');"></div></div></div>
-            <div class="slot-box"><div class="slot-track" style="animation-delay: -3.5s;"><div class="slot-item" style="background-image: url('assets/2.png');"></div><div class="slot-item" style="background-image: url('assets/5.png');"></div><div class="slot-item" style="background-image: url('assets/8.png');"></div><div class="slot-item" style="background-image: url('assets/7.png');"></div><div class="slot-item" style="background-image: url('assets/6.png');"></div><div class="slot-item" style="background-image: url('assets/4.png');"></div><div class="slot-item" style="background-image: url('assets/3.png');"></div></div></div>
+            <div class="slot-box">
+                <div class="slot-track">
+                    <div class="slot-item" style="background-image: url('assets/4.png');"></div>
+                    <div class="slot-item" style="background-image: url('assets/8.png');"></div>
+                    <div class="slot-item" style="background-image: url('assets/5.png');"></div>
+                    <div class="slot-item" style="background-image: url('assets/2.png');"></div>
+                    <div class="slot-item" style="background-image: url('assets/3.png');"></div>
+                    <div class="slot-item" style="background-image: url('assets/6.png');"></div>
+                    <div class="slot-item" style="background-image: url('assets/7.png');"></div>
+                </div>
+            </div>
+            <div class="slot-box">
+                <div class="slot-track" style="animation-delay: -3.5s;">
+                    <div class="slot-item" style="background-image: url('assets/2.png');"></div>
+                    <div class="slot-item" style="background-image: url('assets/5.png');"></div>
+                    <div class="slot-item" style="background-image: url('assets/8.png');"></div>
+                    <div class="slot-item" style="background-image: url('assets/7.png');"></div>
+                    <div class="slot-item" style="background-image: url('assets/6.png');"></div>
+                    <div class="slot-item" style="background-image: url('assets/4.png');"></div>
+                    <div class="slot-item" style="background-image: url('assets/3.png');"></div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -290,7 +340,7 @@
         </div>
         <div class="rules-detail-box" style="border-left-color: #ff9d00;">
             <div class="rule-step-title" style="color: #ff9d00;">🔥 第二階段：決賽圈 BO3</div>
-            <p style="font-size: 0.9rem;">進入決賽圈後將重新抽籤分配對手，採取bo3階梯制，直到最後冠軍勝出。假設4隊進入決賽，範例如下</p>
+            <p style="font-size: 0.9rem;">進入決賽圈後將重新抽籤分配對手，採取bo3階梯制，直到最後冠軍勝出。</p>
             <div class="bracket-box">
                 <svg class="path-container" viewBox="0 0 400 200">
                     <path class="energy-path" d="M 200 40 L 200 75" />
@@ -350,7 +400,6 @@
 
     function openModal(id) { 
         document.getElementById(id).style.display = 'block'; 
-        // 重新觸發決賽圈動畫 (若有需要)
     }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     window.onclick = function(event) { if (event.target.className === 'modal') { event.target.style.display = "none"; } }
