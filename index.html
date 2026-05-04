@@ -15,7 +15,7 @@
             --panel-bg: rgba(6, 9, 15, 0.15); 
             --win-green: #00ff88;
             --lose-red: #ff0055;
-            --neon-green: #39FF14; /* 螢光綠色 */
+            --neon-green: #39FF14; /* 螢光綠色定義 */
         }
 
         /* 🚀 背景設定 */
@@ -62,6 +62,25 @@
             filter: drop-shadow(0 0 5px rgba(0, 0, 0, 1)) drop-shadow(0 0 12px rgba(255, 69, 0, 0.8)) drop-shadow(0 0 30px rgba(255, 0, 0, 0.4));
         }
 
+        .main-title::after {
+            content: "歲歲三三擂台宴";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            font-family: inherit; font-weight: inherit; font-style: inherit; 
+            color: transparent;
+            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            mix-blend-mode: screen; 
+            animation: fire-burn 2.5s ease-in-out infinite alternate;
+            filter: blur(1.5px);
+        }
+
+        @keyframes fire-burn {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+            100% { transform: translate(2px, -4px) scale(1.03); opacity: 0.9; filter: blur(2px) drop-shadow(0 0 25px rgba(255, 69, 0, 0.7)); }
+        }
+
         /* ⏳ 倒數計時 */
         .countdown-wrap { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
         .time-box { background: rgba(0, 0, 0, 0.4); border: 2px solid var(--primary-cyan); padding: 10px; border-radius: 12px; min-width: 65px; text-align: center; backdrop-filter: blur(2px); }
@@ -81,81 +100,85 @@
         .panel-title { font-size: 1.1rem; font-weight: bold; color: var(--primary-cyan); margin: 0; text-shadow: 0 0 10px rgba(0, 242, 255, 0.5); }
         .match-time { background: var(--secondary-purple); padding: 5px 12px; border-radius: 5px; font-size: 0.8rem; font-weight: bold; }
 
-        /* 🌿 修正後的核心池樣式：橫向排列且大小相等 */
-        .slot-container { 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            gap: 15px; 
-            padding: 15px 0; 
-        }
+        /* 🌿 修改後的核心池樣式：橫向且大小相等 */
+        .slot-container { display: flex; justify-content: center; align-items: center; gap: 15px; padding: 10px 0; }
         
-        /* 統一三個框框的大小 */
+        /* 統一三個圓圈的大小為 80px */
         .icon-circle-main, .slot-box { 
-            width: 85px; 
-            height: 85px; 
-            border-radius: 50%; 
-            border: 2px solid var(--primary-cyan);
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat; 
-            overflow: hidden; 
-            position: relative; 
-            background-color: rgba(0,0,0,0.5); 
-            flex-shrink: 0; 
+            width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--primary-cyan);
+            background-size: contain; background-position: center; background-repeat: no-repeat; 
+            overflow: hidden; position: relative; background: rgba(0,0,0,0.5); flex-shrink: 0; 
         }
 
-        /* 螢光綠文字樣式 */
+        /* 螢光綠大字體 */
         .core-label {
-            font-size: 1rem; /* 字體變大 */
-            color: var(--neon-green);
-            font-weight: bold;
+            font-size: 1.1rem; 
+            color: var(--neon-green); 
+            font-weight: bold; 
             margin-top: 8px;
-            text-shadow: 0 0 8px var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
         }
 
         .slot-track { display: flex; flex-direction: column; position: absolute; top: 0; animation: scroll-v-new 8s linear infinite; }
-        @keyframes scroll-v-new { 0% { transform: translateY(0); } 100% { transform: translateY(-595px); } } /* 85px * 7 */
-        
-        .slot-item { 
-            width: 85px; 
-            height: 85px; 
-            background-size: 80%;
-            background-repeat: no-repeat; 
-            background-position: center; 
-            flex-shrink: 0; 
-        }
+        /* 動畫位移調整為 80px * 7 = 560px */
+        @keyframes scroll-v-new { 0% { transform: translateY(0); } 100% { transform: translateY(-560px); } }
+        .slot-item { width: 80px; height: 80px; background-size: 75%; background-repeat: no-repeat; background-position: center; flex-shrink: 0; }
         
         .pool-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; }
-        .icon-circle { 
-            width: 50px; 
-            height: 50px; 
-            border-radius: 50%; 
-            border: 2px solid var(--primary-cyan); 
-            margin: 0 auto 5px; 
-            background-size: contain;
-            background-repeat: no-repeat; 
-            background-position: center; 
-            background-color: rgba(0,0,0,0.4); 
-        }
+        .icon-circle { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--primary-cyan); margin: 0 auto 5px; background-size: 70%; background-repeat: no-repeat; background-position: center; background-color: rgba(0,0,0,0.4); }
 
-        /* 🚀 按鈕與彈窗 (保持原樣) */
+        /* 🚀 按鈕樣式 (完整保留) */
         .btn-group { display: flex; gap: 15px; width: 100%; justify-content: center; flex-wrap: wrap; }
-        .btn { padding: 15px 30px; border-radius: 5px; font-weight: bold; cursor: pointer; border: none; font-size: 1rem; width: 100%; max-width: 300px; transition: all 0.2s; }
-        .btn-outline { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
-        .btn-primary { background: var(--primary-cyan); color: #000; }
-        
-        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
-        .modal-content { background: rgba(10, 14, 23, 0.9); margin: 5vh auto; padding: 25px; border: 1px solid var(--primary-cyan); width: 90%; border-radius: 15px; max-width: 650px; }
+        .btn { 
+            padding: 15px 30px; border-radius: 5px; font-weight: bold; cursor: pointer; border: none; font-size: 1rem; width: 100%; max-width: 300px; 
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+        }
+        .btn:hover { transform: translateY(-3px); filter: brightness(1.2); }
+        .btn:active { transform: scale(0.95); } 
+        .btn-outline { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(5px); }
+        .btn-primary { background: var(--primary-cyan); color: #000; box-shadow: 0 0 15px rgba(0, 242, 255, 0.4); }
+
+        /* 🚀 彈窗與決賽圈動畫 (完整保留) */
+        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); overflow-y: auto; }
+        .modal-content { 
+            background: rgba(10, 14, 23, 0.9); margin: 5vh auto; padding: 25px; border: 1px solid var(--primary-cyan); width: 90%; border-radius: 15px; max-width: 650px; 
+            animation: modalFade 0.4s ease-out;
+        }
+        @keyframes modalFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
         .rules-detail-box { background: rgba(255,255,255,0.03); border-radius: 10px; padding: 15px; margin-bottom: 20px; border-left: 4px solid var(--primary-cyan); }
+        .rule-step-title { color: var(--primary-cyan); font-weight: bold; margin-bottom: 10px; }
         
-        .maker-credit { position: fixed; bottom: 10px; right: 15px; color: rgba(255, 255, 255, 0.3); font-size: 0.7rem; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+        .dot-win { background: var(--win-green); animation: pulse-green 1.5s infinite; }
+        .dot-lose { background: var(--lose-red); animation: pulse-red 1.5s infinite; }
+        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(0, 255, 136, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); } }
+        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(255, 0, 85, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(255, 0, 85, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 0, 85, 0); } }
+
+        .bracket-box { position: relative; display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 30px 10px; background: rgba(0, 0, 0, 0.4); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
+        .match-row { display: flex; align-items: center; justify-content: center; gap: 15px; width: 100%; z-index: 2; opacity: 0; }
+        .match-row.top { animation: slideInMatch 0.6s forwards 0.2s; }
+        .match-row.bottom { animation: slideInMatch 0.6s forwards 0.4s; }
+        .team-slot { display: inline-block; padding: 5px 15px; border: 1px solid #555; border-radius: 5px; font-size: 0.85rem; background: rgba(0,0,0,0.3); }
+        .team-slot.team-win { border-color: var(--primary-cyan); color: var(--primary-cyan); background: rgba(0, 242, 255, 0.05); animation: cyanGlow 2s infinite alternate; }
+        .final-match { width: 85%; padding: 15px; border: 2px solid var(--secondary-purple); border-radius: 10px; background: rgba(188, 19, 254, 0.1); text-align: center; position: relative; z-index: 2; opacity: 0; animation: purpleBurn 3s infinite alternate, fadeInFinal 0.8s forwards 0.8s; }
+        .vs-icon { color: #fff; font-size: 1rem; animation: vsPulse 1.5s infinite; }
+        .path-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        .energy-path { fill: none; stroke: var(--primary-cyan); stroke-width: 2; stroke-dasharray: 100; stroke-dashoffset: 100; animation: drawPath 1.5s forwards 1s; opacity: 0.4; }
+
+        @keyframes cyanGlow { from { box-shadow: 0 0 5px rgba(0, 242, 255, 0.2); } to { box-shadow: 0 0 15px rgba(0, 242, 255, 0.5); } }
+        @keyframes purpleBurn { 0% { box-shadow: 0 0 10px rgba(188, 19, 254, 0.3); transform: scale(1); } 100% { box-shadow: 0 0 25px rgba(188, 19, 254, 0.6); transform: scale(1.02); } }
+        @keyframes vsPulse { 0% { opacity: 0.6; } 50% { opacity: 1; transform: scale(1.2); } 100% { opacity: 0.6; } }
+        @keyframes drawPath { to { stroke-dashoffset: 0; } }
+        @keyframes slideInMatch { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes fadeInFinal { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+
+        .maker-credit { position: fixed; bottom: 10px; right: 15px; color: rgba(255, 255, 255, 0.3); font-size: 0.7rem; pointer-events: none; }
 
         @media (max-width: 480px) {
-            .main-title { font-size: 2.5rem; }
+            .main-title { font-size: 2.5rem; letter-spacing: 2px; }
             .pool-grid { grid-template-columns: repeat(3, 1fr); }
-            .icon-circle-main, .slot-box { width: 65px; height: 65px; }
-            .slot-item { width: 65px; height: 65px; }
+            .icon-circle-main, .slot-box, .slot-item { width: 65px; height: 65px; }
             @keyframes scroll-v-new { 0% { transform: translateY(0); } 100% { transform: translateY(-455px); } }
         }
     </style>
@@ -185,9 +208,9 @@
                 <div class="core-label">核心：素問</div>
             </div>
             
-            <div style="font-size: 2rem; color: var(--secondary-purple); font-weight: 900; margin-bottom: 30px;">+</div>
+            <div style="font-size: 2rem; color: var(--secondary-purple); font-weight: 900; margin-bottom: 25px;">+</div>
             
-            <div class="slot-box" style="margin-bottom: 30px;">
+            <div class="slot-box" style="margin-bottom: 25px;">
                 <div class="slot-track">
                     <div class="slot-item" style="background-image: url('assets/4.png');"></div>
                     <div class="slot-item" style="background-image: url('assets/8.png');"></div>
@@ -199,7 +222,7 @@
                 </div>
             </div>
             
-            <div class="slot-box" style="margin-bottom: 30px;">
+            <div class="slot-box" style="margin-bottom: 25px;">
                 <div class="slot-track" style="animation-delay: -3.5s;">
                     <div class="slot-item" style="background-image: url('assets/2.png');"></div>
                     <div class="slot-item" style="background-image: url('assets/5.png');"></div>
@@ -240,10 +263,42 @@
 
 <div id="rulesModal" class="modal">
     <div class="modal-content">
-        <div style="color: var(--primary-cyan); text-align: center; font-size: 1.5rem; margin-bottom: 20px; font-weight: bold;">🏆 賽制流程詳解</div>
+        <div class="modal-header" style="color: var(--primary-cyan); text-align: center; font-size: 1.5rem; margin-bottom: 20px; font-weight: bold;">🏆 賽制流程詳解</div>
         <div class="rules-detail-box">
-            <div style="color: var(--primary-cyan); font-weight: bold; margin-bottom: 10px;">⚔️ 第一階段：預賽 (雙敗淘汰)</div>
+            <div class="rule-step-title">⚔️ 第一階段：預賽 (雙敗淘汰)</div>
             <p style="font-size: 0.85rem;">累積兩場勝場即晉級，累積兩場敗場則淘汰。</p>
+            <div style="font-size: 0.9rem; margin-top: 10px;">
+                <div class="example-row">範例 A：<span class="dot dot-win"></span> <span class="dot dot-win"></span> ➜ 晉級決賽</div>
+                <div class="example-row">範例 B：<span class="dot dot-win"></span> <span class="dot dot-lose"></span> <span class="dot dot-win"></span> ➜ 晉級決賽</div>
+                <div class="example-row">範例 C：<span class="dot dot-lose"></span> <span class="dot dot-lose"></span> ➜ 遺憾淘汰</div>
+            </div>
+        </div>
+        <div class="rules-detail-box" style="border-left-color: #ff9d00;">
+            <div class="rule-step-title" style="color: #ff9d00;">🔥 第二階段：決賽圈 BO3</div>
+            <p style="font-size: 0.9rem;">進入決賽圈後將重新抽籤分配對手，採取bo3階梯制，直到最後冠軍勝出。假設4隊進入決賽，範例如下</p>
+            <div class="bracket-box">
+                <svg class="path-container" viewBox="0 0 400 200">
+                    <path class="energy-path" d="M 200 40 L 200 75" />
+                    <path class="energy-path" d="M 200 160 L 200 125" />
+                </svg>
+
+                <div class="match-row top">
+                    <span class="team-slot team-win">隊伍 A (勝)</span>
+                    <span class="vs-icon">⚔️</span>
+                    <span class="team-slot">隊伍 B (敗)</span>
+                </div>
+
+                <div class="final-match">
+                    <div style="font-size: 0.6rem; color: var(--secondary-purple); letter-spacing: 2px;">GRAND FINAL</div>
+                    <div style="font-weight: bold; font-size: 1.1rem;">總決賽 BO3 爭霸</div>
+                </div>
+
+                <div class="match-row bottom">
+                    <span class="team-slot">隊伍 C (敗)</span>
+                    <span class="vs-icon">⚔️</span>
+                    <span class="team-slot team-win">隊伍 D (勝)</span>
+                </div>
+            </div>
         </div>
         <button class="btn btn-primary" style="width:100%;" onclick="closeModal('rulesModal')">關閉說明</button>
     </div>
@@ -251,8 +306,16 @@
 
 <div id="joinModal" class="modal">
     <div class="modal-content">
-        <div style="color: var(--primary-cyan); text-align: center; font-size: 1.5rem; margin-bottom: 20px; font-weight: bold;">📢 報名方式</div>
-        <p>請至 歲歲 Discord 的「活動投票處」報名，並私訊夜月臨空。</p>
+        <div class="modal-header" style="color: var(--primary-cyan); text-align: center; font-size: 1.5rem; margin-bottom: 20px; font-weight: bold;">📢 報名方式</div>
+        <div style="line-height: 1.8; font-size: 0.95rem;">
+            <p>1. <b>報名地點：</b>請至 <b>歲歲 Discord</b> 的「活動投票處」報名。</p>
+            <p>2. <b>私訊確認：</b>登記後請私訊：<b>夜月臨空、聽辭、殊辭</b>。</p>
+            <p>3. <b>單人報名：</b>由官方自動分配組員。</p>
+            <div style="background: rgba(188, 19, 254, 0.1); padding: 12px; border-radius: 10px; border: 1px dashed var(--secondary-purple); margin-top: 15px;">
+                <b style="color: var(--secondary-purple);">⚠️ 注意事項：</b><br>
+                ● 報名最多可找 1 位外援 (非本幫人士)。
+            </div>
+        </div>
         <button class="btn btn-primary" style="width:100%; margin-top:20px;" onclick="closeModal('joinModal')">我知道了</button>
     </div>
 </div>
@@ -270,7 +333,9 @@
     }
     setInterval(updateTimer, 1000); updateTimer();
 
-    function openModal(id) { document.getElementById(id).style.display = 'block'; }
+    function openModal(id) { 
+        document.getElementById(id).style.display = 'block'; 
+    }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     window.onclick = function(event) { if (event.target.className === 'modal') { event.target.style.display = "none"; } }
 </script>
