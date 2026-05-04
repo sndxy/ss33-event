@@ -12,205 +12,165 @@
             --primary-cyan: #00f2ff;
             --secondary-purple: #bc13fe;
             --bg-dark: #06090f;
-            --panel-bg: rgba(6, 9, 15, 0.15); 
+            --panel-bg: rgba(6, 9, 15, 0.4); /* 調整透明度讓背景透出 */
             --win-green: #00ff88;
             --lose-red: #ff0055;
             --neon-green: #39FF14;
         }
 
-        /* 🚀 背景設定 */
+        /* 🚀 背景完全修復方案 */
         body, html {
             margin: 0; padding: 0; min-height: 100%;
             font-family: "Microsoft JhengHei", -apple-system, sans-serif;
             color: #fff;
+            background-color: var(--bg-dark);
+            overflow-x: hidden;
+        }
+
+        /* 使用偽元素固定背景，解決手機版滾動問題 */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
             background-image: 
-                linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), 
+                linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
                 url('BG.gif'); 
-            background-attachment: fixed;
-            background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
-            overflow-x: hidden;
+            background-repeat: no-repeat;
         }
 
         .main-container {
             display: flex; flex-direction: column; align-items: center; 
-            padding: 20px 15px; box-sizing: border-box;
+            padding: 40px 15px; box-sizing: border-box;
+            max-width: 1000px;
+            margin: 0 auto;
         }
 
-        /* 🚀 標題樣式 */
-        .header-section { text-align: center; margin-bottom: 30px; width: 100%; }
+        /* 🚀 標題樣式優化 */
+        .header-section { text-align: center; margin-bottom: 40px; width: 100%; }
         .countdown-title { 
             color: var(--primary-cyan); font-weight: bold; letter-spacing: 5px; 
-            margin-bottom: 8px; font-size: 1.1rem; text-shadow: 0 0 10px var(--primary-cyan); 
+            margin-bottom: 8px; font-size: 1.2rem; text-shadow: 0 0 15px var(--primary-cyan); 
+            animation: breathe 2s infinite ease-in-out;
         }
+        @keyframes breathe {
+            0%, 100% { opacity: 0.6; } 50% { opacity: 1; }
+        }
+
         .main-title {
             font-family: 'Ma Shan Zheng', 'Noto Serif TC', serif;
             font-weight: 900;
-            font-size: clamp(2.8rem, 12vw, 5.5rem); 
+            font-size: clamp(3rem, 15vw, 6rem); 
             font-style: italic; 
             margin: 10px 0;
             letter-spacing: 4px; 
             position: relative;
             display: inline-block;
             color: transparent;
-            background-image: linear-gradient(to bottom, #000000 0%, #660000 40%, #cc0000 70%, #ff4500 100%);
+            background-image: linear-gradient(to bottom, #fff 0%, #cc0000 50%, #660000 100%);
             -webkit-background-clip: text;
             background-clip: text;
-            filter: drop-shadow(0 0 5px rgba(0, 0, 0, 1)) drop-shadow(0 0 12px rgba(255, 69, 0, 0.8)) drop-shadow(0 0 30px rgba(255, 0, 0, 0.4));
-        }
-        .main-title::after {
-            content: "歲歲三三擂台宴";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            font-family: inherit; font-weight: inherit; font-style: inherit; 
-            color: transparent;
-            background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            mix-blend-mode: screen; 
-            animation: fire-burn 2.5s ease-in-out infinite alternate;
-            filter: blur(1.5px);
-        }
-        @keyframes fire-burn {
-            0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
-            100% { transform: translate(2px, -4px) scale(1.03); opacity: 0.9; filter: blur(2px) drop-shadow(0 0 25px rgba(255, 69, 0, 0.7)); }
+            filter: drop-shadow(0 0 10px rgba(255, 69, 0, 0.6));
         }
 
-        /* ⏳ 倒數計時 */
-        .countdown-wrap { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
-        .time-box { background: rgba(0, 0, 0, 0.4); border: 2px solid var(--primary-cyan); padding: 10px; border-radius: 12px; min-width: 65px; text-align: center; backdrop-filter: blur(2px); }
-        .time-num { font-size: 1.8rem; font-weight: 900; color: var(--primary-cyan); display: block; line-height: 1; }
-        .time-label { font-size: 0.6rem; color: #aaa; text-transform: uppercase; margin-top: 4px; display: block; }
+        /* ⏳ 倒數計時卡片化 */
+        .countdown-wrap { display: flex; justify-content: center; gap: 12px; margin-top: 25px; }
+        .time-box { 
+            background: rgba(255, 255, 255, 0.05); 
+            border: 1px solid rgba(0, 242, 255, 0.3); 
+            padding: 12px; border-radius: 15px; min-width: 70px; 
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .time-num { font-size: 2rem; font-weight: 900; color: var(--primary-cyan); display: block; line-height: 1; }
+        .time-label { font-size: 0.7rem; color: rgba(255,255,255,0.5); text-transform: uppercase; margin-top: 5px; display: block; }
 
-        /* 🚀 面板樣式 */
+        /* 🚀 面板玻璃擬態優化 */
         .panel { 
             background: var(--panel-bg); 
-            border-radius: 20px; 
-            border: 1.2px solid rgba(0, 242, 255, 0.4); 
-            backdrop-filter: blur(3px);
-            -webkit-backdrop-filter: blur(3px);
-            width: 100%; max-width: 900px; margin-bottom: 25px; padding: 20px; box-sizing: border-box; 
+            border-radius: 24px; 
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            width: 100%; margin-bottom: 30px; padding: 25px; box-sizing: border-box; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 15px; flex-wrap: wrap; gap: 10px; }
-        .panel-title { font-size: 1.1rem; font-weight: bold; color: var(--primary-cyan); margin: 0; text-shadow: 0 0 10px rgba(0, 242, 255, 0.5); }
-        .match-time { background: var(--secondary-purple); padding: 5px 12px; border-radius: 5px; font-size: 0.8rem; font-weight: bold; }
+        .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; }
+        .panel-title { font-size: 1.2rem; font-weight: bold; color: #fff; margin: 0; display: flex; align-items: center; gap: 8px; }
+        .panel-title::before { content: ""; width: 4px; height: 1.2rem; background: var(--primary-cyan); border-radius: 2px; }
+        .match-time { background: linear-gradient(90deg, var(--secondary-purple), #8a2be2); padding: 6px 15px; border-radius: 20px; font-size: 0.85rem; font-weight: bold; box-shadow: 0 0 15px rgba(188, 19, 254, 0.4); }
 
-        /* 🌿 核心奶媽池 - 修正橫向排版 */
-        .slot-container { 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            gap: 15px; 
-            padding: 20px 0;
-            width: 100%;
-        }
+        /* 🌿 核心池動畫優化 */
+        .slot-container { display: flex; justify-content: center; align-items: center; gap: 20px; padding: 20px 0; width: 100%; }
         .icon-circle-main, .slot-box { 
-            width: 80px; 
-            height: 80px; 
-            border-radius: 50%; 
-            border: 2px solid var(--primary-cyan);
-            overflow: hidden; 
-            position: relative; 
-            background: rgba(0,0,0,0.5); 
-            flex-shrink: 0;
+            width: 85px; height: 85px; border-radius: 50%; 
+            border: 2.5px solid var(--primary-cyan);
+            overflow: hidden; position: relative; 
+            background: rgba(0,0,0,0.6); box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
         }
-        .icon-circle-main {
-            background-size: cover;
-            background-position: center;
-        }
-        .slot-track { 
-            display: flex; 
-            flex-direction: column; 
-            position: absolute; 
-            top: 0; 
-            animation: scroll-v-new 8s linear infinite; 
-        }
-        @keyframes scroll-v-new { 
-            0% { transform: translateY(0); } 
-            100% { transform: translateY(-560px); } /* 80px * 7圖標 = 560px */
-        }
-        .slot-item { 
-            width: 80px; 
-            height: 80px; 
-            background-size: 75%; 
-            background-repeat: no-repeat; 
-            background-position: center; 
-            flex-shrink: 0; 
-        }
-        .core-label {
-            font-size: 1.1rem; 
-            color: var(--neon-green); 
-            font-weight: bold; 
-            margin-top: 8px;
-            text-shadow: 0 0 10px var(--neon-green);
-            white-space: nowrap;
-        }
+        .slot-track { display: flex; flex-direction: column; position: absolute; top: 0; animation: scroll-v-new 10s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite; }
+        @keyframes scroll-v-new { 0% { transform: translateY(0); } 100% { transform: translateY(-595px); } } /* 85px * 7 */
+        .slot-item { width: 85px; height: 85px; background-size: 70%; background-repeat: no-repeat; background-position: center; }
+        .core-label { font-size: 1rem; color: var(--neon-green); font-weight: bold; margin-top: 10px; letter-spacing: 1px; }
 
-        /* ⚔️ 暴力輸出池樣式 */
-        .pool-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; }
-        .icon-circle { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--primary-cyan); margin: 0 auto 5px; background-size: 70%; background-repeat: no-repeat; background-position: center; background-color: rgba(0,0,0,0.4); }
+        /* ⚔️ 輸出池格線優化 */
+        .pool-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+        .pool-item { transition: transform 0.3s; }
+        .pool-item:hover { transform: scale(1.1); }
+        .icon-circle { 
+            width: 55px; height: 55px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.2); 
+            margin: 0 auto 8px; background-size: 70%; background-repeat: no-repeat; background-position: center; 
+            background-color: rgba(0,0,0,0.4); transition: all 0.3s;
+        }
+        .pool-item:hover .icon-circle { border-color: var(--primary-cyan); box-shadow: 0 0 15px var(--primary-cyan); }
 
-        /* 🚀 按鈕樣式 */
-        .btn-group { display: flex; gap: 15px; width: 100%; justify-content: center; flex-wrap: wrap; }
+        /* 🚀 按鈕高級感優化 */
+        .btn-group { display: flex; gap: 20px; width: 100%; justify-content: center; margin-top: 10px; }
         .btn { 
-            padding: 15px 30px; border-radius: 5px; font-weight: bold; cursor: pointer; border: none; font-size: 1rem; width: 100%; max-width: 300px; 
-            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            padding: 18px 40px; border-radius: 50px; font-weight: 800; cursor: pointer; border: none; font-size: 1.1rem; 
+            transition: all 0.3s; letter-spacing: 2px;
         }
-        .btn:hover { transform: translateY(-3px); filter: brightness(1.2); }
-        .btn:active { transform: scale(0.95); } 
-        .btn-outline { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.3); backdrop-filter: blur(5px); }
-        .btn-primary { background: var(--primary-cyan); color: #000; box-shadow: 0 0 15px rgba(0, 242, 255, 0.4); }
+        .btn-outline { 
+            background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.3); backdrop-filter: blur(5px);
+        }
+        .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
+        .btn-primary { 
+            background: linear-gradient(45deg, var(--primary-cyan), #00d4ff); color: #000; 
+            box-shadow: 0 5px 20px rgba(0, 242, 255, 0.4);
+        }
+        .btn-primary:hover { box-shadow: 0 8px 30px rgba(0, 242, 255, 0.6); transform: translateY(-3px); }
 
-        /* 🚀 彈窗與決賽圈動畫 (完整保留) */
-        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); overflow-y: auto; }
+        /* 🚀 彈窗美化 */
         .modal-content { 
-            background: rgba(10, 14, 23, 0.9); margin: 5vh auto; padding: 25px; border: 1px solid var(--primary-cyan); width: 90%; border-radius: 15px; max-width: 650px; 
-            animation: modalFade 0.4s ease-out;
+            background: rgba(10, 14, 23, 0.95); padding: 35px; border: 1px solid rgba(0, 242, 255, 0.3);
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
         }
-        @keyframes modalFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .rules-detail-box { background: rgba(255,255,255,0.03); border-radius: 10px; padding: 15px; margin-bottom: 20px; border-left: 4px solid var(--primary-cyan); }
-        .rule-step-title { color: var(--primary-cyan); font-weight: bold; margin-bottom: 10px; }
-        .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
-        .dot-win { background: var(--win-green); animation: pulse-green 1.5s infinite; }
-        .dot-lose { background: var(--lose-red); animation: pulse-red 1.5s infinite; }
-        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(0, 255, 136, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); } }
-        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(255, 0, 85, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(255, 0, 85, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 0, 85, 0); } }
-        
-        .bracket-box { position: relative; display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 30px 10px; background: rgba(0, 0, 0, 0.4); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
-        .match-row { display: flex; align-items: center; justify-content: center; gap: 15px; width: 100%; z-index: 2; opacity: 0; }
-        .match-row.top { animation: slideInMatch 0.6s forwards 0.2s; }
-        .match-row.bottom { animation: slideInMatch 0.6s forwards 0.4s; }
-        .team-slot { display: inline-block; padding: 5px 15px; border: 1px solid #555; border-radius: 5px; font-size: 0.85rem; background: rgba(0,0,0,0.3); }
-        .team-slot.team-win { border-color: var(--primary-cyan); color: var(--primary-cyan); background: rgba(0, 242, 255, 0.05); animation: cyanGlow 2s infinite alternate; }
-        .final-match { width: 85%; padding: 15px; border: 2px solid var(--secondary-purple); border-radius: 10px; background: rgba(188, 19, 254, 0.1); text-align: center; position: relative; z-index: 2; opacity: 0; animation: purpleBurn 3s infinite alternate, fadeInFinal 0.8s forwards 0.8s; }
-        .vs-icon { color: #fff; font-size: 1rem; animation: vsPulse 1.5s infinite; }
-        .path-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
-        .energy-path { fill: none; stroke: var(--primary-cyan); stroke-width: 2; stroke-dasharray: 100; stroke-dashoffset: 100; animation: drawPath 1.5s forwards 1s; opacity: 0.4; }
+        .rules-detail-box { border-radius: 15px; background: rgba(255,255,255,0.05); }
 
-        @keyframes cyanGlow { from { box-shadow: 0 0 5px rgba(0, 242, 255, 0.2); } to { box-shadow: 0 0 15px rgba(0, 242, 255, 0.5); } }
-        @keyframes purpleBurn { 0% { box-shadow: 0 0 10px rgba(188, 19, 254, 0.3); transform: scale(1); } 100% { box-shadow: 0 0 25px rgba(188, 19, 254, 0.6); transform: scale(1.02); } }
-        @keyframes vsPulse { 0% { opacity: 0.6; } 50% { opacity: 1; transform: scale(1.2); } 100% { opacity: 0.6; } }
-        @keyframes drawPath { to { stroke-dashoffset: 0; } }
-        @keyframes slideInMatch { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
-        @keyframes fadeInFinal { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
-
-        .maker-credit { position: fixed; bottom: 10px; right: 15px; color: rgba(255, 255, 255, 0.3); font-size: 0.7rem; pointer-events: none; }
-
+        /* 📱 手機端極致優化 */
         @media (max-width: 480px) {
-            .main-title { font-size: 2.5rem; letter-spacing: 2px; }
+            .main-container { padding: 30px 12px; }
+            .countdown-wrap { gap: 8px; }
+            .time-box { min-width: 60px; padding: 10px 5px; }
+            .time-num { font-size: 1.6rem; }
             .pool-grid { grid-template-columns: repeat(3, 1fr); }
-            .icon-circle-main, .slot-box, .slot-item { width: 65px; height: 65px; }
-            @keyframes scroll-v-new { 0% { transform: translateY(0); } 100% { transform: translateY(-455px); } }
-            .core-label { font-size: 0.9rem; }
+            .icon-circle-main, .slot-box, .slot-item { width: 75px; height: 75px; }
+            @keyframes scroll-v-new { 0% { transform: translateY(0); } 100% { transform: translateY(-525px); } }
+            .btn-group { flex-direction: column; align-items: center; }
+            .btn { width: 100%; max-width: 100%; }
+            .panel { padding: 20px 15px; }
         }
+
+        .maker-credit { position: fixed; bottom: 10px; left: 0; width: 100%; text-align: center; color: rgba(255, 255, 255, 0.2); font-size: 0.7rem; pointer-events: none; }
     </style>
 </head>
 <body>
 
 <div class="main-container">
     <div class="header-section">
-        <div class="countdown-title">⚔️ 開戰倒數 ⚔️</div>
+        <div class="countdown-title">⚔️ 戰鼓擂動 ‧ 開戰倒數 ⚔️</div>
         <h1 class="main-title">歲歲三三擂台宴</h1>
         <div class="countdown-wrap">
             <div class="time-box"><span class="time-num" id="d">00</span><span class="time-label">Days</span></div>
@@ -222,8 +182,8 @@
 
     <div class="panel" style="text-align: center;">
         <div class="panel-header">
-            <h2 class="panel-title">🌿 核心奶媽池 (1奶+2隨機)</h2>
-            <div class="match-time">5/16 (六) 21:30 開始</div>
+            <h2 class="panel-title">🌿 核心奶媽池</h2>
+            <div class="match-time">5/16 (六) 21:30</div>
         </div>
         <div class="slot-container">
             <div style="display: flex; flex-direction: column; align-items: center;">
@@ -231,9 +191,9 @@
                 <div class="core-label">核心：素問</div>
             </div>
             
-            <div style="font-size: 1.8rem; color: var(--secondary-purple); font-weight: 900; margin-bottom: 30px;">+</div>
+            <div style="font-size: 2rem; color: var(--secondary-purple); font-weight: 900; text-shadow: 0 0 10px var(--secondary-purple);">+</div>
             
-            <div class="slot-box" style="margin-bottom: 30px;">
+            <div class="slot-box">
                 <div class="slot-track">
                     <div class="slot-item" style="background-image: url('assets/4.png');"></div>
                     <div class="slot-item" style="background-image: url('assets/8.png');"></div>
@@ -245,8 +205,8 @@
                 </div>
             </div>
             
-            <div class="slot-box" style="margin-bottom: 30px;">
-                <div class="slot-track" style="animation-delay: -3.5s;">
+            <div class="slot-box">
+                <div class="slot-track" style="animation-delay: -5s;">
                     <div class="slot-item" style="background-image: url('assets/2.png');"></div>
                     <div class="slot-item" style="background-image: url('assets/5.png');"></div>
                     <div class="slot-item" style="background-image: url('assets/8.png');"></div>
@@ -257,90 +217,71 @@
                 </div>
             </div>
         </div>
+        <p style="color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-top: 10px;">(1 核心奶媽 + 2 隨機職業)</p>
     </div>
 
     <div class="panel">
         <div class="panel-header">
-            <h2 class="panel-title">⚔️ 暴力輸出池 (DPS Only)</h2>
-            <div class="match-time" style="background: #0066ff;">5/17 (日) 21:30 開始</div>
+            <h2 class="panel-title">⚔️ 暴力輸出池</h2>
+            <div class="match-time" style="background: #0066ff;">5/17 (日) 21:30</div>
         </div>
         <div class="pool-grid">
-            <div><div class="icon-circle" style="background-image: url('assets/4.png');"></div>碎夢</div>
-            <div><div class="icon-circle" style="background-image: url('assets/8.png');"></div>玄機</div>
-            <div><div class="icon-circle" style="background-image: url('assets/5.png');"></div>神相</div>
-            <div><div class="icon-circle" style="background-image: url('assets/2.png');"></div>九靈</div>
-            <div><div class="icon-circle" style="background-image: url('assets/3.png');"></div>鐵衣</div>
-            <div><div class="icon-circle" style="background-image: url('assets/6.png');"></div>血河</div>
-            <div><div class="icon-circle" style="background-image: url('assets/7.png');"></div>龍吟</div>
-            <div><div class="icon-circle" style="background-image: url('assets/1.png');"></div>天問</div>
+            <div class="pool-item"><div class="icon-circle" style="background-image: url('assets/4.png');"></div>碎夢</div>
+            <div class="pool-item"><div class="icon-circle" style="background-image: url('assets/8.png');"></div>玄機</div>
+            <div class="pool-item"><div class="icon-circle" style="background-image: url('assets/5.png');"></div>神相</div>
+            <div class="pool-item"><div class="icon-circle" style="background-image: url('assets/2.png');"></div>九靈</div>
+            <div class="pool-item"><div class="icon-circle" style="background-image: url('assets/3.png');"></div>鐵衣</div>
+            <div class="pool-item"><div class="icon-circle" style="background-image: url('assets/6.png');"></div>血河</div>
+            <div class="pool-item"><div class="icon-circle" style="background-image: url('assets/7.png');"></div>龍吟</div>
+            <div class="pool-item"><div class="icon-circle" style="background-image: url('assets/1.png');"></div>天問</div>
         </div>
     </div>
 
     <div class="btn-group">
-        <button class="btn btn-outline" onclick="openModal('rulesModal')">🏆 賽制流程說明</button>
-        <button class="btn btn-primary" onclick="openModal('joinModal')">📢 立即報名參加</button>
+        <button class="btn btn-outline" onclick="openModal('rulesModal')">賽制流程</button>
+        <button class="btn btn-primary" onclick="openModal('joinModal')">立即報名</button>
     </div>
 </div>
 
-<div class="maker-credit">製作者：夜月臨空</div>
+<div class="maker-credit">Designed for 歲歲 | Crafted by 夜月臨空</div>
 
 <div id="rulesModal" class="modal">
     <div class="modal-content">
-        <div class="modal-header" style="color: var(--primary-cyan); text-align: center; font-size: 1.5rem; margin-bottom: 20px; font-weight: bold;">🏆 賽制流程詳解</div>
+        <h2 style="color: var(--primary-cyan); text-align: center; margin-bottom: 25px;">🏆 賽制流程詳解</h2>
         <div class="rules-detail-box">
-            <div class="rule-step-title">⚔️ 第一階段：預賽 (雙敗淘汰)</div>
-            <p style="font-size: 0.85rem;">累積兩場勝場即晉級，累積兩場敗場則淘汰。</p>
-            <div style="font-size: 0.9rem; margin-top: 10px;">
-                <div class="example-row">範例 A：<span class="dot dot-win"></span> <span class="dot dot-win"></span> ➜ 晉級決賽</div>
-                <div class="example-row">範例 B：<span class="dot dot-win"></span> <span class="dot dot-lose"></span> <span class="dot dot-win"></span> ➜ 晉級決賽</div>
-                <div class="example-row">範例 C：<span class="dot dot-lose"></span> <span class="dot dot-lose"></span> ➜ 遺憾淘汰</div>
+            <div class="rule-step-title" style="color:var(--primary-cyan); font-weight:bold; margin-bottom:10px;">⚔️ 第一階段：預賽 (雙敗淘汰)</div>
+            <p style="font-size: 0.9rem; line-height:1.6; color:rgba(255,255,255,0.8);">累積兩場勝場即晉級，累積兩場敗場則淘汰。</p>
+            <div style="font-size: 0.85rem; margin-top: 12px; background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px;">
+                範例：<span class="dot dot-win"></span> <span class="dot dot-win"></span> ➜ 晉級<br>
+                範例：<span class="dot dot-lose"></span> <span class="dot dot-lose"></span> ➜ 淘汰
             </div>
         </div>
-        <div class="rules-detail-box" style="border-left-color: #ff9d00;">
-            <div class="rule-step-title" style="color: #ff9d00;">🔥 第二階段：決賽圈 BO3</div>
-            <p style="font-size: 0.9rem;">進入決賽圈後將重新抽籤分配對手，採取bo3階梯制，直到最後冠軍勝出。假設4隊進入決賽，範例如下：</p>
-            <div class="bracket-box">
-                <svg class="path-container" viewBox="0 0 400 200">
-                    <path class="energy-path" d="M 200 40 L 200 75" />
-                    <path class="energy-path" d="M 200 160 L 200 125" />
-                </svg>
-                <div class="match-row top">
-                    <span class="team-slot team-win">隊伍 A (勝)</span>
-                    <span class="vs-icon">⚔️</span>
-                    <span class="team-slot">隊伍 B (敗)</span>
-                </div>
-                <div class="final-match">
-                    <div style="font-size: 0.6rem; color: var(--secondary-purple); letter-spacing: 2px;">GRAND FINAL</div>
-                    <div style="font-weight: bold; font-size: 1.1rem;">總決賽 BO3 爭霸</div>
-                </div>
-                <div class="match-row bottom">
-                    <span class="team-slot">隊伍 C (敗)</span>
-                    <span class="vs-icon">⚔️</span>
-                    <span class="team-slot team-win">隊伍 D (勝)</span>
-                </div>
-            </div>
+        <div class="rules-detail-box" style="margin-top:20px; border-left: 4px solid #ff9d00;">
+            <div class="rule-step-title" style="color: #ff9d00; font-weight:bold; margin-bottom:10px;">🔥 第二階段：決賽圈 BO3</div>
+            <p style="font-size: 0.9rem; line-height:1.6; color:rgba(255,255,255,0.8);">進入決賽圈後將重新抽籤分配對手，採取 BO3 階梯制爭奪冠軍。</p>
         </div>
-        <button class="btn btn-primary" style="width:100%;" onclick="closeModal('rulesModal')">關閉說明</button>
+        <button class="btn btn-primary" style="width:100%; margin-top:25px;" onclick="closeModal('rulesModal')">返回官網</button>
     </div>
 </div>
 
 <div id="joinModal" class="modal">
     <div class="modal-content">
-        <div class="modal-header" style="color: var(--primary-cyan); text-align: center; font-size: 1.5rem; margin-bottom: 20px; font-weight: bold;">📢 報名方式</div>
-        <div style="line-height: 1.8; font-size: 0.95rem;">
-            <p>1. <b>報名地點：</b>請至 <b>歲歲 Discord</b> 的「活動投票處」報名。</p>
-            <p>2. <b>私訊確認：</b>投票後如有找好組員請私訊以下一位當家：<b>夜月臨空、聽辭、殊辭</b>。</p>
-            <p>3. <b>單人報名：</b>由官方自動分配組員。</p>
-            <div style="background: rgba(188, 19, 254, 0.1); padding: 12px; border-radius: 10px; border: 1px dashed var(--secondary-purple); margin-top: 15px;">
-                <b style="color: var(--secondary-purple);">⚠️ 注意事項：</b><br>
-                ● 報名最多可找 1 位外援 (非本幫人士)。
+        <h2 style="color: var(--primary-cyan); text-align: center; margin-bottom: 25px;">📢 報名方式</h2>
+        <div style="line-height: 2; font-size: 1rem; color:rgba(255,255,255,0.9);">
+            1. 前往 <b>Discord</b> 「活動投票處」登記<br>
+            2. 私訊當家：<b>夜月臨空、聽辭、殊辭</b><br>
+            3. 單人報名將由官方媒合隊友<br>
+            <div style="background: rgba(188, 19, 254, 0.15); padding: 15px; border-radius: 12px; border: 1px dashed var(--secondary-purple); margin-top: 20px; font-size: 0.9rem;">
+                <b style="color: var(--secondary-purple);">⚠️ 規則提醒：</b><br>
+                ● 每隊上限 1 位外援人士。
             </div>
         </div>
-        <button class="btn btn-primary" style="width:100%; margin-top:20px;" onclick="closeModal('joinModal')">我知道了</button>
+        <button class="btn btn-primary" style="width:100%; margin-top:30px;" onclick="closeModal('joinModal')">準備開戰</button>
     </div>
 </div>
 
 <script>
+    // 倒數計時邏輯
     function updateTimer() {
         const target = new Date("May 16, 2026 21:30:00").getTime();
         const now = new Date().getTime();
@@ -353,9 +294,17 @@
     }
     setInterval(updateTimer, 1000); updateTimer();
 
-    function openModal(id) { document.getElementById(id).style.display = 'block'; }
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-    window.onclick = function(event) { if (event.target.className === 'modal') { event.target.style.display = "none"; } }
+    // 彈窗控制
+    function openModal(id) { 
+        const m = document.getElementById(id);
+        m.style.display = 'block';
+        m.animate([{opacity: 0}, {opacity: 1}], {duration: 300});
+    }
+    function closeModal(id) { 
+        const m = document.getElementById(id);
+        m.animate([{opacity: 1}, {opacity: 0}], {duration: 300}).onfinish = () => m.style.display = 'none';
+    }
+    window.onclick = function(e) { if (e.target.className === 'modal') { closeModal(e.target.id); } }
 </script>
 
 </body>
