@@ -15,7 +15,7 @@
             --panel-bg: rgba(6, 9, 15, 0.15); 
             --win-green: #00ff88;
             --lose-red: #ff0055;
-            --neon-green: #39FF14; /* 螢光綠色定義 */
+            --neon-green: #39FF14;
         }
 
         /* 🚀 背景設定 */
@@ -40,12 +40,10 @@
 
         /* 🚀 標題樣式 */
         .header-section { text-align: center; margin-bottom: 30px; width: 100%; }
-        
         .countdown-title { 
             color: var(--primary-cyan); font-weight: bold; letter-spacing: 5px; 
             margin-bottom: 8px; font-size: 1.1rem; text-shadow: 0 0 10px var(--primary-cyan); 
         }
-
         .main-title {
             font-family: 'Ma Shan Zheng', 'Noto Serif TC', serif;
             font-weight: 900;
@@ -61,7 +59,6 @@
             background-clip: text;
             filter: drop-shadow(0 0 5px rgba(0, 0, 0, 1)) drop-shadow(0 0 12px rgba(255, 69, 0, 0.8)) drop-shadow(0 0 30px rgba(255, 0, 0, 0.4));
         }
-
         .main-title::after {
             content: "歲歲三三擂台宴";
             position: absolute;
@@ -75,7 +72,6 @@
             animation: fire-burn 2.5s ease-in-out infinite alternate;
             filter: blur(1.5px);
         }
-
         @keyframes fire-burn {
             0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
             100% { transform: translate(2px, -4px) scale(1.03); opacity: 0.9; filter: blur(2px) drop-shadow(0 0 25px rgba(255, 69, 0, 0.7)); }
@@ -100,34 +96,62 @@
         .panel-title { font-size: 1.1rem; font-weight: bold; color: var(--primary-cyan); margin: 0; text-shadow: 0 0 10px rgba(0, 242, 255, 0.5); }
         .match-time { background: var(--secondary-purple); padding: 5px 12px; border-radius: 5px; font-size: 0.8rem; font-weight: bold; }
 
-        /* 🌿 修改後的核心池樣式：橫向且大小相等 */
-        .slot-container { display: flex; justify-content: center; align-items: center; gap: 15px; padding: 10px 0; }
-        
-        /* 統一三個圓圈的大小為 80px */
-        .icon-circle-main, .slot-box { 
-            width: 80px; height: 80px; border-radius: 50%; border: 2px solid var(--primary-cyan);
-            background-size: contain; background-position: center; background-repeat: no-repeat; 
-            overflow: hidden; position: relative; background: rgba(0,0,0,0.5); flex-shrink: 0; 
+        /* 🌿 核心奶媽池 - 修正橫向排版 */
+        .slot-container { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 15px; 
+            padding: 20px 0;
+            width: 100%;
         }
-
-        /* 螢光綠大字體 */
+        .icon-circle-main, .slot-box { 
+            width: 80px; 
+            height: 80px; 
+            border-radius: 50%; 
+            border: 2px solid var(--primary-cyan);
+            overflow: hidden; 
+            position: relative; 
+            background: rgba(0,0,0,0.5); 
+            flex-shrink: 0;
+        }
+        .icon-circle-main {
+            background-size: cover;
+            background-position: center;
+        }
+        .slot-track { 
+            display: flex; 
+            flex-direction: column; 
+            position: absolute; 
+            top: 0; 
+            animation: scroll-v-new 8s linear infinite; 
+        }
+        @keyframes scroll-v-new { 
+            0% { transform: translateY(0); } 
+            100% { transform: translateY(-560px); } /* 80px * 7圖標 = 560px */
+        }
+        .slot-item { 
+            width: 80px; 
+            height: 80px; 
+            background-size: 75%; 
+            background-repeat: no-repeat; 
+            background-position: center; 
+            flex-shrink: 0; 
+        }
         .core-label {
             font-size: 1.1rem; 
             color: var(--neon-green); 
             font-weight: bold; 
             margin-top: 8px;
             text-shadow: 0 0 10px var(--neon-green);
+            white-space: nowrap;
         }
 
-        .slot-track { display: flex; flex-direction: column; position: absolute; top: 0; animation: scroll-v-new 8s linear infinite; }
-        /* 動畫位移調整為 80px * 7 = 560px */
-        @keyframes scroll-v-new { 0% { transform: translateY(0); } 100% { transform: translateY(-560px); } }
-        .slot-item { width: 80px; height: 80px; background-size: 75%; background-repeat: no-repeat; background-position: center; flex-shrink: 0; }
-        
+        /* ⚔️ 暴力輸出池樣式 */
         .pool-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; }
         .icon-circle { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--primary-cyan); margin: 0 auto 5px; background-size: 70%; background-repeat: no-repeat; background-position: center; background-color: rgba(0,0,0,0.4); }
 
-        /* 🚀 按鈕樣式 (完整保留) */
+        /* 🚀 按鈕樣式 */
         .btn-group { display: flex; gap: 15px; width: 100%; justify-content: center; flex-wrap: wrap; }
         .btn { 
             padding: 15px 30px; border-radius: 5px; font-weight: bold; cursor: pointer; border: none; font-size: 1rem; width: 100%; max-width: 300px; 
@@ -145,16 +169,14 @@
             animation: modalFade 0.4s ease-out;
         }
         @keyframes modalFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
         .rules-detail-box { background: rgba(255,255,255,0.03); border-radius: 10px; padding: 15px; margin-bottom: 20px; border-left: 4px solid var(--primary-cyan); }
         .rule-step-title { color: var(--primary-cyan); font-weight: bold; margin-bottom: 10px; }
-        
         .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
         .dot-win { background: var(--win-green); animation: pulse-green 1.5s infinite; }
         .dot-lose { background: var(--lose-red); animation: pulse-red 1.5s infinite; }
         @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(0, 255, 136, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); } }
         @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(255, 0, 85, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(255, 0, 85, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 0, 85, 0); } }
-
+        
         .bracket-box { position: relative; display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 30px 10px; background: rgba(0, 0, 0, 0.4); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
         .match-row { display: flex; align-items: center; justify-content: center; gap: 15px; width: 100%; z-index: 2; opacity: 0; }
         .match-row.top { animation: slideInMatch 0.6s forwards 0.2s; }
@@ -180,6 +202,7 @@
             .pool-grid { grid-template-columns: repeat(3, 1fr); }
             .icon-circle-main, .slot-box, .slot-item { width: 65px; height: 65px; }
             @keyframes scroll-v-new { 0% { transform: translateY(0); } 100% { transform: translateY(-455px); } }
+            .core-label { font-size: 0.9rem; }
         }
     </style>
 </head>
@@ -208,9 +231,9 @@
                 <div class="core-label">核心：素問</div>
             </div>
             
-            <div style="font-size: 2rem; color: var(--secondary-purple); font-weight: 900; margin-bottom: 25px;">+</div>
+            <div style="font-size: 1.8rem; color: var(--secondary-purple); font-weight: 900; margin-bottom: 30px;">+</div>
             
-            <div class="slot-box" style="margin-bottom: 25px;">
+            <div class="slot-box" style="margin-bottom: 30px;">
                 <div class="slot-track">
                     <div class="slot-item" style="background-image: url('assets/4.png');"></div>
                     <div class="slot-item" style="background-image: url('assets/8.png');"></div>
@@ -222,7 +245,7 @@
                 </div>
             </div>
             
-            <div class="slot-box" style="margin-bottom: 25px;">
+            <div class="slot-box" style="margin-bottom: 30px;">
                 <div class="slot-track" style="animation-delay: -3.5s;">
                     <div class="slot-item" style="background-image: url('assets/2.png');"></div>
                     <div class="slot-item" style="background-image: url('assets/5.png');"></div>
@@ -275,24 +298,21 @@
         </div>
         <div class="rules-detail-box" style="border-left-color: #ff9d00;">
             <div class="rule-step-title" style="color: #ff9d00;">🔥 第二階段：決賽圈 BO3</div>
-            <p style="font-size: 0.9rem;">進入決賽圈後將重新抽籤分配對手，採取bo3階梯制，直到最後冠軍勝出。假設4隊進入決賽，範例如下</p>
+            <p style="font-size: 0.9rem;">進入決賽圈後將重新抽籤分配對手，採取bo3階梯制，直到最後冠軍勝出。假設4隊進入決賽，範例如下：</p>
             <div class="bracket-box">
                 <svg class="path-container" viewBox="0 0 400 200">
                     <path class="energy-path" d="M 200 40 L 200 75" />
                     <path class="energy-path" d="M 200 160 L 200 125" />
                 </svg>
-
                 <div class="match-row top">
                     <span class="team-slot team-win">隊伍 A (勝)</span>
                     <span class="vs-icon">⚔️</span>
                     <span class="team-slot">隊伍 B (敗)</span>
                 </div>
-
                 <div class="final-match">
                     <div style="font-size: 0.6rem; color: var(--secondary-purple); letter-spacing: 2px;">GRAND FINAL</div>
                     <div style="font-weight: bold; font-size: 1.1rem;">總決賽 BO3 爭霸</div>
                 </div>
-
                 <div class="match-row bottom">
                     <span class="team-slot">隊伍 C (敗)</span>
                     <span class="vs-icon">⚔️</span>
@@ -333,9 +353,7 @@
     }
     setInterval(updateTimer, 1000); updateTimer();
 
-    function openModal(id) { 
-        document.getElementById(id).style.display = 'block'; 
-    }
+    function openModal(id) { document.getElementById(id).style.display = 'block'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     window.onclick = function(event) { if (event.target.className === 'modal') { event.target.style.display = "none"; } }
 </script>
