@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>歲歲第二届三三擂台宴 - 競技官網</title>
+    <title>歲歲三三擂台宴 - 競技官網</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+TC:wght@900&display=swap" rel="stylesheet">
     
@@ -16,6 +16,7 @@
             --win-green: #00ff88;
             --lose-red: #ff0055;
             --neon-green: #39FF14;
+            --gold: #ffd700;
         }
 
         /* 🚀 背景設定 */
@@ -38,19 +39,17 @@
         .music-btn {
             position: fixed; top: 20px; right: 20px; z-index: 10001; 
             cursor: pointer; background: rgba(0,0,0,0.6); 
-            border: 2px solid var(--primary-cyan); 
-            width: 50px; height: 50px; border-radius: 50%; 
+            border: 1px solid var(--primary-cyan); 
+            width: 45px; height: 45px; border-radius: 50%; 
             display: flex; align-items: center; justify-content: center; 
             transition: all 0.3s ease; 
             box-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
         }
         .music-btn:hover { transform: scale(1.1); }
-        
-        /* 播放時的旋轉動畫 */
         .music-playing {
             animation: musicRotate 4s linear infinite;
             border-color: var(--win-green) !important;
-            box-shadow: 0 0 20px var(--win-green) !important;
+            box-shadow: 0 0 15px var(--win-green) !important;
         }
         @keyframes musicRotate {
             from { transform: rotate(0deg); }
@@ -74,8 +73,24 @@
             padding: 20px 15px; box-sizing: border-box;
         }
 
+        /* 🚀 標題樣式修正 */
         .header-section { text-align: center; margin-bottom: 30px; width: 100%; }
-        .countdown-title { color: var(--primary-cyan); font-weight: bold; letter-spacing: 5px; font-size: 1.1rem; text-shadow: 0 0 10px var(--primary-cyan); }
+        
+        .edition-text {
+            font-family: 'Ma Shan Zheng', serif;
+            font-size: 1.6rem;
+            color: var(--gold);
+            letter-spacing: 12px;
+            margin-bottom: -15px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+            display: block;
+            margin-top: 15px;
+        }
+
+        .countdown-title { 
+            color: var(--primary-cyan); font-weight: bold; letter-spacing: 5px; 
+            margin-bottom: 8px; font-size: 1.1rem; text-shadow: 0 0 10px var(--primary-cyan); 
+        }
         .main-title {
             font-family: 'Ma Shan Zheng', 'Noto Serif TC', serif;
             font-weight: 900; font-size: clamp(2.8rem, 12vw, 5.5rem); font-style: italic; 
@@ -85,7 +100,7 @@
             filter: drop-shadow(0 0 5px rgba(0, 0, 0, 1)) drop-shadow(0 0 12px rgba(255, 69, 0, 0.8)) drop-shadow(0 0 30px rgba(255, 0, 0, 0.4));
         }
         .main-title::after {
-            content: "歲歲第二届三三擂台宴"; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            content: "歲歲三三擂台宴"; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             color: transparent; background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0) 100%);
             -webkit-background-clip: text; background-clip: text; mix-blend-mode: screen; 
             animation: fire-burn 2.5s ease-in-out infinite alternate; filter: blur(1.5px);
@@ -100,6 +115,7 @@
         .time-num { font-size: 1.8rem; font-weight: 900; color: var(--primary-cyan); display: block; line-height: 1; }
         .time-label { font-size: 0.6rem; color: #aaa; text-transform: uppercase; margin-top: 4px; display: block; }
 
+        /* 🚀 面板與職業池 */
         .panel { 
             background: var(--panel-bg); border-radius: 20px; border: 1.2px solid rgba(0, 242, 255, 0.4); 
             backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
@@ -116,6 +132,7 @@
             transition: all 0.3s ease;
         }
 
+        /* ✨ 職業移入閃爍動畫 */
         .icon-circle-main:hover, .icon-circle:hover {
             border-color: #fff;
             animation: pulse-glow 0.8s infinite alternate;
@@ -135,6 +152,7 @@
         .pool-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; text-align: center; }
         .icon-circle { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--primary-cyan); margin: 0 auto 5px; background-size: 70%; background-repeat: no-repeat; background-position: center; background-color: rgba(0,0,0,0.4); transition: all 0.3s ease; }
 
+        /* 🚀 按鈕 */
         .btn-group { display: flex; gap: 15px; width: 100%; justify-content: center; flex-wrap: wrap; }
         .btn { padding: 15px 30px; border-radius: 5px; font-weight: bold; cursor: pointer; border: none; font-size: 1rem; width: 100%; max-width: 300px; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .btn:hover { transform: translateY(-3px); filter: brightness(1.2); }
@@ -150,8 +168,6 @@
         .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 5px; }
         .dot-win { background: var(--win-green); animation: pulse-green 1.5s infinite; }
         .dot-lose { background: var(--lose-red); animation: pulse-red 1.5s infinite; }
-        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(0, 255, 136, 0); } 100% { box-shadow: 0 0 0 0 rgba(0, 255, 136, 0); } }
-        @keyframes pulse-red { 0% { box-shadow: 0 0 0 0 rgba(255, 0, 85, 0.7); } 70% { box-shadow: 0 0 0 8px rgba(255, 0, 85, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 0, 85, 0); } }
         
         .bracket-box { position: relative; display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 30px 10px; background: rgba(0, 0, 0, 0.4); border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
         .match-row { display: flex; align-items: center; justify-content: center; gap: 15px; width: 100%; z-index: 2; opacity: 0; }
@@ -173,33 +189,33 @@
 
         .maker-credit { position: fixed; bottom: 10px; right: 15px; color: rgba(255, 255, 255, 0.3); font-size: 0.7rem; pointer-events: none; }
 
+        /* 手機版修正 */
         @media (max-width: 480px) {
             body, html { background-size: contain; background-position: top center; background-attachment: scroll; }
             .cursor-trail { display: none; }
-            .main-title { font-size: 2.5rem; letter-spacing: 2px; }
+            .edition-text { font-size: 1.1rem; margin-bottom: -10px; letter-spacing: 6px; }
+            .main-title { font-size: 2.2rem; letter-spacing: 2px; }
             .pool-grid { grid-template-columns: repeat(3, 1fr); }
             .icon-circle-main, .slot-box, .slot-item { width: 65px; height: 65px; }
             @keyframes scroll-v-new { 0% { transform: translateY(0); } 100% { transform: translateY(-455px); } }
             .core-label { font-size: 0.9rem; }
-            .music-btn { width: 40px; height: 40px; top: 15px; right: 15px; }
         }
     </style>
 </head>
 <body>
 
-<audio id="bgMusic" loop autoplay>
+<audio id="bgMusic" loop>
     <source src="BG_music.m4a" type="audio/mp4">
-    您的瀏覽器不支援音樂播放。
 </audio>
 
-<div id="musicBtn" class="music-btn music-playing" onclick="toggleMusic()">
-    <span id="musicIcon" style="font-size: 22px;">🎵</span>
+<div id="musicBtn" class="music-btn" onclick="toggleMusic()">
+    <span id="musicIcon" style="font-size: 22px;">🔇</span>
 </div>
 
 <div class="main-container">
     <div class="header-section">
         <div class="countdown-title">⚔️ 開戰倒數 ⚔️</div>
-        <span class="edition-text">第二届</span>
+        <span class="edition-text">第 二 届</span>
         <h1 class="main-title">歲歲三三擂台宴</h1>
         <div class="countdown-wrap">
             <div class="time-box"><span class="time-num" id="d">00</span><span class="time-label">Days</span></div>
@@ -284,7 +300,7 @@
         </div>
         <div class="rules-detail-box" style="border-left-color: #ff9d00;">
             <div class="rule-step-title" style="color: #ff9d00;">🔥 第二階段：決賽圈 BO3</div>
-            <p style="font-size: 0.9rem;">進入決賽圈後將重新抽籤分配對手，採取 BO3 階梯制。</p>
+            <p style="font-size: 0.9rem;">進入決賽圈後將重新抽籤分配對手，採取 BO3 階梯制。範例如下：</p>
             <div class="bracket-box">
                 <svg class="path-container" viewBox="0 0 400 200">
                     <path class="energy-path" d="M 200 40 L 200 75" />
@@ -327,44 +343,22 @@
 </div>
 
 <script>
-    // 在原有的 <script> 標籤內修改音樂控制邏輯
+    // 🎵 音樂控制
+    const bgMusic = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+    const musicIcon = document.getElementById('musicIcon');
 
-const bgMusic = document.getElementById('bgMusic');
-const musicBtn = document.getElementById('musicBtn');
-const musicIcon = document.getElementById('musicIcon');
-
-// 💡 核心：首次點擊解鎖機制
-function unlockAutoplay() {
-    bgMusic.play().then(() => {
-        // 播放成功，更新按鈕狀態
-        musicIcon.innerText = "🎵";
-        musicBtn.classList.add('music-playing');
-        // 成功後移除監聽，避免重複執行
-        document.removeEventListener('click', unlockAutoplay);
-        document.removeEventListener('touchstart', unlockAutoplay);
-    }).catch(error => {
-        console.log("自動播放仍被阻擋中，等待使用者互動...");
-    });
-}
-
-// 監聽使用者的第一次點擊或觸摸
-document.addEventListener('click', unlockAutoplay);
-document.addEventListener('touchstart', unlockAutoplay);
-
-// 原本的手動切換功能保留
-function toggleMusic() {
-    // 為了防止 event bubbling 觸發 unlockAutoplay，我們在這裡停止傳播
-    event.stopPropagation(); 
-    if (bgMusic.paused) {
-        bgMusic.play();
-        musicIcon.innerText = "🎵";
-        musicBtn.classList.add('music-playing');
-    } else {
-        bgMusic.pause();
-        musicIcon.innerText = "🔇";
-        musicBtn.classList.remove('music-playing');
+    function toggleMusic() {
+        if (bgMusic.paused) {
+            bgMusic.play().catch(e => console.log("需互動點擊後播放"));
+            musicIcon.innerText = "🎵";
+            musicBtn.classList.add('music-playing');
+        } else {
+            bgMusic.pause();
+            musicIcon.innerText = "🔇";
+            musicBtn.classList.remove('music-playing');
+        }
     }
-}
 
     // ⏳ 倒數計時
     function updateTimer() {
