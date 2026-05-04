@@ -326,30 +326,44 @@
 </div>
 
 <script>
-    // 🎵 音樂控制邏輯
-    const bgMusic = document.getElementById('bgMusic');
-    const musicBtn = document.getElementById('musicBtn');
-    const musicIcon = document.getElementById('musicIcon');
+    // 在原有的 <script> 標籤內修改音樂控制邏輯
 
-    // 嘗試在載入時播放 (現代瀏覽器仍可能阻擋，直到使用者點擊任何地方)
-    window.addEventListener('load', () => {
-        bgMusic.play().catch(() => {
-            // 如果被阻擋，先將圖示設為靜止等待點擊
-            console.log("瀏覽器阻擋了自動播放");
-        });
+const bgMusic = document.getElementById('bgMusic');
+const musicBtn = document.getElementById('musicBtn');
+const musicIcon = document.getElementById('musicIcon');
+
+// 💡 核心：首次點擊解鎖機制
+function unlockAutoplay() {
+    bgMusic.play().then(() => {
+        // 播放成功，更新按鈕狀態
+        musicIcon.innerText = "🎵";
+        musicBtn.classList.add('music-playing');
+        // 成功後移除監聽，避免重複執行
+        document.removeEventListener('click', unlockAutoplay);
+        document.removeEventListener('touchstart', unlockAutoplay);
+    }).catch(error => {
+        console.log("自動播放仍被阻擋中，等待使用者互動...");
     });
+}
 
-    function toggleMusic() {
-        if (bgMusic.paused) {
-            bgMusic.play();
-            musicIcon.innerText = "🎵";
-            musicBtn.classList.add('music-playing');
-        } else {
-            bgMusic.pause();
-            musicIcon.innerText = "🔇";
-            musicBtn.classList.remove('music-playing');
-        }
+// 監聽使用者的第一次點擊或觸摸
+document.addEventListener('click', unlockAutoplay);
+document.addEventListener('touchstart', unlockAutoplay);
+
+// 原本的手動切換功能保留
+function toggleMusic() {
+    // 為了防止 event bubbling 觸發 unlockAutoplay，我們在這裡停止傳播
+    event.stopPropagation(); 
+    if (bgMusic.paused) {
+        bgMusic.play();
+        musicIcon.innerText = "🎵";
+        musicBtn.classList.add('music-playing');
+    } else {
+        bgMusic.pause();
+        musicIcon.innerText = "🔇";
+        musicBtn.classList.remove('music-playing');
     }
+}
 
     // ⏳ 倒數計時
     function updateTimer() {
